@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Spotcheck Application
+Comment=Spotcheck Application
+Icon=/home/pi/Spotcheck/icon.ico
+Exec=/home/pi/Spotcheck/spotcheck.py
+Type=Application
+Encoding=UTF-8
+Terminal=false
+StartUpNotify=true
+Categories=None;
+StartupNotify=false
