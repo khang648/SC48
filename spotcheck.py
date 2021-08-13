@@ -48,6 +48,7 @@ path5 = "/"
 importfilename = ""
 id_list = list(range(48))
 covid19_createclicked = 0
+samples = 0
 tb_createclicked = 0
 spotcheck_createclicked = 0
 shrimp_createclicked = 0
