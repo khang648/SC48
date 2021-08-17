@@ -75,7 +75,6 @@ rsfile='/'
 idfile='/'
 test_list = list(range(48))
 warning_value = 0
-rewarning_value = 0
 hs = [1, 1, 1, 1, 1, 1,
       1, 1, 1, 1, 1, 1,
       1, 1, 1, 1, 1, 1,
@@ -134,8 +133,6 @@ ser = serial.Serial(
     bytesize = serial.EIGHTBITS,
     timeout = 1
 )
-send_data = 'connect'
-ser.write(send_data.encode())
 ############################################################# SERIAL INIT - END ####################################################################
 
 ######################################################### SORTING CONTOURS - START #################################################################
@@ -152,7 +149,6 @@ def sorting_xy(contour):
 
 ########################################################## IMAGE ANALYSIS - START ##################################################################
 def process_image(image_name, start_point=(286,92), end_point=(504,386)):
-#may1 def process_image(image_name, start_point=(283,85), end_point=(497,372)):
     image = cv2.imread(image_name)
     blur_img = cv2.GaussianBlur(image.copy(), (35,35), 0)
     gray_img = cv2.cvtColor(blur_img, cv2.COLOR_BGR2GRAY)
@@ -378,7 +374,7 @@ def mainscreen():
         covidapp_label = Label(mainscreen_labelframe, font=("Courier",25,'bold'), bg='white', fg='grey30', text="COVID-19 APLLICATION")
         covidapp_label.place(x=280, y=270)
 
-        if(rewarning_value==1 and warning_value==0):
+        if(warning_value==1):
             warning_label = Label(mainscreen_labelframe, bg='red',text='Hệ thống đang tản nhiệt, không đặt mẫu vào lúc này !', font=("Courier", 13, 'bold'))
             warning_label.place(x=220,y=450)
         else:
@@ -485,7 +481,7 @@ def mainscreen():
                     scanposition()
 
         def import_click():
-            file = filedialog.askopenfile(initialdir='/home/pi/Desktop/Spotcheck ID/', mode='r', filetypes=[('xlsx file','*.xlsx')])
+            file = filedialog.askopenfile(initialdir='/home/pi/Desktop/Spotcheck ID/', mode='r', filetypes=[('Excel file','*.xlsm *.xlsx *.xls')])
             global importfilename
             filename = file.name
             if file is not None:
@@ -498,27 +494,127 @@ def mainscreen():
 
                 workbook = openpyxl.load_workbook(filename)
                 sheet = workbook.active
-                for i in range(0,48):
-                    if(i<6):
-                        pos = str(chr(65+i+1)) + "2"
-                    if(i>=6 and i<12):
-                        pos = str(chr(65+i-5)) + "3"
-                    if(i>=12 and i<18):
-                        pos = str(chr(65+i-11)) + "4"
-                    if(i>=18 and i<24):
-                        pos = str(chr(65+i-17)) + "5"
-                    if(i>=24 and i<30):
-                        pos = str(chr(65+i-23)) + "6"
-                    if(i>=30 and i<36):
-                        pos = str(chr(65+i-29)) + "7"
-                    if(i>=36 and i<42):
-                        pos = str(chr(65+i-35)) + "8"
-                    if(i>=42):
-                        pos = str(chr(65+i-41)) + "9"
+                # for i in range(0,48):
+                #     if(i<6):
+                #         pos = str(chr(65+i+1)) + "2"
+                #     if(i>=6 and i<12):
+                #         pos = str(chr(65+i-5)) + "3"
+                #     if(i>=12 and i<18):
+                #         pos = str(chr(65+i-11)) + "4"
+                #     if(i>=18 and i<24):
+                #         pos = str(chr(65+i-17)) + "5"
+                #     if(i>=24 and i<30):
+                #         pos = str(chr(65+i-23)) + "6"
+                #     if(i>=30 and i<36):
+                #         pos = str(chr(65+i-29)) + "7"
+                #     if(i>=36 and i<42):
+                #         pos = str(chr(65+i-35)) + "8"
+                #     if(i>=42):
+                #         pos = str(chr(65+i-41)) + "9"
 
-                    id_list[i] = sheet[pos].value
-                    create_button['state']='normal'
-                    create_button['bg']='lawn green'
+                tmp_list = list(range(48))
+                for i in range(0,48):
+                    pos = "B" + str(i+12)
+                    tmp_list[i] = sheet[pos].value
+                    if(i==0)
+                        id_list[0] = tmp_list[i]
+                    if(i==1)
+                        id_list[6] = tmp_list[i]
+                    if(i==2)
+                        id_list[12] = tmp_list[i]
+                    if(i==3)
+                        id_list[18] = tmp_list[i]
+                    if(i==4)
+                        id_list[24] = tmp_list[i]
+                    if(i==5)
+                        id_list[30] = tmp_list[i]
+                    if(i==6)
+                        id_list[36] = tmp_list[i]
+                    if(i==7)
+                        id_list[42] = tmp_list[i]
+                    if(i==8)
+                        id_list[1] = tmp_list[i]
+                    if(i==9)
+                        id_list[7] = tmp_list[i]
+                    if(i==10)
+                        id_list[13] = tmp_list[i]
+                    if(i==11)
+                        id_list[19] = tmp_list[i]
+                    if(i==12)
+                        id_list[25] = tmp_list[i]
+                    if(i==13)
+                        id_list[31] = tmp_list[i]
+                    if(i==14)
+                        id_list[37] = tmp_list[i]
+                    if(i==15)
+                        id_list[43] = tmp_list[i]
+                    if(i==16)
+                        id_list[2] = tmp_list[i]
+                    if(i==17)
+                        id_list[8] = tmp_list[i]
+                    if(i==18)
+                        id_list[14] = tmp_list[i]
+                    if(i==19)
+                        id_list[20] = tmp_list[i]
+                    if(i==20)
+                        id_list[26] = tmp_list[i]
+                    if(i==21)
+                        id_list[32] = tmp_list[i]
+                    if(i==22)
+                        id_list[38] = tmp_list[i]
+                    if(i==23)
+                        id_list[44] = tmp_list[i]
+                    if(i==24)
+                        id_list[3] = tmp_list[i]
+                    if(i==25)
+                        id_list[9] = tmp_list[i]
+                    if(i==26)
+                        id_list[15] = tmp_list[i]
+                    if(i==27)
+                        id_list[21] = tmp_list[i]
+                    if(i==28)
+                        id_list[27] = tmp_list[i]
+                    if(i==29)
+                        id_list[33] = tmp_list[i]
+                    if(i==30)
+                        id_list[39] = tmp_list[i]
+                    if(i==31)
+                        id_list[45] = tmp_list[i]
+                    if(i==32)
+                        id_list[4] = tmp_list[i]
+                    if(i==33)
+                        id_list[10] = tmp_list[i]
+                    if(i==34)
+                        id_list[16] = tmp_list[i]
+                    if(i==35)
+                        id_list[22] = tmp_list[i]
+                    if(i==36)
+                        id_list[28] = tmp_list[i]
+                    if(i==37)
+                        id_list[34] = tmp_list[i]
+                    if(i==38)
+                        id_list[40] = tmp_list[i]
+                    if(i==39)
+                        id_list[46] = tmp_list[i]
+                    if(i==40)
+                        id_list[5] = tmp_list[i]
+                    if(i==41)
+                        id_list[11] = tmp_list[i]
+                    if(i==42)
+                        id_list[17] = tmp_list[i]
+                    if(i==43)
+                        id_list[23] = tmp_list[i]
+                    if(i==44)
+                        id_list[29] = tmp_list[i]
+                    if(i==45)
+                        id_list[35] = tmp_list[i]
+                    if(i==46)
+                        id_list[41] = tmp_list[i]
+                    if(i==47)
+                        id_list[47] = tmp_list[i]
+
+                create_button['state']='normal'
+                create_button['bg']='lawn green'
 
         import_button = Button(enterframe_labelframe, font=("Courier",12,'bold'), bg="lavender", text="Tải lên", height=3, width=10, borderwidth=0, command=import_click)
         import_button.place(x=78,y=64)
@@ -529,7 +625,7 @@ def mainscreen():
             create_button = Button(enterframe_labelframe, font=("Courier",12,'bold'), bg="lawn green", text="Tiếp theo", height=3, width=10, borderwidth=0, command=thread)
         create_button.place(x=403,y=64)
 
-        if(rewarning_value==1 and warning_value==0):
+        if(warning_value==1):
             warning_label = Label(mainscreen_labelframe, bg='red',text='Hệ thống đang tản nhiệt, không đặt mẫu vào lúc này !', font=("Courier", 13, 'bold'))
             warning_label.place(x=220,y=450)
         else:
@@ -572,7 +668,7 @@ def mainscreen():
         ok_button = Button(setid_labelframe, fg='black', font=('Courier','13','bold'), bg="lavender", text="Tiếp theo", height=2, width=10, borderwidth=0, command=ok_click)
         ok_button.place(x=150,y=355)
 
-        if(rewarning_value==1 and warning_value==0):
+        if(warning_value==1):
             warning_label = Label(mainscreen_labelframe, bg='red',text='Hệ thống đang tản nhiệt, không đặt mẫu vào lúc này !', font=("Courier", 13, 'bold'))
             warning_label.place(x=220,y=450)
         else:
@@ -605,7 +701,7 @@ def mainscreen():
         restart_button = Button(power_labelframe, fg='white', activebackground="lawn green", font=('Courier','10','bold'), bg="green", text="Khởi động lại", height=5, width=12, borderwidth=0, command=restart_click)
         restart_button.place(x=269,y=12)
 
-        if(rewarning_value==1 and warning_value==0):
+        if(warning_value==1):
             warning_label = Label(mainscreen_labelframe, bg='red',text='Hệ thống đang tản nhiệt, không đặt mẫu vào lúc này !', font=("Courier", 13, 'bold'))
             warning_label.place(x=220,y=450)
         else:
@@ -644,14 +740,14 @@ def mainscreen():
         open_button = Button(viewresultmc_labelframe, bg="lavender", text="Mở", borderwidth=0, font=('Courier',13,'bold'), height=3, width=12, command=open_click)
         open_button.place(x=233,y=205)
 
-        if(rewarning_value==1 and warning_value==0):
+        if(warning_value==1):
             warning_label = Label(mainscreen_labelframe, bg='red',text='Hệ thống đang tản nhiệt, không đặt mẫu vào lúc này !', font=("Courier", 13, 'bold'))
             warning_label.place(x=220,y=450)
         else:
             warning_label = Label(mainscreen_labelframe, bg='white', fg='white', text='Hệ thống đang tản nhiệt, không đặt mẫu vào lúc này !', font=("Courier", 13, 'bold'))
             warning_label.place(x=220,y=450)
 
-    def calibration_click():
+'''    def calibration_click():
         home_canvas['bg'] = 'dodger blue'
         covid19_canvas['bg'] = 'dodger blue'
         viewresult_canvas['bg'] = 'dodger blue'
@@ -783,7 +879,7 @@ def mainscreen():
                 mainscreen()
 
         start_button = Button(calibmc_labelframe, bg="Lavender", text="Bắt đầu", font=('Courier',12,'bold'), borderwidth=0, height=3, width=12, command=start_click)
-        start_button.place(x=233,y=250)
+        start_button.place(x=233,y=250)   '''
 
     home_button = Button(mainscreen_labelframe, bg="dodger blue", activebackground="dodger blue", text="TRANG CHỦ ", fg='white', font=buttonFont, borderwidth=0, height=4, width=20,command=home_click)
     home_button.place(x=1,y=1)
@@ -1004,21 +1100,24 @@ def setid():
     def save_click():
         workbook = Workbook()
         sheet = workbook.active
-        for i in range(0,48):
-            #pos = "C"+str(i+3)
-            if(i<8):
-                pos = 'B'+ str(i+2)
-            if(i>=8 and i<16):
-                pos = 'C'+ str(i-6)
-            if(i>=16 and i<24):
-                pos = 'D'+ str(i-14)
-            if(i>=24 and i<32):
-                pos = 'E'+ str(i-22)
-            if(i>=32 and i<40):
-                pos = 'F'+ str(i-30)
-            if(i>=40):
-                pos = 'G'+str(i-38)
+        
+        # for i in range(0,48):
+        #     #pos = "C"+str(i+3)
+        #     if(i<8):
+        #         pos = 'B'+ str(i+2)
+        #     if(i>=8 and i<16):
+        #         pos = 'C'+ str(i-6)
+        #     if(i>=16 and i<24):
+        #         pos = 'D'+ str(i-14)
+        #     if(i>=24 and i<32):
+        #         pos = 'E'+ str(i-22)
+        #     if(i>=32 and i<40):
+        #         pos = 'F'+ str(i-30)
+        #     if(i>=40):
+        #         pos = 'G'+str(i-38)
 
+        for i in range(0,48):
+            pos = "B" + str(i+12)
             if(idpos_button[i]['bg']=='lawn green' or idpos_button[i]['bg']=='grey99'):
                 sheet[pos] = idpos_button[i]['text']
             else:
@@ -1056,26 +1155,29 @@ def setid():
                     messagebox.showerror("Lỗi", "Tên tệp không vượt quá 30 ký tự !")
 
     def load_click():
-        idfile = filedialog.askopenfilename(initialdir='/home/pi/Desktop/Spotcheck ID', filetypes=[('xlsx file','*.xlsx')])
+        idfile = filedialog.askopenfilename(initialdir='/home/pi/Desktop/Spotcheck ID', filetypes=[('Excel file','*.xlsm *.xlsx *.xls')])
         if idfile is not None:
-            if(idfile[len(idfile)-4:]=='xlsx'):
+            if(idfile[len(idfile)-4:]=='xlsx' or idfile[len(idfile)-4:]=='xlsm' or idfile[len(idfile)-3:]=='xls'):
                 workbook = openpyxl.load_workbook(idfile)
                 sheet = workbook.active
                 idfile_list = list(range(48))
-                for i in range(0,48):
-                    if(i<8):
-                        pos = 'B'+ str(i+2)
-                    if(i>=8 and i<16):
-                        pos = 'C'+ str(i-6)
-                    if(i>=16 and i<24):
-                        pos = 'D'+ str(i-14)
-                    if(i>=24 and i<32):
-                        pos = 'E'+ str(i-22)
-                    if(i>=32 and i<40):
-                        pos = 'F'+ str(i-30)
-                    if(i>=40):
-                        pos = 'G'+str(i-38)
 
+                # for i in range(0,48):
+                #     if(i<8):
+                #         pos = 'B'+ str(i+2)
+                #     if(i>=8 and i<16):
+                #         pos = 'C'+ str(i-6)
+                #     if(i>=16 and i<24):
+                #         pos = 'D'+ str(i-14)
+                #     if(i>=24 and i<32):
+                #         pos = 'E'+ str(i-22)
+                #     if(i>=32 and i<40):
+                #         pos = 'F'+ str(i-30)
+                #     if(i>=40):
+                #         pos = 'G'+str(i-38)
+
+                for i in range(0,48):
+                    pos = 'B' + str(i+12)
                     idfile_list[i] = sheet[pos].value
                     idpos_button[i]['text'] = idfile_list[i]
                     if(idpos_button[i]['text']!='N/A'):
@@ -2468,24 +2570,26 @@ def analysis():
 ############################################################## WARNING - START #####################################################################
 def warning(channel):
     global warning_value
-    global rewarning_value
-    if(warning_value==0):
+    if(warning_value==1:
         warning_label = Label(mainscreen_labelframe, bg='white', fg='white', text='Hệ thống đang tản nhiệt, không đặt mẫu vào lúc này !', font=("Courier", 13, 'bold'))
         warning_label.place(x=220,y=450)
-        warning_value = 1
-        rewarning_value = 0
+        warning_value = 0
     else:
         warning_label = Label(mainscreen_labelframe, bg='red',text='Hệ thống đang tản nhiệt, không đặt mẫu vào lúc này !', font=("Courier", 13, 'bold'))
         warning_label.place(x=220,y=450)
-        warning_value = 0
-        rewarning_value = 1
-
+        warning_value = 1
+    sleep(3)
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(16, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.add_event_detect(16,GPIO.FALLING,callback=warning)
 ############################################################### WARNING - END ######################################################################
 
 ############################################################### LOOP - START #######################################################################
-mainscreen()
-root.mainloop()
+while True:
+    mainscreen()
+    ser.flushInput()
+    ser.flushOuput()
+    send_data = 'o'
+    ser.write(send_data.encode())
+    root.mainloop()
 ################################################################ LOOP - END ########################################################################
