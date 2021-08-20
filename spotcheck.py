@@ -22,6 +22,7 @@ import openpyxl
 import subprocess
 import shutil
 import RPi.GPIO as GPIO
+from ftplib import FTP
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Font, Alignment, PatternFill, Protection
 from openpyxl.styles.borders import Border, Side
@@ -30,9 +31,6 @@ from openpyxl.drawing.image import Image as Img
 
 ########################################################## GLOBAL VARIABLE - START #################################################################
 covid19clicked = 0
-tbclicked = 0
-spotcheckclicked = 0
-shrimpclicked = 0
 viewresultclicked = 0
 temp_label = 0
 name = "/"
@@ -46,16 +44,11 @@ path3 = "/"
 path4 = "/"
 path5 = "/"
 importfilename = ""
+excel_file = ""
 id_list = list(range(48))
 covid19_createclicked = 0
 samples = 0
-tb_createclicked = 0
-spotcheck_createclicked = 0
-shrimp_createclicked = 0
 covid19dir_old = ""
-tbdir_old = ""
-spotcheckdir_old = ""
-shrimpdir_old = ""
 div = list(range(48))
 start_point = (0,0)
 end_point = (0,0)
@@ -133,6 +126,7 @@ ser = serial.Serial(
     bytesize = serial.EIGHTBITS,
     timeout = 1
 )
+
 ############################################################# SERIAL INIT - END ####################################################################
 
 ######################################################### SORTING CONTOURS - START #################################################################
@@ -438,7 +432,7 @@ def mainscreen():
             global path0
             global covid19dir_old
             print("covid19dir_old:",covid19dir_old)
-            path0 = os.path.join("/home/pi/Desktop/Spotcheck Ket Qua/", covid19dir_old +" "+ name +"/")
+            path0 = os.path.join("/home/pi/Spotcheck Ket Qua/", covid19dir_old +" "+ name +"/")
 
             if(file_label['text']==""):
                 msgbox = messagebox.showwarning(" ","Bạn chưa tải tệp lên !" )
@@ -484,13 +478,15 @@ def mainscreen():
             file = filedialog.askopenfile(initialdir='/home/pi/Desktop/Spotcheck ID/', mode='r', filetypes=[('Excel file','*.xlsm *.xlsx *.xls')])
             global importfilename
             filename = file.name
+            global excel_file
             if file is not None:
                 a=0
                 for i in range(len(filename)):
                     if(filename[i]=='/'):
                         a=i+1
                 importfilename = filename[a:(len(filename)-5)]
-                file_label['text']=importfilename
+                excel_file = filename[a:len(filename)]
+                file_label['text'] = importfilename
 
                 workbook = openpyxl.load_workbook(filename)
                 sheet = workbook.active
@@ -516,101 +512,101 @@ def mainscreen():
                 for i in range(0,48):
                     pos = "B" + str(i+12)
                     tmp_list[i] = sheet[pos].value
-                    if(i==0)
+                    if(i==0):
                         id_list[0] = tmp_list[i]
-                    if(i==1)
+                    if(i==1):
                         id_list[6] = tmp_list[i]
-                    if(i==2)
+                    if(i==2):
                         id_list[12] = tmp_list[i]
-                    if(i==3)
+                    if(i==3):
                         id_list[18] = tmp_list[i]
-                    if(i==4)
+                    if(i==4):
                         id_list[24] = tmp_list[i]
-                    if(i==5)
+                    if(i==5):
                         id_list[30] = tmp_list[i]
-                    if(i==6)
+                    if(i==6):
                         id_list[36] = tmp_list[i]
-                    if(i==7)
+                    if(i==7):
                         id_list[42] = tmp_list[i]
-                    if(i==8)
+                    if(i==8):
                         id_list[1] = tmp_list[i]
-                    if(i==9)
+                    if(i==9):
                         id_list[7] = tmp_list[i]
-                    if(i==10)
+                    if(i==10):
                         id_list[13] = tmp_list[i]
-                    if(i==11)
+                    if(i==11):
                         id_list[19] = tmp_list[i]
-                    if(i==12)
+                    if(i==12):
                         id_list[25] = tmp_list[i]
-                    if(i==13)
+                    if(i==13):
                         id_list[31] = tmp_list[i]
-                    if(i==14)
+                    if(i==14):
                         id_list[37] = tmp_list[i]
-                    if(i==15)
+                    if(i==15):
                         id_list[43] = tmp_list[i]
-                    if(i==16)
+                    if(i==16):
                         id_list[2] = tmp_list[i]
-                    if(i==17)
+                    if(i==17):
                         id_list[8] = tmp_list[i]
-                    if(i==18)
+                    if(i==18):
                         id_list[14] = tmp_list[i]
-                    if(i==19)
+                    if(i==19):
                         id_list[20] = tmp_list[i]
-                    if(i==20)
+                    if(i==20):
                         id_list[26] = tmp_list[i]
-                    if(i==21)
+                    if(i==21):
                         id_list[32] = tmp_list[i]
-                    if(i==22)
+                    if(i==22):
                         id_list[38] = tmp_list[i]
-                    if(i==23)
+                    if(i==23):
                         id_list[44] = tmp_list[i]
-                    if(i==24)
+                    if(i==24):
                         id_list[3] = tmp_list[i]
-                    if(i==25)
+                    if(i==25):
                         id_list[9] = tmp_list[i]
-                    if(i==26)
+                    if(i==26):
                         id_list[15] = tmp_list[i]
-                    if(i==27)
+                    if(i==27):
                         id_list[21] = tmp_list[i]
-                    if(i==28)
+                    if(i==28):
                         id_list[27] = tmp_list[i]
-                    if(i==29)
+                    if(i==29):
                         id_list[33] = tmp_list[i]
-                    if(i==30)
+                    if(i==30):
                         id_list[39] = tmp_list[i]
-                    if(i==31)
+                    if(i==31):
                         id_list[45] = tmp_list[i]
-                    if(i==32)
+                    if(i==32):
                         id_list[4] = tmp_list[i]
-                    if(i==33)
+                    if(i==33):
                         id_list[10] = tmp_list[i]
-                    if(i==34)
+                    if(i==34):
                         id_list[16] = tmp_list[i]
-                    if(i==35)
+                    if(i==35):
                         id_list[22] = tmp_list[i]
-                    if(i==36)
+                    if(i==36):
                         id_list[28] = tmp_list[i]
-                    if(i==37)
+                    if(i==37):
                         id_list[34] = tmp_list[i]
-                    if(i==38)
+                    if(i==38):
                         id_list[40] = tmp_list[i]
-                    if(i==39)
+                    if(i==39):
                         id_list[46] = tmp_list[i]
-                    if(i==40)
+                    if(i==40):
                         id_list[5] = tmp_list[i]
-                    if(i==41)
+                    if(i==41):
                         id_list[11] = tmp_list[i]
-                    if(i==42)
+                    if(i==42):
                         id_list[17] = tmp_list[i]
-                    if(i==43)
+                    if(i==43):
                         id_list[23] = tmp_list[i]
-                    if(i==44)
+                    if(i==44):
                         id_list[29] = tmp_list[i]
-                    if(i==45)
+                    if(i==45):
                         id_list[35] = tmp_list[i]
-                    if(i==46)
+                    if(i==46):
                         id_list[41] = tmp_list[i]
-                    if(i==47)
+                    if(i==47):
                         id_list[47] = tmp_list[i]
 
                 create_button['state']='normal'
@@ -747,7 +743,7 @@ def mainscreen():
             warning_label = Label(mainscreen_labelframe, bg='white', fg='white', text='Hệ thống đang tản nhiệt, không đặt mẫu vào lúc này !', font=("Courier", 13, 'bold'))
             warning_label.place(x=220,y=450)
 
-'''    def calibration_click():
+    def calibration_click():
         home_canvas['bg'] = 'dodger blue'
         covid19_canvas['bg'] = 'dodger blue'
         viewresult_canvas['bg'] = 'dodger blue'
@@ -879,7 +875,7 @@ def mainscreen():
                 mainscreen()
 
         start_button = Button(calibmc_labelframe, bg="Lavender", text="Bắt đầu", font=('Courier',12,'bold'), borderwidth=0, height=3, width=12, command=start_click)
-        start_button.place(x=233,y=250)   '''
+        start_button.place(x=233,y=250)
 
     home_button = Button(mainscreen_labelframe, bg="dodger blue", activebackground="dodger blue", text="TRANG CHỦ ", fg='white', font=buttonFont, borderwidth=0, height=4, width=20,command=home_click)
     home_button.place(x=1,y=1)
@@ -1100,7 +1096,7 @@ def setid():
     def save_click():
         workbook = Workbook()
         sheet = workbook.active
-        
+
         # for i in range(0,48):
         #     #pos = "C"+str(i+3)
         #     if(i<8):
@@ -1123,8 +1119,8 @@ def setid():
             else:
                 sheet[pos] = 'N/A'
 
-        sheet['B2']='POSC'
-        sheet['G9']='NEGC'
+        sheet['B12']='POSC'
+        sheet['B59']='NEGC'
 
         msg = messagebox.askquestion("Lưu ", "Bạn có muốn lưu tệp ?")
         if(msg=='yes'):
@@ -2354,7 +2350,18 @@ def analysis():
                     sheet['F'+str(i+52)].protection = Protection(locked=False, hidden=False)
 
                 sheet.print_area = 'A1:G70'
-                workbook1.save(path0+"/ket-qua.xlsm")
+                workbook1.save("/home/pi/Desktop/Ket Qua Phan Tich/" + importfilename + ".xlsm")
+
+                ftp = FTP('171.244.143.190','sp48','sp@12345')
+                ftp.cwd('SP48')
+                file = open("/home/pi/Desktop/Ket Qua Phan Tich/" + importfilename + ".xlsm",'rb')
+                ftp.storbinary('STOR ' + importfilename + ".xlsm", file)
+                ftp.quit()
+
+                if(os.path.exists("/home/pi/Desktop/Spotcheck ID/" + excel_file)):
+                    shutil.move("/home/pi/Desktop/Spotcheck ID/" + excel_file,"/home/pi/Desktop/Spotcheck ID/Spotcheck ID - Old")
+                else:
+                    pass
 
                 def thr():
                     th2 = Thread(target = viewresult_click)
@@ -2570,26 +2577,28 @@ def analysis():
 ############################################################## WARNING - START #####################################################################
 def warning(channel):
     global warning_value
-    if(warning_value==1:
+    if(warning_value==1):
         warning_label = Label(mainscreen_labelframe, bg='white', fg='white', text='Hệ thống đang tản nhiệt, không đặt mẫu vào lúc này !', font=("Courier", 13, 'bold'))
         warning_label.place(x=220,y=450)
         warning_value = 0
+        print("Warning:", warning_value)
     else:
         warning_label = Label(mainscreen_labelframe, bg='red',text='Hệ thống đang tản nhiệt, không đặt mẫu vào lúc này !', font=("Courier", 13, 'bold'))
         warning_label.place(x=220,y=450)
         warning_value = 1
-    sleep(3)
+        print("Warning:", warning_value)
+
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(16, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.add_event_detect(16,GPIO.FALLING,callback=warning)
 ############################################################### WARNING - END ######################################################################
 
 ############################################################### LOOP - START #######################################################################
+ser.flushInput()
+ser.flushOutput()
+send_data = 'o'
+ser.write(send_data.encode())
 while True:
     mainscreen()
-    ser.flushInput()
-    ser.flushOuput()
-    send_data = 'o'
-    ser.write(send_data.encode())
     root.mainloop()
 ################################################################ LOOP - END ########################################################################
