@@ -2575,22 +2575,22 @@ def analysis():
 ########################################################## SAMPLES ANALYSIS - END ##################################################################
 
 ############################################################## WARNING - START #####################################################################
-def warning(channel):
-    global warning_value
-    if(warning_value==1):
-        warning_label = Label(mainscreen_labelframe, bg='white', fg='white', text='Hệ thống đang tản nhiệt, không đặt mẫu vào lúc này !', font=("Courier", 13, 'bold'))
-        warning_label.place(x=220,y=450)
-        warning_value = 0
-        print("Warning:", warning_value)
-    else:
-        warning_label = Label(mainscreen_labelframe, bg='red',text='Hệ thống đang tản nhiệt, không đặt mẫu vào lúc này !', font=("Courier", 13, 'bold'))
-        warning_label.place(x=220,y=450)
-        warning_value = 1
-        print("Warning:", warning_value)
+# def warning(channel):
+#     global warning_value
+#     if(warning_value==1):
+#         warning_label = Label(mainscreen_labelframe, bg='white', fg='white', text='Hệ thống đang tản nhiệt, không đặt mẫu vào lúc này !', font=("Courier", 13, 'bold'))
+#         warning_label.place(x=220,y=450)
+#         warning_value = 0
+#         print("Warning:", warning_value)
+#     else:
+#         warning_label = Label(mainscreen_labelframe, bg='red',text='Hệ thống đang tản nhiệt, không đặt mẫu vào lúc này !', font=("Courier", 13, 'bold'))
+#         warning_label.place(x=220,y=450)
+#         warning_value = 1
+#         print("Warning:", warning_value)
 
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(16, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-GPIO.add_event_detect(16,GPIO.FALLING,callback=warning)
+# GPIO.setmode(GPIO.BCM)
+# GPIO.setup(16, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+# GPIO.add_event_detect(16,GPIO.FALLING,callback=warning)
 ############################################################### WARNING - END ######################################################################
 
 ############################################################### LOOP - START #######################################################################
