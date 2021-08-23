@@ -68,14 +68,14 @@ rsfile='/'
 idfile='/'
 test_list = list(range(48))
 warning_value = 0
-hs = [1, 1, 1, 1, 1, 1,
-      1, 1, 1, 1, 1, 1,
-      1, 1, 1, 1, 1, 1,
-      1, 1, 1, 1, 1, 1,
-      1, 1, 1, 1, 1, 1,
-      1, 1, 1, 1, 1, 1,
-      1, 1, 1, 1, 1, 1,
-      1, 1, 1, 1, 1, 1]
+hs = [1, 1, 1, 1, 1.03, 0.93,
+      1, 1, 0.98, 1, 1, 0.95,
+      1, 1.04, 0.97, 1, 0.98, 0.97,
+      1, 1.03, 1, 1, 1, 0.87,
+      1, 1, 1, 1, 1.03, 0.93,
+      1, 0.97, 1, 1.06, 1.06, 1,
+      1, 1, 1.04, 1.07, 1, 1,
+      1, 1.10, 1, 1.09, 1, 1]
 
 ########################################################### GLOBAL VARIABLE - END ##################################################################
 
@@ -126,7 +126,6 @@ ser = serial.Serial(
     bytesize = serial.EIGHTBITS,
     timeout = 1
 )
-
 ############################################################# SERIAL INIT - END ####################################################################
 
 ######################################################### SORTING CONTOURS - START #################################################################
@@ -142,7 +141,7 @@ def sorting_xy(contour):
 ########################################################## SORTING CONTOURS - END ##################################################################
 
 ########################################################## IMAGE ANALYSIS - START ##################################################################
-def process_image(image_name, start_point=(286,92), end_point=(504,386)):
+def process_image(image_name, start_point=(293,94), end_point=(505,387)):
     image = cv2.imread(image_name)
     blur_img = cv2.GaussianBlur(image.copy(), (35,35), 0)
     gray_img = cv2.cvtColor(blur_img, cv2.COLOR_BGR2GRAY)
@@ -475,6 +474,22 @@ def mainscreen():
                     scanposition()
 
         def import_click():
+            ftp = FTP('171.244.143.190','sp48','sp@12345')
+            ftp.cwd('SP48')
+            ftpfiles = ftp.nlst()
+            for ftpfile in ftpfiles:
+                if(os.path.exists("/home/pi/Desktop/Spotcheck ID/" + ftpfile)):
+                    pass
+                elif(os.path.exists("/home/pi/Desktop/Spotcheck ID/Spotcheck ID - Old/" + ftpfile)):
+                    pass
+                else:
+                    localfolder = os.path.join('/home/pi/Desktop/Spotcheck ID/', ftpfile)
+                    file = open(localfolder,'wb')
+                    ftp.retrbinary('RETR ' + ftpfile, file.write)
+                    file.close()
+                    print(ftpfile, "download done!")
+            ftp.quit()
+
             file = filedialog.askopenfile(initialdir='/home/pi/Desktop/Spotcheck ID/', mode='r', filetypes=[('Excel file','*.xlsm *.xlsx *.xls')])
             global importfilename
             filename = file.name
@@ -485,132 +500,139 @@ def mainscreen():
                     if(filename[i]=='/'):
                         a=i+1
                 importfilename = filename[a:(len(filename)-5)]
-                excel_file = filename[a:len(filename)]
-                file_label['text'] = importfilename
+                if (os.path.exists("/home/pi/Desktop/Ket Qua Phan Tich/" + importfilename + ".xlsm")):
+                    messagebox.showwarning("","Tệp vừa chọn đã được sử dụng !")
+                    create_button['state']='disabled'
+                    create_button['bg']='grey75'
+                    file_label['text'] = ""
+                    #import_click()
+                else:
+                    excel_file = filename[a:len(filename)]
+                    file_label['text'] = importfilename
 
-                workbook = openpyxl.load_workbook(filename)
-                sheet = workbook.active
-                # for i in range(0,48):
-                #     if(i<6):
-                #         pos = str(chr(65+i+1)) + "2"
-                #     if(i>=6 and i<12):
-                #         pos = str(chr(65+i-5)) + "3"
-                #     if(i>=12 and i<18):
-                #         pos = str(chr(65+i-11)) + "4"
-                #     if(i>=18 and i<24):
-                #         pos = str(chr(65+i-17)) + "5"
-                #     if(i>=24 and i<30):
-                #         pos = str(chr(65+i-23)) + "6"
-                #     if(i>=30 and i<36):
-                #         pos = str(chr(65+i-29)) + "7"
-                #     if(i>=36 and i<42):
-                #         pos = str(chr(65+i-35)) + "8"
-                #     if(i>=42):
-                #         pos = str(chr(65+i-41)) + "9"
+                    workbook = openpyxl.load_workbook(filename)
+                    sheet = workbook.active
+                    # for i in range(0,48):
+                    #     if(i<6):
+                    #         pos = str(chr(65+i+1)) + "2"
+                    #     if(i>=6 and i<12):
+                    #         pos = str(chr(65+i-5)) + "3"
+                    #     if(i>=12 and i<18):
+                    #         pos = str(chr(65+i-11)) + "4"
+                    #     if(i>=18 and i<24):
+                    #         pos = str(chr(65+i-17)) + "5"
+                    #     if(i>=24 and i<30):
+                    #         pos = str(chr(65+i-23)) + "6"
+                    #     if(i>=30 and i<36):
+                    #         pos = str(chr(65+i-29)) + "7"
+                    #     if(i>=36 and i<42):
+                    #         pos = str(chr(65+i-35)) + "8"
+                    #     if(i>=42):
+                    #         pos = str(chr(65+i-41)) + "9"
 
-                tmp_list = list(range(48))
-                for i in range(0,48):
-                    pos = "B" + str(i+12)
-                    tmp_list[i] = sheet[pos].value
-                    if(i==0):
-                        id_list[0] = tmp_list[i]
-                    if(i==1):
-                        id_list[6] = tmp_list[i]
-                    if(i==2):
-                        id_list[12] = tmp_list[i]
-                    if(i==3):
-                        id_list[18] = tmp_list[i]
-                    if(i==4):
-                        id_list[24] = tmp_list[i]
-                    if(i==5):
-                        id_list[30] = tmp_list[i]
-                    if(i==6):
-                        id_list[36] = tmp_list[i]
-                    if(i==7):
-                        id_list[42] = tmp_list[i]
-                    if(i==8):
-                        id_list[1] = tmp_list[i]
-                    if(i==9):
-                        id_list[7] = tmp_list[i]
-                    if(i==10):
-                        id_list[13] = tmp_list[i]
-                    if(i==11):
-                        id_list[19] = tmp_list[i]
-                    if(i==12):
-                        id_list[25] = tmp_list[i]
-                    if(i==13):
-                        id_list[31] = tmp_list[i]
-                    if(i==14):
-                        id_list[37] = tmp_list[i]
-                    if(i==15):
-                        id_list[43] = tmp_list[i]
-                    if(i==16):
-                        id_list[2] = tmp_list[i]
-                    if(i==17):
-                        id_list[8] = tmp_list[i]
-                    if(i==18):
-                        id_list[14] = tmp_list[i]
-                    if(i==19):
-                        id_list[20] = tmp_list[i]
-                    if(i==20):
-                        id_list[26] = tmp_list[i]
-                    if(i==21):
-                        id_list[32] = tmp_list[i]
-                    if(i==22):
-                        id_list[38] = tmp_list[i]
-                    if(i==23):
-                        id_list[44] = tmp_list[i]
-                    if(i==24):
-                        id_list[3] = tmp_list[i]
-                    if(i==25):
-                        id_list[9] = tmp_list[i]
-                    if(i==26):
-                        id_list[15] = tmp_list[i]
-                    if(i==27):
-                        id_list[21] = tmp_list[i]
-                    if(i==28):
-                        id_list[27] = tmp_list[i]
-                    if(i==29):
-                        id_list[33] = tmp_list[i]
-                    if(i==30):
-                        id_list[39] = tmp_list[i]
-                    if(i==31):
-                        id_list[45] = tmp_list[i]
-                    if(i==32):
-                        id_list[4] = tmp_list[i]
-                    if(i==33):
-                        id_list[10] = tmp_list[i]
-                    if(i==34):
-                        id_list[16] = tmp_list[i]
-                    if(i==35):
-                        id_list[22] = tmp_list[i]
-                    if(i==36):
-                        id_list[28] = tmp_list[i]
-                    if(i==37):
-                        id_list[34] = tmp_list[i]
-                    if(i==38):
-                        id_list[40] = tmp_list[i]
-                    if(i==39):
-                        id_list[46] = tmp_list[i]
-                    if(i==40):
-                        id_list[5] = tmp_list[i]
-                    if(i==41):
-                        id_list[11] = tmp_list[i]
-                    if(i==42):
-                        id_list[17] = tmp_list[i]
-                    if(i==43):
-                        id_list[23] = tmp_list[i]
-                    if(i==44):
-                        id_list[29] = tmp_list[i]
-                    if(i==45):
-                        id_list[35] = tmp_list[i]
-                    if(i==46):
-                        id_list[41] = tmp_list[i]
-                    if(i==47):
-                        id_list[47] = tmp_list[i]
+                    tmp_list = list(range(48))
+                    for i in range(0,48):
+                        pos = "B" + str(i+12)
+                        tmp_list[i] = sheet[pos].value
+                        if(i==0):
+                            id_list[0] = tmp_list[i]
+                        if(i==1):
+                            id_list[6] = tmp_list[i]
+                        if(i==2):
+                            id_list[12] = tmp_list[i]
+                        if(i==3):
+                            id_list[18] = tmp_list[i]
+                        if(i==4):
+                            id_list[24] = tmp_list[i]
+                        if(i==5):
+                            id_list[30] = tmp_list[i]
+                        if(i==6):
+                            id_list[36] = tmp_list[i]
+                        if(i==7):
+                            id_list[42] = tmp_list[i]
+                        if(i==8):
+                            id_list[1] = tmp_list[i]
+                        if(i==9):
+                            id_list[7] = tmp_list[i]
+                        if(i==10):
+                            id_list[13] = tmp_list[i]
+                        if(i==11):
+                            id_list[19] = tmp_list[i]
+                        if(i==12):
+                            id_list[25] = tmp_list[i]
+                        if(i==13):
+                            id_list[31] = tmp_list[i]
+                        if(i==14):
+                            id_list[37] = tmp_list[i]
+                        if(i==15):
+                            id_list[43] = tmp_list[i]
+                        if(i==16):
+                            id_list[2] = tmp_list[i]
+                        if(i==17):
+                            id_list[8] = tmp_list[i]
+                        if(i==18):
+                            id_list[14] = tmp_list[i]
+                        if(i==19):
+                            id_list[20] = tmp_list[i]
+                        if(i==20):
+                            id_list[26] = tmp_list[i]
+                        if(i==21):
+                            id_list[32] = tmp_list[i]
+                        if(i==22):
+                            id_list[38] = tmp_list[i]
+                        if(i==23):
+                            id_list[44] = tmp_list[i]
+                        if(i==24):
+                            id_list[3] = tmp_list[i]
+                        if(i==25):
+                            id_list[9] = tmp_list[i]
+                        if(i==26):
+                            id_list[15] = tmp_list[i]
+                        if(i==27):
+                            id_list[21] = tmp_list[i]
+                        if(i==28):
+                            id_list[27] = tmp_list[i]
+                        if(i==29):
+                            id_list[33] = tmp_list[i]
+                        if(i==30):
+                            id_list[39] = tmp_list[i]
+                        if(i==31):
+                            id_list[45] = tmp_list[i]
+                        if(i==32):
+                            id_list[4] = tmp_list[i]
+                        if(i==33):
+                            id_list[10] = tmp_list[i]
+                        if(i==34):
+                            id_list[16] = tmp_list[i]
+                        if(i==35):
+                            id_list[22] = tmp_list[i]
+                        if(i==36):
+                            id_list[28] = tmp_list[i]
+                        if(i==37):
+                            id_list[34] = tmp_list[i]
+                        if(i==38):
+                            id_list[40] = tmp_list[i]
+                        if(i==39):
+                            id_list[46] = tmp_list[i]
+                        if(i==40):
+                            id_list[5] = tmp_list[i]
+                        if(i==41):
+                            id_list[11] = tmp_list[i]
+                        if(i==42):
+                            id_list[17] = tmp_list[i]
+                        if(i==43):
+                            id_list[23] = tmp_list[i]
+                        if(i==44):
+                            id_list[29] = tmp_list[i]
+                        if(i==45):
+                            id_list[35] = tmp_list[i]
+                        if(i==46):
+                            id_list[41] = tmp_list[i]
+                        if(i==47):
+                            id_list[47] = tmp_list[i]
 
-                create_button['state']='normal'
-                create_button['bg']='lawn green'
+                    create_button['state']='normal'
+                    create_button['bg']='lawn green'
 
         import_button = Button(enterframe_labelframe, font=("Courier",12,'bold'), bg="lavender", text="Tải lên", height=3, width=10, borderwidth=0, command=import_click)
         import_button.place(x=78,y=64)
@@ -1633,6 +1655,7 @@ def scanposition():
 
         global pos_result
         pos_result, pos_image = process_image(path4 + "/mau.jpg")
+        #pos_result, pos_image = process_image("/home/pi/Desktop/mau.jpg")
         scanposition_progressbar['value'] = 60
         root.update_idletasks()
         sleep(1)
@@ -2352,15 +2375,18 @@ def analysis():
                 sheet.print_area = 'A1:G70'
                 workbook1.save("/home/pi/Desktop/Ket Qua Phan Tich/" + importfilename + ".xlsm")
 
-                ftp = FTP('171.244.143.190','sp48','sp@12345')
-                ftp.cwd('SP48')
-                file = open("/home/pi/Desktop/Ket Qua Phan Tich/" + importfilename + ".xlsm",'rb')
-                ftp.storbinary('STOR ' + importfilename + ".xlsm", file)
-                ftp.quit()
-
                 if(os.path.exists("/home/pi/Desktop/Spotcheck ID/" + excel_file)):
                     shutil.move("/home/pi/Desktop/Spotcheck ID/" + excel_file,"/home/pi/Desktop/Spotcheck ID/Spotcheck ID - Old")
                 else:
+                    pass
+
+                try:
+                    ftp = FTP('171.244.143.190','sp48','sp@12345')
+                    ftp.cwd('SP48')
+                    file = open("/home/pi/Desktop/Ket Qua Phan Tich/" + importfilename + ".xlsm",'rb')
+                    ftp.storbinary('STOR ' + importfilename + ".xlsm", file)
+                    ftp.quit()
+                except:
                     pass
 
                 def thr():
