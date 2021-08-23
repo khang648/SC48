@@ -474,21 +474,24 @@ def mainscreen():
                     scanposition()
 
         def import_click():
-            ftp = FTP('171.244.143.190','sp48','sp@12345')
-            ftp.cwd('SP48')
-            ftpfiles = ftp.nlst()
-            for ftpfile in ftpfiles:
-                if(os.path.exists("/home/pi/Desktop/Spotcheck ID/" + ftpfile)):
-                    pass
-                elif(os.path.exists("/home/pi/Desktop/Spotcheck ID/Spotcheck ID - Old/" + ftpfile)):
-                    pass
-                else:
-                    localfolder = os.path.join('/home/pi/Desktop/Spotcheck ID/', ftpfile)
-                    file = open(localfolder,'wb')
-                    ftp.retrbinary('RETR ' + ftpfile, file.write)
-                    file.close()
-                    print(ftpfile, "download done!")
-            ftp.quit()
+            try:
+                ftp = FTP('171.244.143.190','sp48','sp@12345')
+                ftp.cwd('SP48')
+                ftpfiles = ftp.nlst()
+                for ftpfile in ftpfiles:
+                    if(os.path.exists("/home/pi/Desktop/Spotcheck ID/" + ftpfile)):
+                        pass
+                    elif(os.path.exists("/home/pi/Desktop/Spotcheck ID/Spotcheck ID - Old/" + ftpfile)):
+                        pass
+                    else:
+                        localfolder = os.path.join('/home/pi/Desktop/Spotcheck ID/', ftpfile)
+                        file = open(localfolder,'wb')
+                        ftp.retrbinary('RETR ' + ftpfile, file.write)
+                        file.close()
+                        print(ftpfile, "download done!")
+                ftp.quit()
+            except:
+                pass
 
             file = filedialog.askopenfile(initialdir='/home/pi/Desktop/Spotcheck ID/', mode='r', filetypes=[('Excel file','*.xlsm *.xlsx *.xls')])
             global importfilename
