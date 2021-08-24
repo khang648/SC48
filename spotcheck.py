@@ -68,14 +68,17 @@ rsfile='/'
 idfile='/'
 test_list = list(range(48))
 warning_value = 0
-hs = [1, 1, 1, 1, 1.03, 0.93,
-      1, 1, 0.98, 1, 1, 0.95,
-      1, 1.04, 0.97, 1, 0.98, 0.97,
-      1, 1.03, 1, 1, 1, 0.87,
-      1, 1, 1, 1, 1.03, 0.93,
-      1, 0.97, 1, 1.06, 1.06, 1,
-      1, 1, 1.04, 1.07, 1, 1,
-      1, 1.10, 1, 1.09, 1, 1]
+ftp_ip = "171.244.143.190"
+ftp_user = "sc48"
+ftp_password = "sc@12345"
+hs = [1, 1, 1, 1, 1, 1,
+      1, 1, 1, 1, 1, 1,
+      1, 1, 1, 1, 1, 1,
+      1, 1, 1, 1, 1, 1,
+      1, 1, 1, 1, 1, 1,
+      1, 1, 1, 1, 1, 1,
+      1, 1, 1, 1, 1, 1,
+      1, 1, 1, 1, 1, 1]
 
 ########################################################### GLOBAL VARIABLE - END ##################################################################
 
@@ -475,8 +478,8 @@ def mainscreen():
 
         def import_click():
             try:
-                ftp = FTP('171.244.143.190','sp48','sp@12345')
-                ftp.cwd('SP48')
+                ftp = FTP(ftp_ip, ftp_user, ftp_password)
+                ftp.cwd('UnProcessed_Data')
                 ftpfiles = ftp.nlst()
                 for ftpfile in ftpfiles:
                     if(os.path.exists("/home/pi/Desktop/Spotcheck ID/" + ftpfile)):
@@ -2384,8 +2387,8 @@ def analysis():
                     pass
 
                 try:
-                    ftp = FTP('171.244.143.190','sp48','sp@12345')
-                    ftp.cwd('SP48')
+                    ftp = FTP(ftp_ip, ftp_user, ftp_password)
+                    ftp.cwd('Processed_Data')
                     file = open("/home/pi/Desktop/Ket Qua Phan Tich/" + importfilename + ".xlsm",'rb')
                     ftp.storbinary('STOR ' + importfilename + ".xlsm", file)
                     ftp.quit()
