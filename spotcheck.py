@@ -57,10 +57,6 @@ setid25clicked = 0
 t1_run = 0
 t2_run = 0
 t3_run = 0
-thr1_set = 10
-thr2_set = 9.5
-thr3l_set = 10.2
-thr3h_set = 10.5
 t1_set = '35'
 t2_set = '50'
 t3_set = '73'
@@ -68,9 +64,18 @@ rsfile='/'
 idfile='/'
 test_list = list(range(48))
 warning_value = 0
-ftp_ip = "171.244.143.190"
-ftp_user = "sc48"
-ftp_password = "sc@12345"
+
+x1 = 0
+y1 = 0
+x2 = 0
+y2 = 0 
+thr1_set = 0
+thr2_set = 0
+thr3l_set = 0
+thr3h_set = 0
+ftp_ip = ""
+ftp_user = ""
+ftp_password = ""
 hs = [1, 1, 1, 1, 1, 1,
       1, 1, 1, 1, 1, 1,
       1, 1, 1, 1, 1, 1,
@@ -144,7 +149,7 @@ def sorting_xy(contour):
 ########################################################## SORTING CONTOURS - END ##################################################################
 
 ########################################################## IMAGE ANALYSIS - START ##################################################################
-def process_image(image_name, start_point=(293,94), end_point=(505,387)):
+def process_image(image_name, start_point=(x1,y1), end_point=(x2,y2)):
     image = cv2.imread(image_name)
     blur_img = cv2.GaussianBlur(image.copy(), (35,35), 0)
     gray_img = cv2.cvtColor(blur_img, cv2.COLOR_BGR2GRAY)
@@ -943,11 +948,26 @@ def mainscreen():
 #         viewresult_button['state']='disabled'
 
     fr = open("/home/pi/Spotcheck/check.txt","r")
-    text = fr.readline()[0:4]
-    if(text=='1111'):
+    global thr1_set, thr2_set, thr3l_set, thr3h_set, x1, y1, x2, y2, ftp_ip, ftp_user, ftp_password
+    code = fr.readline()    
+    thr1_set = float(fr.readline())
+    thr2_set = float(fr.readline())
+    thr3l_set = float(fr.readline())
+    thr3h_set = float(fr.readline())
+    x1 = int(fr.readline())
+    y1 = int(fr.readline())
+    x2 = int(fr.readline())
+    y2 = int(fr.readline())
+    ftp_ip = fr.readline()
+    ftp_user = fr.readline()
+    ftp_password = fr.readline()
+
+    if(code=='1111'):
         msgbox = messagebox.showerror(" ","Hệ thống lỗi, vui lòng liên hệ với nhà cung cấp !")
         if(msgbox=='ok'):
             root.destroy()
+
+    print("Thr1: " + thr1_set + ", " + "Thr2: " + thr2_set + ", " + "Thr3l: " + thr3l_set + ", " + "Thr3h: " + thr3h_set)
 
     global covid19clicked
     if(covid19clicked==1):
@@ -1651,11 +1671,15 @@ def scanposition():
         bourect0 = cv2.boundingRect(contours[0])
         bourect47 = cv2.boundingRect(contours[len(contours)-1])
         global start_point
-        start_point = (bourect0[0]-2, bourect0[1]-2)
+        start_point = (bourect0[0]-9, bourect0[1]-9)
         global end_point
-        end_point = (bourect47[0]+bourect47[2]+2, bourect47[1]+bourect47[3]+2)
+        end_point = (bourect47[0]+bourect47[2]+9, bourect47[1]+bourect47[3]+9)
         print('Start point:', start_point)
         print('End point:', end_point)
+        fw= open("/home/pi/Spotcheck/coordinates.txt",'w')
+        fw.writelines("Start Point: " + str(start_point))
+        fw.writelines("End Point: " + str(start_point))
+
         scanposition_progressbar['value'] = 35
         root.update_idletasks()
 
@@ -2626,10 +2650,10 @@ def analysis():
 ############################################################### WARNING - END ######################################################################
 
 ############################################################### LOOP - START #######################################################################
-ser.flushInput()
-ser.flushOutput()
-send_data = 'o'
-ser.write(send_data.encode())
+# ser.flushInput()
+# ser.flushOutput()
+# send_data = 'o'
+# ser.write(send_data.encode())
 while True:
     mainscreen()
     root.mainloop()
