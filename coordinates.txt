@@ -1,2 +1,3 @@
-Start Point: (294, 93)
-End Point: (506, 386)
+Start Point: (295, 57)
+
+End Point: (510, 346)

@@ -54,14 +54,15 @@ thr_set= 15
 #thr2_set = 15
 fr = open("/home/pi/Spotcheck/check.txt","r")
 code = (fr.readline()).strip()
-thr1_set = float(fr.readline())
-thr2_set = float(fr.readline())
-thr3l_set = float(fr.readline())
-thr3h_set = float(fr.readline())
-x1 = int(fr.readline())
-y1 = int(fr.readline())
-x2 = int(fr.readline())
-y2 = int(fr.readline())
+fr1 = open("/home/pi/Spotcheck/config.txt","r")
+thr1_set = float(fr1.readline())
+thr2_set = float(fr1.readline())
+thr3l_set = float(fr1.readline())
+thr3h_set = float(fr1.readline())
+x1 = int(fr1.readline())
+y1 = int(fr1.readline())
+x2 = int(fr1.readline())
+y2 = int(fr1.readline())
 ########################################################### GLOBAL VARIABLE - END ##################################################################
 
 ########################################################## MAIN WINDOW INIT - START ################################################################

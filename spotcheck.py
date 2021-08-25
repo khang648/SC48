@@ -67,15 +67,16 @@ warning_value = 0
 
 fr = open("/home/pi/Spotcheck/check.txt","r")
 code = (fr.readline()).strip()
-thr1_set = float(fr.readline())
-thr2_set = float(fr.readline())
-thr3l_set = float(fr.readline())
-thr3h_set = float(fr.readline())
-x1 = int(fr.readline())
-y1 = int(fr.readline())
-x2 = int(fr.readline())
-y2 = int(fr.readline())
-
+fr1 = open("/home/pi/Spotcheck/config.txt","r")
+thr1_set = float(fr1.readline())
+thr2_set = float(fr1.readline())
+thr3l_set = float(fr1.readline())
+thr3h_set = float(fr1.readline())
+x1 = int(fr1.readline())
+y1 = int(fr1.readline())
+x2 = int(fr1.readline())
+y2 = int(fr1.readline())
+server_on = int(fr1.readline())
 hs = [1, 1, 1, 1, 1, 1,
       1, 1, 1, 1, 1, 1,
       1, 1, 1, 1, 1, 1,
@@ -155,9 +156,6 @@ def sorting_xy(contour):
 
 ########################################################## IMAGE ANALYSIS - START ##################################################################
 def process_image(image_name, start_point=(x1,y1), end_point=(x2,y2)):
-    print("sp,ep:")
-    print(start_point)
-    print(end_point)
     image = cv2.imread(image_name)
     blur_img = cv2.GaussianBlur(image.copy(), (35,35), 0)
     gray_img = cv2.cvtColor(blur_img, cv2.COLOR_BGR2GRAY)
@@ -490,27 +488,27 @@ def mainscreen():
                     scanposition()
 
         def import_click():
-            try:
-                ftp = FTP('171.244.143.190', 'sc48', 'sc@12345')
-                ftp.cwd('UnProcessed_Data')
-                ftpfiles = ftp.nlst()
-                for ftpfile in ftpfiles:
-                    if(os.path.exists("/home/pi/Desktop/Spotcheck ID/" + ftpfile)):
+            if(server_on==1):
+                try:
+                    ftp = FTP('171.244.143.190', 'sc48', 'sc@12345')
+                    ftp.cwd('UnProcessed_Data')
+                    ftpfiles = ftp.nlst()
+                    for ftpfile in ftpfiles:
+                        if(os.path.exists("/home/pi/Desktop/Spotcheck ID/" + ftpfile)):
+                            pass
+                        elif(os.path.exists("/home/pi/Desktop/Spotcheck ID/Spotcheck ID - Old/" + ftpfile)):
+                            pass
+                        else:
+                            localfolder = os.path.join('/home/pi/Desktop/Spotcheck ID/', ftpfile)
+                            file = open(localfolder,'wb')
+                            ftp.retrbinary('RETR ' + ftpfile, file.write)
+                            file.close()
+                            print(ftpfile, "download done!")
+                    ftp.quit()
+                except Exception as e :
+                    error = messagebox.showwarning("Sự cố đồng bộ server !",str(e))
+                    if(error=='ok'):
                         pass
-                    elif(os.path.exists("/home/pi/Desktop/Spotcheck ID/Spotcheck ID - Old/" + ftpfile)):
-                        pass
-                    else:
-                        localfolder = os.path.join('/home/pi/Desktop/Spotcheck ID/', ftpfile)
-                        file = open(localfolder,'wb')
-                        ftp.retrbinary('RETR ' + ftpfile, file.write)
-                        file.close()
-                        print(ftpfile, "download done!")
-                ftp.quit()
-            except Exception as e :
-                error = messagebox.showwarning("Sự cố đồng bộ server !",str(e))
-                if(error=='ok'):
-                    pass
-
             file = filedialog.askopenfile(initialdir='/home/pi/Desktop/Spotcheck ID/', mode='r', filetypes=[('Excel file','*.xlsm *.xlsx *.xls')])
             global importfilename
             filename = file.name
@@ -2394,20 +2392,24 @@ def analysis():
                 workbook1.save("/home/pi/Desktop/Ket Qua Phan Tich/" + importfilename + ".xlsm")
 
                 if(os.path.exists("/home/pi/Desktop/Spotcheck ID/" + excel_file)):
-                    shutil.move("/home/pi/Desktop/Spotcheck ID/" + excel_file,"/home/pi/Desktop/Spotcheck ID/Spotcheck ID - Old")
+                    try:
+                        shutil.move("/home/pi/Desktop/Spotcheck ID/" + excel_file,"/home/pi/Desktop/Spotcheck ID/Spotcheck ID - Old")
+                    except:
+                        pass
                 else:
                     pass
-
-                try:
-                    ftp = FTP('171.244.143.190', 'sc48', 'sc@12345')
-                    ftp.cwd('Processed_Data')
-                    file = open("/home/pi/Desktop/Ket Qua Phan Tich/" + importfilename + ".xlsm",'rb')
-                    ftp.storbinary('STOR ' + importfilename + ".xlsm", file)
-                    ftp.quit()
-                except Exception as e :
-                    error = messagebox.showwarning("Sự cố đồng bộ server !",str(e))
-                    if(error=='ok'):
-                        pass
+                    
+                if(server_on==1):
+                    try:
+                        ftp = FTP('171.244.143.190', 'sc48', 'sc@12345')
+                        ftp.cwd('Processed_Data')
+                        file = open("/home/pi/Desktop/Ket Qua Phan Tich/" + importfilename + ".xlsm",'rb')
+                        ftp.storbinary('STOR ' + importfilename + ".xlsm", file)
+                        ftp.quit()
+                    except Exception as e :
+                        error = messagebox.showwarning("Sự cố đồng bộ server !",str(e))
+                        if(error=='ok'):
+                            pass
 
                 def thr():
                     th2 = Thread(target = viewresult_click)
