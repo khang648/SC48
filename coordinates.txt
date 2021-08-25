@@ -1,3 +1,2 @@
 Start Point: (295, 57)
-
 End Point: (510, 346)
