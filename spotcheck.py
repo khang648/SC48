@@ -65,17 +65,17 @@ idfile='/'
 test_list = list(range(48))
 warning_value = 0
 
-x1 = 0
-y1 = 0
-x2 = 0
-y2 = 0 
-thr1_set = 0
-thr2_set = 0
-thr3l_set = 0
-thr3h_set = 0
-ftp_ip = ""
-ftp_user = ""
-ftp_password = ""
+fr = open("/home/pi/Spotcheck/check.txt","r")
+code = (fr.readline()).strip()
+thr1_set = float(fr.readline())
+thr2_set = float(fr.readline())
+thr3l_set = float(fr.readline())
+thr3h_set = float(fr.readline())
+x1 = int(fr.readline())
+y1 = int(fr.readline())
+x2 = int(fr.readline())
+y2 = int(fr.readline())
+
 hs = [1, 1, 1, 1, 1, 1,
       1, 1, 1, 1, 1, 1,
       1, 1, 1, 1, 1, 1,
@@ -99,6 +99,11 @@ def disable_event():
 root.protocol("WM_DELETE_WINDOW", disable_event)
 s = ttk.Style()
 s.theme_use('clam')
+
+if(code=='1111'):
+    msgbox = messagebox.showerror(" ","Hệ thống lỗi, vui lòng liên hệ với nhà cung cấp !")
+    if(msgbox=='ok'):
+        root.destroy()
 ########################################################### MAIN WINDOW INIT - END #################################################################
 
 ########################################################### RESOURCE PATH - START ##################################################################
@@ -150,6 +155,9 @@ def sorting_xy(contour):
 
 ########################################################## IMAGE ANALYSIS - START ##################################################################
 def process_image(image_name, start_point=(x1,y1), end_point=(x2,y2)):
+    print("sp,ep:")
+    print(start_point)
+    print(end_point)
     image = cv2.imread(image_name)
     blur_img = cv2.GaussianBlur(image.copy(), (35,35), 0)
     gray_img = cv2.cvtColor(blur_img, cv2.COLOR_BGR2GRAY)
@@ -483,7 +491,7 @@ def mainscreen():
 
         def import_click():
             try:
-                ftp = FTP(ftp_ip, ftp_user, ftp_password)
+                ftp = FTP('171.244.143.190', 'sc48', 'sc@12345')
                 ftp.cwd('UnProcessed_Data')
                 ftpfiles = ftp.nlst()
                 for ftpfile in ftpfiles:
@@ -498,8 +506,10 @@ def mainscreen():
                         file.close()
                         print(ftpfile, "download done!")
                 ftp.quit()
-            except:
-                pass
+            except Exception as e :
+                error = messagebox.showwarning("Sự cố đồng bộ server !",str(e))
+                if(error=='ok'):
+                    pass
 
             file = filedialog.askopenfile(initialdir='/home/pi/Desktop/Spotcheck ID/', mode='r', filetypes=[('Excel file','*.xlsm *.xlsx *.xls')])
             global importfilename
@@ -946,28 +956,6 @@ def mainscreen():
 #         setid_button['state']='disabled'
 #         covid19_button['state']='disabled'
 #         viewresult_button['state']='disabled'
-
-    fr = open("/home/pi/Spotcheck/check.txt","r")
-    global thr1_set, thr2_set, thr3l_set, thr3h_set, x1, y1, x2, y2, ftp_ip, ftp_user, ftp_password
-    code = fr.readline()    
-    thr1_set = float(fr.readline())
-    thr2_set = float(fr.readline())
-    thr3l_set = float(fr.readline())
-    thr3h_set = float(fr.readline())
-    x1 = int(fr.readline())
-    y1 = int(fr.readline())
-    x2 = int(fr.readline())
-    y2 = int(fr.readline())
-    ftp_ip = fr.readline()
-    ftp_user = fr.readline()
-    ftp_password = fr.readline()
-
-    if(code=='1111'):
-        msgbox = messagebox.showerror(" ","Hệ thống lỗi, vui lòng liên hệ với nhà cung cấp !")
-        if(msgbox=='ok'):
-            root.destroy()
-
-    print("Thr1: " + thr1_set + ", " + "Thr2: " + thr2_set + ", " + "Thr3l: " + thr3l_set + ", " + "Thr3h: " + thr3h_set)
 
     global covid19clicked
     if(covid19clicked==1):
@@ -1677,8 +1665,8 @@ def scanposition():
         print('Start point:', start_point)
         print('End point:', end_point)
         fw= open("/home/pi/Spotcheck/coordinates.txt",'w')
-        fw.writelines("Start Point: " + str(start_point))
-        fw.writelines("End Point: " + str(start_point))
+        fw.writelines("Start Point: " + str(start_point) + "\n")
+        fw.writelines("End Point: " + str(end_point))
 
         scanposition_progressbar['value'] = 35
         root.update_idletasks()
@@ -2411,13 +2399,15 @@ def analysis():
                     pass
 
                 try:
-                    ftp = FTP(ftp_ip, ftp_user, ftp_password)
+                    ftp = FTP('171.244.143.190', 'sc48', 'sc@12345')
                     ftp.cwd('Processed_Data')
                     file = open("/home/pi/Desktop/Ket Qua Phan Tich/" + importfilename + ".xlsm",'rb')
                     ftp.storbinary('STOR ' + importfilename + ".xlsm", file)
                     ftp.quit()
-                except:
-                    pass
+                except Exception as e :
+                    error = messagebox.showwarning("Sự cố đồng bộ server !",str(e))
+                    if(error=='ok'):
+                        pass
 
                 def thr():
                     th2 = Thread(target = viewresult_click)

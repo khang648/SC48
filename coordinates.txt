@@ -1,2 +1,2 @@
-1234
-
+Start Point: (294, 93)
+End Point: (506, 386)
