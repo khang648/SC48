@@ -1239,11 +1239,11 @@ def setid():
     idpos_click(1)
 
     cancel_button = Button(setid1_labelframe, font=('Courier','12','bold'), bg="lavender", text="Hủy" , height=3, width=11, borderwidth=0, command=cancel_click)
-    cancel_button.place(x=320,y=170)
+    cancel_button.place(x=653,y=170)
     save_button = Button(setid1_labelframe, activebackground="gold", font=('Courier','12','bold'), bg="yellow", text="Lưu", height=3, width=11, borderwidth=0, command=save_click)
     save_button.place(x=487,y=170)
-    load_button = Button(setid1_labelframe, font=('Courier','12','bold'), bg="lavender", text="Tải lên", height=3, width=11, borderwidth=0, command=load_click)
-    load_button.place(x=653,y=170)
+    load_button = Button(setid1_labelframe, font=('Courier','12','bold'), bg="lavender", text="Chỉnh sửa\ntệp sẵn có", height=3, width=11, borderwidth=0, command=load_click)
+    load_button.place(x=320,y=170)
     keyboard_button = Button(setid1_labelframe, font=('Courier','10','bold'), bg="grey85", text="Bàn phím", height=3, width=7, borderwidth=0, command=keyboard_click)
     keyboard_button.place(x=706,y=374)
 ############################################################ SET ID SCREEN - END ###################################################################
