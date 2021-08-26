@@ -77,14 +77,29 @@ y1 = int(fr1.readline())
 x2 = int(fr1.readline())
 y2 = int(fr1.readline())
 server_on = int(fr1.readline())
-hs = [1, 1, 1, 1, 1, 1,
-      1, 1, 1, 1, 1, 1,
-      1, 1, 1, 1, 1, 1,
-      1, 1, 1, 1, 1, 1,
-      1, 1, 1, 1, 1, 1,
-      1, 1, 1, 1, 1, 1,
-      1, 1, 1, 1, 1, 1,
-      1, 1, 1, 1, 1, 1]
+
+hs = list(range(48))
+workbook = openpyxl.load_workbook('/home/pi/Spotcheck/coefficient.xlsx')
+sheet = workbook.active
+for i in range(0,48):
+    if(i<6):
+        pos = str(chr(65+i+1)) + "2"
+    if(i>=6 and i<12):
+        pos = str(chr(65+i-5)) + "3"
+    if(i>=12 and i<18):
+        pos = str(chr(65+i-11)) + "4"
+    if(i>=18 and i<24):
+        pos = str(chr(65+i-17)) + "5"
+    if(i>=24 and i<30):
+        pos = str(chr(65+i-23)) + "6"
+    if(i>=30 and i<36):
+        pos = str(chr(65+i-29)) + "7"
+    if(i>=36 and i<42):
+        pos = str(chr(65+i-35)) + "8"
+    if(i>=42):
+        pos = str(chr(65+i-41)) + "9"
+    hs[i] = sheet[pos].value
+
 
 ########################################################### GLOBAL VARIABLE - END ##################################################################
 
@@ -105,6 +120,7 @@ if(code=='1111'):
     msgbox = messagebox.showerror(" ","Hệ thống lỗi, vui lòng liên hệ với nhà cung cấp !")
     if(msgbox=='ok'):
         root.destroy()
+
 ########################################################### MAIN WINDOW INIT - END #################################################################
 
 ########################################################### RESOURCE PATH - START ##################################################################
