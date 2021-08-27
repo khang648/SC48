@@ -244,6 +244,7 @@ def mainscreen():
 
         process_label = Label(mainscreen_labelframe, text='Đang xử lý...', bg='white', font=("Courier",13,'bold'))
         process_label.place(x=330,y=350)
+        root.update_idletasks()
         scanposition_progressbar = ttk.Progressbar(mainscreen_labelframe, orient = HORIZONTAL, style="green.Horizontal.TProgressbar", length = 200, mode = 'determinate')
         scanposition_progressbar.place(x=290,y=310)
         scanposition_progressbar['value'] = 5
@@ -360,8 +361,7 @@ def mainscreen():
     
     start_button = Button(mainscreen_labelframe, bg="grey98", text="Bắt đầu", font=('Courier',12,'bold'), borderwidth=0, height=3, width=12, command=start_click)
     start_button.place(x=350,y=250)
-    start_click()
-    
+    start_click()    
 
 ############################################################### LOOP - START #######################################################################
 while True:
