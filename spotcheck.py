@@ -77,6 +77,9 @@ y1 = int(fr1.readline())
 x2 = int(fr1.readline())
 y2 = int(fr1.readline())
 server_on = int(fr1.readline())
+ftp_ip = fr1.readline().strip('\n')
+ftp_user = fr1.readline().strip('\n')
+ftp_password = fr1.readline().strip('\n')
 
 hs = list(range(48))
 workbook = openpyxl.load_workbook('/home/pi/Spotcheck/coefficient.xlsx')
@@ -506,7 +509,7 @@ def mainscreen():
         def import_click():
             if(server_on==1):
                 try:
-                    ftp = FTP('171.244.143.190', 'sc48', 'sc@12345')
+                    ftp = FTP(ftp_ip, ftp_user, ftp_password)
                     ftp.cwd('UnProcessed_Data')
                     ftpfiles = ftp.nlst()
                     for ftpfile in ftpfiles:
@@ -2417,7 +2420,7 @@ def analysis():
                     
                 if(server_on==1):
                     try:
-                        ftp = FTP('171.244.143.190', 'sc48', 'sc@12345')
+                        ftp = FTP(ftp_ip, ftp_user, ftp_password)
                         ftp.cwd('Processed_Data')
                         file = open("/home/pi/Desktop/Ket Qua Phan Tich/" + importfilename + ".xlsm",'rb')
                         ftp.storbinary('STOR ' + importfilename + ".xlsm", file)
