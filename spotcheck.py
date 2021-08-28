@@ -1905,7 +1905,7 @@ def analysis():
                 cv2.imwrite(output, t1_image)
 
                 t1_analysis = Image.open(output)
-                t1_crop = t1_analysis.crop(((x1-10, y1-10, x2+10, y2+10)))
+                t1_crop = t1_analysis.crop(((x1-13, y1-13, x2+13, y2+13)))
                 #t1_crop = t1_analysis.crop((280-7, 81-7, 498+7, 376+7))
                 crop_width, crop_height = t1_crop.size
                 scale_percent = 75
@@ -1986,7 +1986,7 @@ def analysis():
                 output = path2 + "/T2.jpg"
                 cv2.imwrite(output, t2_image)
                 t2_analysis = Image.open(output)
-                t2_crop = t2_analysis.crop(((x1-10, y1-10, x2+10, y2+10)))
+                t2_crop = t2_analysis.crop(((x1-13, y1-13, x2+13, y2+13)))
                 #t2_crop = t2_analysis.crop((280-7, 81-7, 498+7, 376+7))
                 crop_width, crop_height = t2_crop.size
                 scale_percent = 75
@@ -2075,7 +2075,7 @@ def analysis():
                 output = path2 + "/T3.jpg"
                 cv2.imwrite(output, t3_image)
                 t3_analysis = Image.open(output)
-                t3_crop = t3_analysis.crop((x1-10, y1-10, x2+10, y2+10))
+                t3_crop = t3_analysis.crop((x1-13, y1-13, x2+13, y2+13))
                 #t3_crop = t3_analysis.crop((280-7, 81-7, 498+7, 376+7))
                 crop_width, crop_height = t3_crop.size
                 scale_percent = 75
