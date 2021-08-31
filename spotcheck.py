@@ -397,7 +397,7 @@ def mainscreen():
         transform_label = Label(mainscreen_labelframe, font=("Courier",16,'bold'), bg='white', fg='red', text="TRANSFORM YOUR PCR INTO REAL-TIME MODE")
         transform_label.place(x=233, y=227)
 
-        covidapp_label = Label(mainscreen_labelframe, font=("Courier",25,'bold'), bg='white', fg='grey30', text="COVID-19 APLLICATION")
+        covidapp_label = Label(mainscreen_labelframe, font=("Courier",25,'bold'), bg='white', fg='grey30', text="COVID-19 APPLICATION")
         covidapp_label.place(x=280, y=270)
 
         if(warning_value==1):
