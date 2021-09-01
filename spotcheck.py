@@ -1142,7 +1142,7 @@ def setid():
 
     def cancel_click():
         msg = messagebox.askquestion("Hủy", "Bạn muốn hủy mà không lưu lại tệp ?")
-        if(msg=="yes"):
+        if(msg=="yes"): 
             setid1_labelframe.place_forget()
             mainscreen()
 
@@ -1205,7 +1205,7 @@ def setid():
 
     def load_click():
         idfile = filedialog.askopenfilename(initialdir='/home/pi/Desktop/Spotcheck ID', filetypes=[('Excel file','*.xlsm *.xlsx *.xls')])
-        if idfile is not None:
+        if idfile is not None:+
             if(idfile[len(idfile)-4:]=='xlsx' or idfile[len(idfile)-4:]=='xlsm' or idfile[len(idfile)-3:]=='xls'):
                 workbook = openpyxl.load_workbook(idfile)
                 sheet = workbook.active

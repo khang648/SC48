@@ -25,6 +25,7 @@ from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Font, Alignment, PatternFill, Protection
 from openpyxl.styles.borders import Border, Side
 from openpyxl.drawing.image import Image as Img
+from datetime import *
 ############################################################ IMPORT MODULES - END ##################################################################
 
 ########################################################## GLOBAL VARIABLE - START #################################################################
@@ -52,6 +53,8 @@ start_point = (0,0)
 end_point = (0,0)
 thr_set= 15
 #thr2_set = 15
+password = '123456789'
+
 fr = open("/home/pi/Spotcheck/check.txt","r")
 code = (fr.readline()).strip()
 fr1 = open("/home/pi/Spotcheck/config.txt","r")
@@ -63,6 +66,91 @@ x1 = int(fr1.readline())
 y1 = int(fr1.readline())
 x2 = int(fr1.readline())
 y2 = int(fr1.readline())
+
+fr2 = open("/var/tmp/admin.txt","r")
+start_trial = int(fr2.readline())
+print("start_trial: ", start_trial)
+
+def trial():
+    if(start_trial==1):
+        old_day = int(fr2.readline())
+        old_month = int(fr2.readline())
+        old_year = int(fr2.readline())
+        print("Ngày bắt đầu:", old_day, old_month, old_year)
+
+        today = datetime.now()
+        new_day = today.day
+        new_month = today.month
+        new_year = today.year
+        print("Ngày hiện tại:", new_day, new_month, new_year)
+
+        nam = new_year - old_year
+        if(new_month < old_month):
+            thang = new_month + 12 - old_month
+            nam = nam - 1
+        else:
+            thang = new_month - old_month
+        if(new_day < old_day):
+            ngay = new_day + 30 - old_day
+            thang = thang - 1
+        else:
+            ngay = new_day - old_day
+        songay = ngay + thang*30 + nam*365
+        print("Thời gian dùng thử còn lại:", 30-songay)
+        if(songay >= 30):
+            trial_labelframe = LabelFrame(root, bg='white', width=800, height=600)
+            trial_labelframe.place(x=0,y=0)
+
+            logo_img = Image.open('/home/pi/Spotcheck/logo.png')
+            logo_width, logo_height = logo_img.size
+            scale_percent = 50
+            width = int(logo_width * scale_percent / 100)
+            height = int(logo_height * scale_percent / 100)
+            display_img = logo_img.resize((width,height))
+            image_select = ImageTk.PhotoImage(display_img)
+            logo_label = Label(trial_labelframe, bg='white',image=image_select)
+            logo_label.image = image_select
+            logo_label.place(x=5,y=5)
+
+            def active_click(event = None):
+                code = activecode_entry.get()
+                if(code==""):
+                    msg = messagebox.showwarning(" ","Bạn chưa nhập mã kích hoạt !")
+                else:
+                    if(code!=password):
+                        msg = messagebox.showerror(" ","Mã kích hoạt không đúng !")
+                    if(code==password):
+                        msg = messagebox.showinfo(" ","Kích hoạt thành công !")
+                        f1=open("/var/tmp/admin.txt",'w')
+                        f1.writelines("0")
+                        mainscreen()
+
+            trial_label = Label(trial_labelframe, bg='white',fg="red", text="Thời gian dùng thử đã hết\nNhập mã kích hoạt để tiếp tục sử dụng !", font=("Courier",18,"bold"))
+            trial_label.place(x=110,y=85)
+            contact_label = Label(trial_labelframe, bg='white', text="Liên hệ với nhà cung cấp để lấy mã kích hoạt", font=("Courier",12,"bold"))
+            contact_label.place(x=165,y=435)
+            activecode_entry = Entry(trial_labelframe, width=27, bg='white', font=("Courier",14,"bold"))
+            activecode_entry.place(x=315,y=215)
+            activecode_entry.bind("<Return>", active_click)
+            code_label = Label(trial_labelframe, bg='white', text="Mã kích hoạt:", font=("Courier",14,"bold"))
+            code_label.place(x=160,y=215)
+
+            key_img = Image.open('/home/pi/Spotcheck/key.png')
+            logo_width, logo_height = key_img.size
+            scale_percent = 5
+            width = int(logo_width * scale_percent / 100)
+            height = int(logo_height * scale_percent / 100)
+            display_img = key_img.resize((width,height))
+            image_select = ImageTk.PhotoImage(display_img)
+            logo_label = Label(trial_labelframe, bg='white',image=image_select)
+            logo_label.image = image_select
+            logo_label.place(x=640,y=85)
+
+            active_button = Button(trial_labelframe, bg="lavender", font=("Courier",11,'bold'), text="Xác nhận", height=3, width=10, borderwidth=0, command=active_click)
+            active_button.place(x=501,y=260)
+
+        else:
+            mainscreen()
 ########################################################### GLOBAL VARIABLE - END ##################################################################
 
 ########################################################## MAIN WINDOW INIT - START ################################################################
@@ -231,13 +319,13 @@ def mainscreen():
     sc_label.place(x=227, y=65)
     lightcheck_label = Label(mainscreen_labelframe, font=("Courier",30,'bold'), fg='grey40', bg='white',text='Kiểm tra hệ thống')
     lightcheck_label.place(x=188, y=135)
-    
+
 #     process_label = Label(mainscreen_labelframe, text='Đang xử lý...', bg='white', font=("Courier",13,'bold'))
 #     process_label.place(x=240,y=350)
 #     scanposition_progressbar = ttk.Progressbar(mainscreen_labelframe, orient = HORIZONTAL, style="green.Horizontal.TProgressbar", length = 200, mode = 'determinate')
 #     scanposition_progressbar.place(x=204,y=310)
 #     scanposition_progressbar['value'] = 5
-    
+
     def start_click():
         send_data = 'P'
         ser.write(send_data.encode())
@@ -358,13 +446,16 @@ def mainscreen():
             fw.truncate(0)
             fw.writelines("1234\n")
             root.destroy()
-    
+
     start_button = Button(mainscreen_labelframe, bg="grey98", text="Bắt đầu", font=('Courier',12,'bold'), borderwidth=0, height=3, width=12, command=start_click)
     start_button.place(x=350,y=250)
-    start_click()    
+    start_click()
 
 ############################################################### LOOP - START #######################################################################
 while True:
-    mainscreen()
+    if(start_trial==1):
+        trial()
+    else:
+        mainscreen()
     root.mainloop()
 ################################################################ LOOP - END ########################################################################
