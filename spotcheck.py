@@ -599,7 +599,7 @@ def mainscreen():
             if(server_on==1):
                 try:
                     ftp = FTP(ftp_ip, ftp_user, ftp_password)
-                    ftp.cwd(ftp_folder + '/UnProcessed_Data')
+                    ftp.cwd(ftp_folder + 'UnProcessed_Data')
                     ftpfiles = ftp.nlst()
                     for ftpfile in ftpfiles:
                         if(os.path.exists("/home/pi/Desktop/Spotcheck ID/" + ftpfile)):
