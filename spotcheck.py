@@ -27,6 +27,7 @@ from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Font, Alignment, PatternFill, Protection
 from openpyxl.styles.borders import Border, Side
 from openpyxl.drawing.image import Image as Img
+from datetime import *
 ############################################################ IMPORT MODULES - END ##################################################################
 
 ########################################################## GLOBAL VARIABLE - START #################################################################
@@ -64,6 +65,7 @@ rsfile='/'
 idfile='/'
 test_list = list(range(48))
 warning_value = 0
+password = '123456789'
 
 fr = open("/home/pi/Spotcheck/check.txt","r")
 code = (fr.readline()).strip()
@@ -80,6 +82,9 @@ server_on = int(fr1.readline())
 ftp_ip = fr1.readline().strip('\n')
 ftp_user = fr1.readline().strip('\n')
 ftp_password = fr1.readline().strip('\n')
+print(ftp_ip)
+print(ftp_user)
+print(ftp_password)
 
 hs = list(range(48))
 workbook = openpyxl.load_workbook('/home/pi/Spotcheck/coefficient.xlsx')
@@ -103,7 +108,92 @@ for i in range(0,48):
         pos = str(chr(65+i-41)) + "9"
     hs[i] = float(sheet[pos].value)
 
+fr2 = open("/var/tmp/admin.txt","r")
+start_trial = int(fr2.readline())
+print("start_trial: ", start_trial)
 
+def trial():
+    if(start_trial==1):
+        old_day = int(fr2.readline())
+        old_month = int(fr2.readline())
+        old_year = int(fr2.readline())
+        print("Ngày bắt đầu:", old_day, old_month, old_year)
+
+        today = datetime.now()
+        new_day = today.day
+        new_month = today.month
+        new_year = today.year
+        print("Ngày hiện tại:", new_day, new_month, new_year)
+
+        nam = new_year - old_year
+        if(new_month < old_month):
+            thang = new_month + 12 - old_month
+            nam = nam - 1
+        else:
+            thang = new_month - old_month
+        if(new_day < old_day):
+            ngay = new_day + 30 - old_day
+            thang = thang - 1
+        else:
+            ngay = new_day - old_day
+        songay = ngay + thang*30 + nam*365
+        print("Thời gian dùng thử còn lại:", 30-songay)
+        if(songay >= 30):
+            trial_labelframe = LabelFrame(root, bg='white', width=800, height=600)
+            trial_labelframe.place(x=0,y=0)
+
+            logo_img = Image.open('/home/pi/Spotcheck/logo.png')
+            logo_width, logo_height = logo_img.size
+            scale_percent = 50
+            width = int(logo_width * scale_percent / 100)
+            height = int(logo_height * scale_percent / 100)
+            display_img = logo_img.resize((width,height))
+            image_select = ImageTk.PhotoImage(display_img)
+            logo_label = Label(trial_labelframe, bg='white',image=image_select)
+            logo_label.image = image_select
+            logo_label.place(x=5,y=5)
+
+            def active_click(event = None):
+                code = activecode_entry.get()
+                if(code==""):
+                    msg = messagebox.showwarning(" ","Bạn chưa nhập mã kích hoạt !")
+                else:
+                    if(code!=password):
+                        msg = messagebox.showerror(" ","Mã kích hoạt không đúng !")
+                    if(code==password):
+                        msg = messagebox.showinfo(" ","Kích hoạt thành công !")
+                        f1=open("/var/tmp/admin.txt",'w')
+                        f1.writelines("0")
+                        mainscreen()
+
+            trial_label = Label(trial_labelframe, bg='white',fg="red", text="Thời gian dùng thử đã hết\nVui lòng nhập mã kích hoạt để tiếp tục sử dụng !", font=("Courier",18,"bold"))
+            trial_label.place(x=62,y=85)
+            contact_label = Label(trial_labelframe, bg='white', text="Liên hệ nhà cung cấp để nhận mã kích hoạt:", font=("Courier",12,"bold"))
+            contact_label.place(x=73,y=435)
+            mail_label = Label(trial_labelframe, bg='white', fg='blue',text="cskh@phusabiochem.com", font=("Courier",12,"bold"))
+            mail_label.place(x=503,y=435)
+            activecode_entry = Entry(trial_labelframe, width=27, bg='white', font=("Courier",14,"bold"))
+            activecode_entry.place(x=246,y=215)
+            activecode_entry.bind("<Return>", active_click)
+            code_label = Label(trial_labelframe, bg='white', text="Mã kích hoạt:", font=("Courier",14,"bold"))
+            code_label.place(x=244,y=189)
+
+            key_img = Image.open('/home/pi/Spotcheck/key.png')
+            logo_width, logo_height = key_img.size
+            scale_percent = 5
+            width = int(logo_width * scale_percent / 100)
+            height = int(logo_height * scale_percent / 100)
+            display_img = key_img.resize((width,height))
+            image_select = ImageTk.PhotoImage(display_img)
+            logo_label = Label(trial_labelframe, bg='white',image=image_select)
+            logo_label.image = image_select
+            logo_label.place(x=726,y=85)
+
+            active_button = Button(trial_labelframe, bg="lavender", font=("Courier",11,'bold'), text="Xác nhận", height=3, width=10, borderwidth=0, command=active_click)
+            active_button.place(x=340,y=260)
+
+        else:
+            mainscreen()
 ########################################################### GLOBAL VARIABLE - END ##################################################################
 
 ########################################################## MAIN WINDOW INIT - START ################################################################
@@ -1077,7 +1167,7 @@ def setid():
             subprocess.Popen('florence',stdout=subprocess.PIPE, shell=True)
             subprocess.Popen('florence',stdout=subprocess.PIPE, shell=True)
 
-        def ok_click(event=None):
+        def ok_click():
             if(id_entry.get()==''):
                 idpos_button[n]['bg'] = 'lavender'
                 idpos_button[n]['text'] = '#'+str(n)
@@ -1142,7 +1232,7 @@ def setid():
 
     def cancel_click():
         msg = messagebox.askquestion("Hủy", "Bạn muốn hủy mà không lưu lại tệp ?")
-        if(msg=="yes"): 
+        if(msg=="yes"):
             setid1_labelframe.place_forget()
             mainscreen()
 
@@ -1205,7 +1295,7 @@ def setid():
 
     def load_click():
         idfile = filedialog.askopenfilename(initialdir='/home/pi/Desktop/Spotcheck ID', filetypes=[('Excel file','*.xlsm *.xlsx *.xls')])
-        if idfile is not None:+
+        if idfile is not None:
             if(idfile[len(idfile)-4:]=='xlsx' or idfile[len(idfile)-4:]=='xlsm' or idfile[len(idfile)-3:]=='xls'):
                 workbook = openpyxl.load_workbook(idfile)
                 sheet = workbook.active
@@ -1842,7 +1932,7 @@ def analysis():
     send_data = "t"+ t1_set + "," + t2_set + "," + t3_set + "z"
     ser.write(send_data.encode())
     print("Data send: ", send_data)
-    t0 = time.time()
+    #t0 = time.time()
     sleep(2)
 
     global wait
@@ -1905,7 +1995,7 @@ def analysis():
                 cv2.imwrite(output, t1_image)
 
                 t1_analysis = Image.open(output)
-                t1_crop = t1_analysis.crop(((x1-13, y1-13, x2+13, y2+13)))
+                t1_crop = t1_analysis.crop((x1-13, y1-13, x2+13, y2+13))
                 #t1_crop = t1_analysis.crop((280-7, 81-7, 498+7, 376+7))
                 crop_width, crop_height = t1_crop.size
                 scale_percent = 75
@@ -1986,7 +2076,7 @@ def analysis():
                 output = path2 + "/T2.jpg"
                 cv2.imwrite(output, t2_image)
                 t2_analysis = Image.open(output)
-                t2_crop = t2_analysis.crop(((x1-13, y1-13, x2+13, y2+13)))
+                t2_crop = t2_analysis.crop((x1-13, y1-13, x2+13, y2+13))
                 #t2_crop = t2_analysis.crop((280-7, 81-7, 498+7, 376+7))
                 crop_width, crop_height = t2_crop.size
                 scale_percent = 75
@@ -2417,7 +2507,7 @@ def analysis():
                         pass
                 else:
                     pass
-                    
+
                 if(server_on==1):
                     try:
                         ftp = FTP(ftp_ip, ftp_user, ftp_password)
@@ -2666,6 +2756,9 @@ def analysis():
 # send_data = 'o'
 # ser.write(send_data.encode())
 while True:
-    mainscreen()
+    if(start_trial==1):
+        trial()
+    else:
+        mainscreen()
     root.mainloop()
 ################################################################ LOOP - END ########################################################################

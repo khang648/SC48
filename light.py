@@ -125,15 +125,17 @@ def trial():
                         f1.writelines("0")
                         mainscreen()
 
-            trial_label = Label(trial_labelframe, bg='white',fg="red", text="Thời gian dùng thử đã hết\nNhập mã kích hoạt để tiếp tục sử dụng !", font=("Courier",18,"bold"))
-            trial_label.place(x=110,y=85)
-            contact_label = Label(trial_labelframe, bg='white', text="Liên hệ với nhà cung cấp để lấy mã kích hoạt", font=("Courier",12,"bold"))
-            contact_label.place(x=165,y=435)
+            trial_label = Label(trial_labelframe, bg='white',fg="red", text="Thời gian dùng thử đã hết\nVui lòng nhập mã kích hoạt để tiếp tục sử dụng !", font=("Courier",18,"bold"))
+            trial_label.place(x=62,y=85)
+            contact_label = Label(trial_labelframe, bg='white', text="Liên hệ nhà cung cấp để nhận mã kích hoạt:", font=("Courier",12,"bold"))
+            contact_label.place(x=73,y=435)
+            mail_label = Label(trial_labelframe, bg='white', fg='blue',text="cskh@phusabiochem.com", font=("Courier",12,"bold"))
+            mail_label.place(x=503,y=435)
             activecode_entry = Entry(trial_labelframe, width=27, bg='white', font=("Courier",14,"bold"))
-            activecode_entry.place(x=315,y=215)
+            activecode_entry.place(x=246,y=215)
             activecode_entry.bind("<Return>", active_click)
             code_label = Label(trial_labelframe, bg='white', text="Mã kích hoạt:", font=("Courier",14,"bold"))
-            code_label.place(x=160,y=215)
+            code_label.place(x=244,y=189)
 
             key_img = Image.open('/home/pi/Spotcheck/key.png')
             logo_width, logo_height = key_img.size
@@ -144,10 +146,10 @@ def trial():
             image_select = ImageTk.PhotoImage(display_img)
             logo_label = Label(trial_labelframe, bg='white',image=image_select)
             logo_label.image = image_select
-            logo_label.place(x=640,y=85)
+            logo_label.place(x=726,y=85)
 
             active_button = Button(trial_labelframe, bg="lavender", font=("Courier",11,'bold'), text="Xác nhận", height=3, width=10, borderwidth=0, command=active_click)
-            active_button.place(x=501,y=260)
+            active_button.place(x=340,y=260)
 
         else:
             mainscreen()
