@@ -70,7 +70,9 @@ y2 = int(fr1.readline())
 fr2 = open("/var/tmp/admin.txt","r")
 start_trial = int(fr2.readline())
 print("start_trial: ", start_trial)
+########################################################### GLOBAL VARIABLE - END ##################################################################
 
+############################################################### TRIAL - START ######################################################################
 def trial():
     old_day = int(fr2.readline())
     old_month = int(fr2.readline())
@@ -150,8 +152,9 @@ def trial():
 
         active_button = Button(trial_labelframe, bg="lavender", font=("Courier",11,'bold'), text="Xác nhận", height=3, width=10, borderwidth=0, command=active_click)
         active_button.place(x=340,y=260)
-
-########################################################### GLOBAL VARIABLE - END ##################################################################
+    else:
+        mainscreen()
+################################################################ TRIAL - END #######################################################################
 
 ########################################################## MAIN WINDOW INIT - START ################################################################
 root = Tk()

@@ -83,9 +83,6 @@ ftp_ip = fr1.readline().strip('\n')
 ftp_user = fr1.readline().strip('\n')
 ftp_password = fr1.readline().strip('\n')
 ftp_folder = fr1.readline().strip('\n')
-print(ftp_ip)
-print(ftp_user)
-print(ftp_password)
 
 hs = list(range(48))
 workbook = openpyxl.load_workbook('/home/pi/Spotcheck/coefficient.xlsx')
@@ -112,7 +109,9 @@ for i in range(0,48):
 fr2 = open("/var/tmp/admin.txt","r")
 start_trial = int(fr2.readline())
 print("start_trial: ", start_trial)
+########################################################### GLOBAL VARIABLE - END ##################################################################
 
+################################################################# TRIAL _ START #################################################################### 
 def trial():
     old_day = int(fr2.readline())
     old_month = int(fr2.readline())
@@ -192,8 +191,9 @@ def trial():
 
         active_button = Button(trial_labelframe, bg="lavender", font=("Courier",11,'bold'), text="Xác nhận", height=3, width=10, borderwidth=0, command=active_click)
         active_button.place(x=340,y=260)
-
-########################################################### GLOBAL VARIABLE - END ##################################################################
+    else:
+        mainscreen()
+################################################################ TRIAL - END #######################################################################
 
 ########################################################## MAIN WINDOW INIT - START ################################################################
 root = Tk()
@@ -872,7 +872,7 @@ def mainscreen():
 
         def open_click():
             global rsfile
-            rsfile = filedialog.askopenfilename(initialdir='/home/pi/Desktop/Spotcheck Ket Qua/',filetypes=[('jpg file','*.jpg')])
+            rsfile = filedialog.askopenfilename(initialdir='/home/pi/Spotcheck Ket Qua/',filetypes=[('jpg file','*.jpg')])
             if rsfile is not None:
                 if(rsfile[len(rsfile)-3:]=='jpg'):
                     global covid19_createclicked
