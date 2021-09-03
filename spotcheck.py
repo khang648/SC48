@@ -1103,7 +1103,7 @@ def result():
 #             if(p[i]=='/'):
 #                 a=i
 #         oldpath = p[:a]
-        rsfile = filedialog.askopenfilename(initialdir='/home/pi/Desktop/Spotcheck Ket Qua', filetypes=[('jpg file','*.jpg')])
+        rsfile = filedialog.askopenfilename(initialdir='/home/pi/Spotcheck Ket Qua', filetypes=[('jpg file','*.jpg')])
         if rsfile is not None:
             if(rsfile[len(rsfile)-3:]=='jpg'):
                 result_img = Image.open(rsfile)
