@@ -1166,7 +1166,7 @@ def setid():
             subprocess.Popen('florence',stdout=subprocess.PIPE, shell=True)
             subprocess.Popen('florence',stdout=subprocess.PIPE, shell=True)
 
-        def ok_click():
+        def ok_click(event=None):
             if(id_entry.get()==''):
                 idpos_button[n]['bg'] = 'lavender'
                 idpos_button[n]['text'] = '#'+str(n)
