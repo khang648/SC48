@@ -268,33 +268,8 @@ def process_image(image_name, start_point=(x1,y1), end_point=(x2,y2)):
             print('%.1f'%(result_list[i]), end = ' | ')
 
     blurori_img = cv2.GaussianBlur(image.copy(), (25,25), 0)
-    global t1_run, t2_run, t3_run, thr1_set, thr2_set, thr3l_set, thr3h_set, id_list
     for i in range(len(sorted_contours1)):
-        if(id_list[i]=='N/A'):
-            cv2.drawContours(blurori_img, sorted_contours1, i, (0,0,0), thickness = -1)
-        else:
-            if(t1_run==0 and t2_run==0 and t3_run==0):
-                if(result_list[i]<=9):
-                    cv2.drawContours(blurori_img, sorted_contours1, i, (255,255,0), thickness = 2)
-                else:
-                    cv2.drawContours(blurori_img, sorted_contours1, i, (0,0,255), thickness = 2)
-
-            else:
-                if(t1_run==1):
-                    if(result_list[i] <= float(thr1_set)):
-                        cv2.drawContours(blurori_img, sorted_contours1, i, (255,255,0), thickness = 2)
-                    else:
-                        cv2.drawContours(blurori_img, sorted_contours1, i, (0,0,255), thickness = 2)
-                if(t2_run==1):
-                    if(result_list[i] <= float(thr2_set)):
-                        cv2.drawContours(blurori_img, sorted_contours1, i, (255,255,0), thickness = 2)
-                    else:
-                        cv2.drawContours(blurori_img, sorted_contours1, i, (0,0,255), thickness = 2)
-                if(t3_run==1):
-                    if(result_list[i] <= float(thr3l_set)):
-                        cv2.drawContours(blurori_img, sorted_contours1, i, (255,255,0), thickness = 2)
-                    else:
-                        cv2.drawContours(blurori_img, sorted_contours1, i, (0,0,255), thickness = 2)
+        cv2.drawContours(blurori_img, sorted_contours1, i, (0,255,0), thickness = 2)
     return (result_list, blurori_img)
 ########################################################### IMAGE ANALYSIS - END ###################################################################
 
@@ -309,7 +284,11 @@ def mainscreen():
 
         send_data = 'P'
         ser.write(send_data.encode())
-
+        
+        folder_name = strftime("TEST %m-%d-%Y %H.%M.%S")
+        path0= os.path.join("/home/pi/Desktop/Test/", folder_name + "/")
+        os.mkdir(path0)
+        
         process_label = Label(mainscreen_labelframe, text='Đang xử lý...', bg='white', font=("Courier",13,'bold'))
         process_label.place(x=330,y=350)
         root.update_idletasks()
@@ -326,8 +305,7 @@ def mainscreen():
             if(receive_data=='C'):
                 global wait
                 wait = 1
-                folder_name = strftime("TEST %m/%d/%Y %Hh%Mm%Ss")
-                path = os.path.join("/home/pi/Desktop/Spotcheck Test", folder_name +"/")
+                
 
         while(wait!=1):
             root.update_idletasks()
@@ -337,22 +315,18 @@ def mainscreen():
                 if(receive_data=='C'):
                     wait = 1
                     break;
-        while(wait==1):
+        while(wait==1):   
             try:
-                camera_capture(path + "anh-chup.jpg")
+                camera_capture(path0 + "anh-chup.jpg")
             except Exception as e :
                 error = messagebox.askquestion("Lỗi: "+ str(e), "Bạn có muốn thoát chương trình ?", icon = "error")
                 if(error=='yes'):
                     root.destroy()
 
             global result_list
-            try:
-                result_list, result_img = process_image(path + "anh-chup.jpg")
-            except Exception as e :
-                error = messagebox.askquestion("Lỗi: "+ str(e), "Bạn có muốn thoát chương trình ?", icon = "error")
-                if(error=='yes'):
-                    root.destroy()
-            cv2.imwrite(path + 'anh-xu-lu.jpg', result_img)
+            
+            result_list, result_img = process_image(path0 + "anh-chup.jpg")
+            cv2.imwrite(path0 + 'anh-xu-ly.jpg', result_img)
             
             workbook = Workbook()
             sheet = workbook.active
@@ -390,7 +364,7 @@ def mainscreen():
 
                 sheet[pos] = result_list[i]
 
-            workbook.save(path + "gia-tri.xlsx")
+            workbook.save(path0 + "gia-tri.xlsx")
 
             scanposition_progressbar['value'] = 50
             root.update_idletasks()
@@ -406,46 +380,44 @@ def mainscreen():
             wait = 0
             
             result_labelframe = LabelFrame(mainscreen_labelframe, bg='ghost white', width=600,height = 307)
-            result_labelframe.place(x=104,y=120)
-            row_labelframe = LabelFrame(mainscreen_labelframe, bg='ghost white', width=600,height = 50)
-            row_labelframe.place(x=104,y=76)
-            column_labelframe = LabelFrame(mainscreen_labelframe, bg='ghost white', width=50,height = 307)
-            column_labelframe.place(x=62,y=120)
+            result_labelframe.place(x=5,y=30)
+            
+            a1_labelframe = LabelFrame(mainscreen_labelframe, bg='white', width=250, height=339)
+            a1_labelframe.place(x=269,y=30)
+            a1 = Image.open(path0 + 'anh-chup.jpg')
+            a1_crop = a1.crop((x1-5, y1-5, x2+5, y2+5))
+            crop_width, crop_height = a1_crop.size
+            scale_percent = 100
+            width = int(crop_width * scale_percent / 100)
+            height = int(crop_height * scale_percent / 100)
+            display_img = a1_crop.resize((width,height))
+            a1_display = ImageTk.PhotoImage(display_img)
+            a1_label = Label(a1_labelframe, image=a1_display)
+            a1_label.image = a1_display
+            a1_label.place(x=0,y=1)
+            
+            a2_labelframe = LabelFrame(mainscreen_labelframe, bg='white', width=250, height=339)
+            a2_labelframe.place(x=540,y=30)
+            a2 = Image.open(path0 + 'anh-xu-ly.jpg')
+            a2_crop = a2.crop((x1-5, y1-5, x2+5, y2+5))
+            crop_width, crop_height = a2_crop.size
+            scale_percent = 100
+            width = int(crop_width * scale_percent / 100)
+            height = int(crop_height * scale_percent / 100)
+            display_img = a2_crop.resize((width,height))
+            a2_display = ImageTk.PhotoImage(display_img)
+            a2_label = Label(a2_labelframe, image=a2_display)
+            a2_label.image = a2_display
+            a2_label.place(x=0,y=1)
+            
             root.update_idletasks()
-
-            row_label = [0,0,0,0,0,0]
-            for i in range (0,6):
-                row_text = i+1
-                row_label[i] = Label(row_labelframe, text=row_text, bg='grey94', width=4, height=2)
-                row_label[i].grid(row=0,column=i,padx=2,pady=2)
-
-            column_label = [0,0,0,0,0,0,0,0]
-            for i in range (0,8):
-                if(i==0):
-                    column_text = 'A'
-                if(i==1):
-                    column_text = 'B'
-                if(i==2):
-                    column_text = 'C'
-                if(i==3):
-                    column_text = 'D'
-                if(i==4):
-                    column_text = 'E'
-                if(i==5):
-                    column_text = 'F'
-                if(i==6):
-                    column_text = 'G'
-                if(i==7):
-                    column_text = 'H'
-                column_label[i] = Label(column_labelframe, text=column_text, bg='grey94', width=4, height=2)
-                column_label[i].grid(row=i,column=0,padx=2,pady=2)
 
             label = list(range(48))
             def result_table(range_a,range_b, row_value):
                 j=-1
                 for i in range(range_a, range_b):
                     j+=1
-                    label[i] = Label(result_labelframe, bg='azure', text=str('%.1f'%result_list[i]), width=4, height=2)
+                    label[i] = Label(result_labelframe, bg='lawn green', text=str('%.1f'%result_list[i]), width=4, height=2)
                     label[i].grid(row=row_value,column=j,padx=2,pady=2)
 
             result_table(0,6,0)
@@ -461,16 +433,12 @@ def mainscreen():
             def back_click():
                 back_button.place_forget()
                 result_labelframe.place_forget()
-                row_labelframe.place_forget()
-                column_labelframe.place_forget()
-                wait=1
-                break;
+                a1_labelframe.place_forget()
+                a2_labelframe.place_forget()
                 mainscreen()
 
             back_button = Button(mainscreen_labelframe, bg="dark orange", text="Back", height=3, width=15, borderwidth=0, command=back_click)
-            back_button.place(x=480,y=396)
-
-
+            back_button.place(x=325,y=410)
 
     def exit_click():
         msg = messagebox.askquestion('','Thoát hả bro?', icon = 'question')
@@ -478,10 +446,10 @@ def mainscreen():
             root.destroy()
 
 
-    capture_button = Button(mainscreen_labelframe, bg="dodger blue", activebackground="dodger blue", text="CAPTURE", font=("Courier",14,'bold'), borderwidth=0, height=3, width=15,command=capture_click)
-    capture_button.place(x=250,y=300)
-    exit_button = Button(mainscreen_labelframe, bg="dodger blue", activebackground="dodger blue", text="EXIT", font=("Courier",14,'bold'), borderwidth=0, height=3, width=15, command=exit_click)
-    exit_button.place(x=500,y=300)
+    capture_button = Button(mainscreen_labelframe, bg="dodger blue", activebackground="white", text="CAPTURE", font=("Courier",14,'bold'), borderwidth=0, height=3, width=15,command=capture_click)
+    capture_button.place(x=450,y=300)
+    exit_button = Button(mainscreen_labelframe, bg="red", activebackground="white", text="EXIT", font=("Courier",14,'bold'), borderwidth=0, height=3, width=15, command=exit_click)
+    exit_button.place(x=150,y=300)
 
 ############################################################# MAIN SCREEN - END ####################################################################
 
