@@ -44,6 +44,7 @@ path2 = "/"
 path3 = "/"
 path4 = "/"
 path5 = "/"
+filename = ""
 importfilename = ""
 excel_file = ""
 id_list = list(range(48))
@@ -619,6 +620,7 @@ def mainscreen():
                         pass
             file = filedialog.askopenfile(initialdir='/home/pi/Desktop/Spotcheck ID/', mode='r', filetypes=[('Excel file','*.xlsm *.xlsx *.xls')])
             global importfilename
+            global file name
             filename = file.name
             global excel_file
             if file is not None:
@@ -2229,7 +2231,7 @@ def analysis():
                 t2_run=0
                 t3_run=0
 
-                workbook1 = load_workbook("/home/pi/Desktop/Spotcheck ID/" + excel_file, keep_vba = True)
+                workbook1 = load_workbook(filename, keep_vba = True)
                 sheet = workbook1.active
 
                 sheet.protection.sheet = True
@@ -2284,7 +2286,7 @@ def analysis():
                 sheet.cell(row=64,column=4).alignment = Alignment(horizontal='center',vertical='center',wrapText=True)
                 sheet.cell(row=65,column=4).alignment = Alignment(horizontal='center',vertical='center',wrapText=True)
 
-                for r in range(11,60):
+                for r in range(11,60):  
                     for c in range(2,7):
                         sheet.cell(row=r,column=c).alignment = Alignment(horizontal='center',vertical='center',wrapText=True)
                         sheet.cell(row=r,column=c).border = thin_border
