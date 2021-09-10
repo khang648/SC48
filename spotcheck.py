@@ -527,7 +527,7 @@ def mainscreen():
         # import_label.place(x=68,y=80)
 
         file_label = Label(enterframe_labelframe, bg='white', fg='grey25', font=("Courier",13,'bold'))
-        file_label.place(x=221,y=87)
+        file_label.place(x=213,y=87)
 
         global covid19_createclicked
         global covid19dir_old
@@ -2259,7 +2259,7 @@ def analysis():
                 sheet["B5"].font = font1
                 sheet.cell(row=5,column=2).alignment = Alignment(horizontal='center',vertical='center',wrapText=True)
                 #global foldername
-                sheet["B7"] = 'Tên tệp xét nghiệm: ' + foldername
+                sheet["B7"] = 'Tên tệp xét nghiệm: ' + importfilename
                 sheet["B7"].font = font2
                 sheet['B8'] = 'Người thực hiện: '
                 sheet["B8"].font = font2
