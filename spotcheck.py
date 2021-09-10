@@ -80,10 +80,15 @@ y1 = int(fr1.readline())
 x2 = int(fr1.readline())
 y2 = int(fr1.readline())
 server_on = int(fr1.readline())
-ftp_ip = fr1.readline().strip('\n')
-ftp_user = fr1.readline().strip('\n')
-ftp_password = fr1.readline().strip('\n')
-ftp_folder = fr1.readline().strip('\n')
+# ftp_ip = fr1.readline().strip('\n')
+# ftp_user = fr1.readline().strip('\n')
+# ftp_password = fr1.readline().strip('\n')
+# ftp_folder = fr1.readline().strip('\n')
+
+ftp_ip = '171.244.143.190'
+ftp_user = 'sc48'
+ftp_password = 'sc@12345'
+ftp_folder = '/Can Tho/Binh Thuy/'
 
 hs = list(range(48))
 workbook = openpyxl.load_workbook('/home/pi/Spotcheck/coefficient.xlsx')
