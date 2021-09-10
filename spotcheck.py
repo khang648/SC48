@@ -527,7 +527,7 @@ def mainscreen():
         # import_label.place(x=68,y=80)
 
         file_label = Label(enterframe_labelframe, bg='white', fg='grey25', font=("Courier",13,'bold'))
-        file_label.place(x=225,y=87)
+        file_label.place(x=221,y=87)
 
         global covid19_createclicked
         global covid19dir_old
@@ -620,7 +620,7 @@ def mainscreen():
                         pass
             file = filedialog.askopenfile(initialdir='/home/pi/Desktop/Spotcheck ID/', mode='r', filetypes=[('Excel file','*.xlsm *.xlsx *.xls')])
             global importfilename
-            global file name
+            global filename
             filename = file.name
             global excel_file
             if file is not None:
@@ -637,7 +637,10 @@ def mainscreen():
                     #import_click()
                 else:
                     excel_file = filename[a:len(filename)]
-                    file_label['text'] = importfilename
+                    if(len(importfilename)>=15):
+                        file_label['text'] = importfilename[0:15] + '...'
+                    else:
+                        file_label['text'] = importfilename
 
                     workbook = openpyxl.load_workbook(filename)
                     sheet = workbook.active
