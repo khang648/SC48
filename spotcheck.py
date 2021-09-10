@@ -2289,7 +2289,7 @@ def analysis():
                         sheet.cell(row=r,column=c).alignment = Alignment(horizontal='center',vertical='center',wrapText=True)
                         sheet.cell(row=r,column=c).border = thin_border
 
-                sheet.column_dimensions['B'].width = 20
+                sheet.column_dimensions['B'].width = 26
                 sheet.column_dimensions['C'].width = 12
                 sheet.column_dimensions['D'].width = 12
                 sheet.column_dimensions['E'].width = 12
