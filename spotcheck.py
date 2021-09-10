@@ -2234,7 +2234,7 @@ def analysis():
                 t2_run=0
                 t3_run=0
 
-                workbook1 = load_workbook(filename, keep_vba = True)
+                workbook1 = load_workbook("/home/pi/Spotcheck/template.xlsm", keep_vba = True)
                 sheet = workbook1.active
 
                 sheet.protection.sheet = True
