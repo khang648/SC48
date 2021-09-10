@@ -310,7 +310,7 @@ def process_image(image_name, start_point=(x1,y1), end_point=(x2,y2)):
     list_intensities = []
     sum_intensities = []
     result_list = list(range(48))
-    area = list(range(48))
+    area = list(range(48))  
 
 #Gray
 #     tmp_list = list(range(48))
@@ -1172,7 +1172,7 @@ def setid():
                 idpos_button[n]['text'] = '#'+str(n)
                 msgbox = messagebox.showwarning(" ","Bạn chưa nhập ID !")
             else:
-                idpos_button[n]['text'] = id_entry.get()
+                idpos_button[n]['text'] = id_entry.get()    
                 idpos_button[n]['bg'] = 'lawn green'
                 try:
                     if(n==46):
@@ -2229,7 +2229,7 @@ def analysis():
                 t2_run=0
                 t3_run=0
 
-                workbook1 = load_workbook('/home/pi/Spotcheck/template.xlsm', keep_vba = True)
+                workbook1 = load_workbook("/home/pi/Desktop/Spotcheck ID/" + excel_file, keep_vba = True)
                 sheet = workbook1.active
 
                 sheet.protection.sheet = True
