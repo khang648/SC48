@@ -417,7 +417,7 @@ def mainscreen():
                 j=-1
                 for i in range(range_a, range_b):
                     j+=1
-                    label[i] = Label(result_labelframe, bg='lawn green', text=str('%.1f'%result_list[i]), width=4, height=2)
+                    label[i] = Label(result_labelframe, bg='lawn green', text=str(result_list[i]), width=4, height=2)
                     label[i].grid(row=row_value,column=j,padx=2,pady=2)
 
             result_table(0,6,0)
