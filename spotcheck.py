@@ -554,8 +554,8 @@ def mainscreen():
             global covid19_createclicked
             covid19_createclicked = 1
             global foldername
-            foldername = str(file_label['text'])
-            name = strftime(foldername)
+            #foldername = str(file_label['text'])
+            name = strftime(importfilename)
             global path0
             global covid19dir_old
             print("covid19dir_old:",covid19dir_old)
