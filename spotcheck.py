@@ -67,14 +67,14 @@ idfile='/'
 test_list = list(range(48))
 warning_value = 0
 password = '123456789'
+thr1_set = 1
+thr2_set = 1
+thr3l_set = 1
+thr3h_set = 1
 
 fr = open("/home/pi/Spotcheck/check.txt","r")
 code = (fr.readline()).strip()
 fr1 = open("/home/pi/Spotcheck/config.txt","r")
-thr1_set = float(fr1.readline())
-thr2_set = float(fr1.readline())
-thr3l_set = float(fr1.readline())
-thr3h_set = float(fr1.readline())
 x1 = int(fr1.readline())
 y1 = int(fr1.readline())
 x2 = int(fr1.readline())
@@ -463,7 +463,7 @@ def mainscreen():
         covid19_canvas['bg'] = 'dodger blue'
         viewresult_canvas['bg'] = 'dodger blue'
         setid_canvas['bg'] = 'dodger blue'
-        calibration_canvas['bg'] = 'dodger blue'
+        config_canvas['bg'] = 'dodger blue'
         power_canvas['bg'] = 'dodger blue'
 
         global covid19clicked
@@ -507,7 +507,7 @@ def mainscreen():
         covid19_canvas['bg'] = 'white'
         viewresult_canvas['bg'] = 'dodger blue'
         setid_canvas['bg'] = 'dodger blue'
-        calibration_canvas['bg'] = 'dodger blue'
+        config_canvas['bg'] = 'dodger blue'
         power_canvas['bg'] = 'dodger blue'
 
         global covid19clicked
@@ -598,6 +598,14 @@ def mainscreen():
                     os.mkdir(path4)
                     path5 = os.path.join(path0,"Chương trình nhiệt")
                     os.mkdir(path5)
+
+                    global thr1_set, thr2_set,thr3l_set, thr3h_set
+                    fr3 = open("/home/pi/Spotcheck/ct.txt","r")
+                    thr1_set = float(fr3.readline())
+                    thr2_set = float(fr3.readline())
+                    thr3l_set = float(fr3.readline())
+                    thr3h_set = float(fr3.readline())
+
                     mainscreen_labelframe.place_forget()
                     scanposition()
 
@@ -792,7 +800,7 @@ def mainscreen():
         covid19_canvas['bg'] = 'dodger blue'
         viewresult_canvas['bg'] = 'dodger blue'
         setid_canvas['bg'] = 'white'
-        calibration_canvas['bg'] = 'dodger blue'
+        config_canvas['bg'] = 'dodger blue'
         power_canvas['bg'] = 'dodger blue'
 
         setidmc_labelframe = LabelFrame(mainscreen_labelframe, bg='white', width=624, height=478)
@@ -835,7 +843,7 @@ def mainscreen():
         covid19_canvas['bg'] = 'dodger blue'
         viewresult_canvas['bg'] = 'dodger blue'
         setid_canvas['bg'] = 'dodger blue'
-        calibration_canvas['bg'] = 'dodger blue'
+        config_canvas['bg'] = 'dodger blue'
         power_canvas['bg'] = 'white'
 
         powermc_labelframe = LabelFrame(mainscreen_labelframe, bg='white', width=624, height=478)
@@ -868,7 +876,7 @@ def mainscreen():
         covid19_canvas['bg'] = 'dodger blue'
         viewresult_canvas['bg'] = 'white'
         setid_canvas['bg'] = 'dodger blue'
-        calibration_canvas['bg'] = 'dodger blue'
+        config_canvas['bg'] = 'dodger blue'
         power_canvas['bg'] = 'dodger blue'
 
         viewresultmc_labelframe = LabelFrame(mainscreen_labelframe, bg='white', width=624, height=478)
@@ -902,139 +910,118 @@ def mainscreen():
             warning_label = Label(mainscreen_labelframe, bg='white', fg='white', text='Hệ thống đang tản nhiệt, không đặt mẫu vào lúc này !', font=("Courier", 13, 'bold'))
             warning_label.place(x=220,y=450)
 
-    def calibration_click():
+    def config_click():
         home_canvas['bg'] = 'dodger blue'
         covid19_canvas['bg'] = 'dodger blue'
         viewresult_canvas['bg'] = 'dodger blue'
         setid_canvas['bg'] = 'dodger blue'
-        calibration_canvas['bg'] = 'white'
+        config_canvas['bg'] = 'white'
         power_canvas['bg'] = 'dodger blue'
 
-        calibmc_labelframe = LabelFrame(mainscreen_labelframe, bg='white', width=624, height=478)
-        calibmc_labelframe.place(x=172,y=0)
+        configmc_labelframe = LabelFrame(mainscreen_labelframe, bg='white', width=624, height=478)
+        configmc_labelframe.place(x=172,y=0)
 
-        def start_click():
-            send_data = 'P'
-            ser.write(send_data.encode())
+        fr4 = open("/home/pi/Spotcheck/ct.txt","r")
+        firstline = (fr4.readline()).strip()
+        secondline = (fr4.readline()).strip()
+        thirdline = (fr4.readline()).strip()
+        fourthline = (fr4.readline()).strip()
 
-            process_label = Label(calibmc_labelframe, text='Đang xử lý...', bg='white', font=("Courier",13,'bold'))
-            process_label.place(x=240,y=350)
-            scanposition_progressbar = ttk.Progressbar(calibmc_labelframe, orient = HORIZONTAL, style="green.Horizontal.TProgressbar", length = 200, mode = 'determinate')
-            scanposition_progressbar.place(x=204,y=310)
-            scanposition_progressbar['value'] = 5
-            root.update_idletasks()
-            start_button.place_forget()
+        def kit1_click():
+            kit1_button['bg'] = 'lawn green'
+            kit2_button['bg'] = 'grey88'
+            radio1['state'] = 'normal'
+            radio2['state'] = 'normal'
+            radio3['state'] = 'disabled'
+            radio4['state'] = 'disabled'
 
-            if(ser.in_waiting>0):
-                receive_data = ser.readline().decode('utf-8').rstrip()
-                print("Data received:", receive_data)
-                scanposition_progressbar['value'] = 20
-                root.update_idletasks()
-                if(receive_data=='C'):
-                    global wait
-                    wait = 1
+        def kit2_click():
+            kit1_button['bg'] = 'grey88'
+            kit2_button['bg'] = 'lawn green'
+            radio1['state'] = 'disabled'
+            radio2['state'] = 'disabled'
+            radio3['state'] = 'normal'
+            radio4['state'] = 'normal' 
 
-            while(wait!=1):
-                root.update_idletasks()
-                if(ser.in_waiting>0):
-                    receive_data = ser.readline().decode('utf-8').rstrip()
-                    print("Data received:", receive_data)
-                    if(receive_data=='C'):
-                        wait = 1
-                        break;
-            while(wait==1):
-                try:
-                    camera_capture('/home/pi/Spotcheck/Kiem tra do sang/do-sang.jpg')
-                except Exception as e :
-                    error = messagebox.askquestion("Lỗi: "+ str(e), "Bạn có muốn thoát chương trình ?", icon = "error")
-                    if(error=='yes'):
-                        root.destroy()
-
-                global test_list
-                try:
-                    test_list,_ = process_image('/home/pi/Spotcheck/Kiem tra do sang/do-sang.jpg')
-                except Exception as e :
-                    error = messagebox.askquestion("Lỗi: "+ str(e), "Bạn có muốn thoát chương trình ?", icon = "error")
-                    if(error=='yes'):
-                        root.destroy()
-
-                workbook = Workbook()
-                sheet = workbook.active
-
-                sheet["A2"] = "A"
-                sheet["A3"] = "B"
-                sheet["A4"] = "C"
-                sheet["A5"] = "D"
-                sheet["A6"] = "E"
-                sheet["A7"] = "F"
-                sheet["A8"] = "G"
-                sheet["A9"] = "H"
-                sheet["B1"] = "1"
-                sheet["C1"] = "2"
-                sheet["D1"] = "3"
-                sheet["E1"] = "4"
-                sheet["F1"] = "5"
-                sheet["G1"] = "6"
-                for i in range(0,48):
-                    if(i<6):
-                        pos = str(chr(65+i+1)) + "2"
-                    if(i>=6 and i<12):
-                        pos = str(chr(65+i-5)) + "3"
-                    if(i>=12 and i<18):
-                        pos = str(chr(65+i-11)) + "4"
-                    if(i>=18 and i<24):
-                        pos = str(chr(65+i-17)) + "5"
-                    if(i>=24 and i<30):
-                        pos = str(chr(65+i-23)) + "6"
-                    if(i>=30 and i<36):
-                        pos = str(chr(65+i-29)) + "7"
-                    if(i>=36 and i<42):
-                        pos = str(chr(65+i-35)) + "8"
-                    if(i>=42):
-                        pos = str(chr(65+i-41)) + "9"
-
-                    sheet[pos] = test_list[i]
-
-                workbook.save('/home/pi/Spotcheck/Kiem tra do sang/do-sang.xlsx')
-                print(test_list)
-
-                scanposition_progressbar['value'] = 50
-                root.update_idletasks()
-                sleep(1)
-                scanposition_progressbar['value'] = 70
-                root.update_idletasks()
-                sleep(1)
-                scanposition_progressbar['value'] = 99
-                root.update_idletasks()
-
-                process_label.place_forget()
-                scanposition_progressbar.place_forget()
-                start_button.place(x=233,y=250)
-                wait = 0
-                break
-
-            if((test_list[20]>21.8 or test_list[20]< 17.8) or
-               (test_list[21]>21.8 or test_list[21]< 17.8) or
-               (test_list[26]>21.8 or test_list[26]< 17.8) or
-               (test_list[26]>21.8 or test_list[26]< 17.8)):
-                msgbox = messagebox.showerror(" ","Hệ thống lỗi, vui lòng liên hệ với nhà cung cấp !")
-                if(msgbox=='OK'):
-                    while(1):
-                        msgbox = messagebox.showerror(" "," ")
-
+        var = IntVar()
+        if(thirdline=='8' or thirdline=='8.5'):
+            kit1_button = Button(configmc_labelframe, bg="lawn green", text="Phù Sa", borderwidth=0, height=6, width=8, command=kit1_click)
+            kit1_button.place(x=140,y=100)
+            kit2_button = Button(configmc_labelframe, bg="grey88", text="Khác", borderwidth=0, height=6, width=8, command=kit2_click)
+            kit2_button.place(x=140,y=258)        
+            radio1 = Radiobutton(configmc_labelframe, bg='dodger blue', width=10, font=('Courier',15), borderwidth=0, text="Ngưỡng 1", variable =var, value=1)
+            radio1.place(x=300,y=113)
+            radio2 = Radiobutton(configmc_labelframe, bg='dodger blue', width=10, font=('Courier',15), borderwidth=0, text="Ngưỡng 2", variable =var, value=2)
+            radio2.place(x=300,y=170)
+            radio3 = Radiobutton(configmc_labelframe, bg='dodger blue', width=10, font=('Courier',15), borderwidth=0,text="Ngưỡng 1", variable =var, value=3, state='disabled')
+            radio3.place(x=300,y=271)
+            radio4 = Radiobutton(configmc_labelframe, bg='dodger blue', width=10, font=('Courier',15), borderwidth=0,text="Ngưỡng 2", variable =var, value=4, state='disabled')
+            radio4.place(x=300,y=328)
+            
+            if(thirdline=='8'):
+                radio1.select()
             else:
-                msgbox = messagebox.showinfo(" ","Hệ thống ổn định !")
-                global calib_ok
-                calib_ok = 1
-                home_button['state']='normal'
-                setid_button['state']='normal'
-                covid19_button['state']='normal'
-                viewresult_button['state']='normal'
-                power_button['state']='normal'
-                mainscreen()
+                radio2.select()
 
-        start_button = Button(calibmc_labelframe, bg="Lavender", text="Bắt đầu", font=('Courier',12,'bold'), borderwidth=0, height=3, width=12, command=start_click)
-        start_button.place(x=233,y=250)
+
+        else:
+            kit1_button = Button(configmc_labelframe, bg="grey88", text="Phù Sa", borderwidth=0, height=6, width=8, command=kit1_click)
+            kit1_button.place(x=140,y=100)
+            kit2_button = Button(configmc_labelframe, bg="lawn green", text="Khác", borderwidth=0, height=6, width=8, command=kit2_click)
+            kit2_button.place(x=140,y=258)
+            radio1 = Radiobutton(configmc_labelframe, bg='dodger blue', width=10, font=('Courier',15), borderwidth=0, text="Ngưỡng 1", variable =var, value=1, state='disabled')
+            radio1.place(x=300,y=113)
+            radio2 = Radiobutton(configmc_labelframe, bg='dodger blue', width=10, font=('Courier',15), borderwidth=0, text="Ngưỡng 2", variable =var, value=2, state='disabled')
+            radio2.place(x=300,y=170)
+            radio3 = Radiobutton(configmc_labelframe, bg='dodger blue', width=10, font=('Courier',15), borderwidth=0,text="Ngưỡng 1", variable =var, value=3)
+            radio3.place(x=300,y=271)
+            radio4 = Radiobutton(configmc_labelframe, bg='dodger blue', width=10, font=('Courier',15), borderwidth=0,text="Ngưỡng 2", variable =var, value=4)
+            radio4.place(x=300,y=328)
+
+            if(thirdline=='9'):
+                radio3.select()
+            else:
+                radio4.select()
+
+        def save_click():
+            msg = messagebox.askquestion("Lưu ", "Bạn có muốn lưu lựa chọn ?")
+            if(msg=='yes'):
+                radio_select = var.get()
+                if(var==1):
+                    tc= open("/home/pi/Spotcheck/ct.txt","w")
+                    tc.trncate(0)
+                    tc.writelines("8"+"\n")
+                    tc.writelines("8"+"\n")
+                    tc.writelines("8"+"\n")
+                    tc.writelines("8.5"+"\n")
+                if(var==2):
+                    tc= open("/home/pi/Spotcheck/ct.txt","w")
+                    tc.trncate(0)
+                    tc.writelines("8.5"+"\n")
+                    tc.writelines("8.5"+"\n")
+                    tc.writelines("8.5"+"\n")
+                    tc.writelines("9"+"\n")
+                if(var==3):
+                    tc= open("/home/pi/Spotcheck/ct.txt","w")
+                    tc.trncate(0)
+                    tc.writelines("9"+"\n")
+                    tc.writelines("9"+"\n")
+                    tc.writelines("9"+"\n")
+                    tc.writelines("9.5"+"\n")
+                if(var==4):
+                    tc= open("/home/pi/Spotcheck/ct.txt","w")
+                    tc.trncate(0)
+                    tc.writelines("9.5"+"\n")
+                    tc.writelines("9.5"+"\n")
+                    tc.writelines("9.5"+"\n")
+                    tc.writelines("10"+"\n")            
+
+                messagebox.showinfo("", "Đã lưu xong !")
+
+
+        save_button = Button(configmc_labelframe, bg="yellow", text="Lưu", borderwidth=0, height=6, width=8, command=save_click)
+        save_button.place(x=160,y=470)
+        
 
     home_button = Button(mainscreen_labelframe, bg="dodger blue", activebackground="dodger blue", text="TRANG CHỦ ", fg='white', font=buttonFont, borderwidth=0, height=4, width=20,command=home_click)
     home_button.place(x=1,y=1)
@@ -1052,26 +1039,14 @@ def mainscreen():
     viewresult_button.place(x=1,y=241)
     viewresult_canvas = Canvas(mainscreen_labelframe, bg="dodger blue", bd=0, highlightthickness=0, height=72, width=13)
     viewresult_canvas.place(x=1,y=243)
-    calibration_button = Button(mainscreen_labelframe, bg="dodger blue", activebackground="dodger blue", text="...", fg='white', font=buttonFont, borderwidth=0, height=4, width=20, command=calibration_click, state='disabled')
-    calibration_button.place(x=1,y=321)
-    calibration_canvas = Canvas(mainscreen_labelframe, bg="dodger blue", bd=0, highlightthickness=0, height=72, width=13)
-    calibration_canvas.place(x=1,y=323)
+    config_button = Button(mainscreen_labelframe, bg="dodger blue", activebackground="dodger blue", text="CẤU HÌNH", fg='white', font=buttonFont, borderwidth=0, height=4, width=20, command=config_click)
+    config_button.place(x=1,y=321)
+    config_canvas = Canvas(mainscreen_labelframe, bg="dodger blue", bd=0, highlightthickness=0, height=72, width=13)
+    config_canvas.place(x=1,y=323)
     power_button = Button(mainscreen_labelframe, bg="dodger blue", activebackground="dodger blue", text="THOÁT", fg='white', font=buttonFont, borderwidth=0, height=4, width=20, command=power_click)
     power_button.place(x=1,y=401)
     power_canvas = Canvas(mainscreen_labelframe, bg="dodger blue", bd=0, highlightthickness=0, height=72, width=13)
     power_canvas.place(x=1,y=403)
-
-#     global calib_ok
-#     if(calib_ok==1):
-#         home_button['state']='normal'
-#         setid_button['state']='normal'
-#         covid19_button['state']='normal'
-#         viewresult_button['state']='normal'
-#     else:
-#         home_button['state']='disabled'
-#         setid_button['state']='disabled'
-#         covid19_button['state']='disabled'
-#         viewresult_button['state']='disabled'
 
     global covid19clicked
     if(covid19clicked==1):
