@@ -117,7 +117,7 @@ start_trial = int(fr2.readline())
 print("start_trial: ", start_trial)
 ########################################################### GLOBAL VARIABLE - END ##################################################################
 
-################################################################# TRIAL _ START #################################################################### 
+################################################################# TRIAL _ START ####################################################################
 def trial():
     old_day = int(fr2.readline())
     old_month = int(fr2.readline())
@@ -316,7 +316,7 @@ def process_image(image_name, start_point=(x1,y1), end_point=(x2,y2)):
     list_intensities = []
     sum_intensities = []
     result_list = list(range(48))
-    area = list(range(48))  
+    area = list(range(48))
 
 #Gray
 #     tmp_list = list(range(48))
@@ -920,7 +920,10 @@ def mainscreen():
 
         configmc_labelframe = LabelFrame(mainscreen_labelframe, bg='white', width=624, height=478)
         configmc_labelframe.place(x=172,y=0)
-
+        
+        config1_lableframe = LabelFrame(configmc_labelframe, bg='white', text="Loại kit ly trích", width=402, height=120)
+        config1_lableframe.place(x=107,y=130)
+        
         fr4 = open("/home/pi/Spotcheck/ct.txt","r")
         firstline = (fr4.readline()).strip()
         secondline = (fr4.readline()).strip()
@@ -930,98 +933,87 @@ def mainscreen():
         def kit1_click():
             kit1_button['bg'] = 'lawn green'
             kit2_button['bg'] = 'grey88'
-            radio1['state'] = 'normal'
-            radio2['state'] = 'normal'
-            radio3['state'] = 'disabled'
-            radio4['state'] = 'disabled'
+            kit1_button['fg'] = 'black'
+            kit2_button['fg'] = 'grey70'
+#             if(thirdline=='8'):
+#                 radio1.select()
+#             if(thirdline=='8.5'):
+#                 radio2.select()
 
         def kit2_click():
             kit1_button['bg'] = 'grey88'
             kit2_button['bg'] = 'lawn green'
-            radio1['state'] = 'disabled'
-            radio2['state'] = 'disabled'
-            radio3['state'] = 'normal'
-            radio4['state'] = 'normal' 
-
+            kit1_button['fg'] = 'grey70'
+            kit2_button['fg'] = 'black'
+#             if(thirdline=='9'):
+#                 radio1.select()
+#             if(thirdline=='9.5'):
+#                 radio2.select()
+        
         var = IntVar()
+        radio1 = Radiobutton(configmc_labelframe, bg='white', width=10, font=('Courier',15), borderwidth=0, text="CT ≤ 30", variable=var, value=1)
+        radio1.place(x=227,y=250)
+        radio2 = Radiobutton(configmc_labelframe, bg='white', width=10, font=('Courier',15), borderwidth=0, text="CT > 30", variable=var, value=2)
+        radio2.place(x=227,y=277)
+        
         if(thirdline=='8' or thirdline=='8.5'):
-            kit1_button = Button(configmc_labelframe, bg="lawn green", text="Phù Sa", borderwidth=0, height=6, width=8, command=kit1_click)
-            kit1_button.place(x=140,y=100)
-            kit2_button = Button(configmc_labelframe, bg="grey88", text="Khác", borderwidth=0, height=6, width=8, command=kit2_click)
-            kit2_button.place(x=140,y=258)        
-            radio1 = Radiobutton(configmc_labelframe, bg='dodger blue', width=10, font=('Courier',15), borderwidth=0, text="Ngưỡng 1", variable =var, value=1)
-            radio1.place(x=300,y=113)
-            radio2 = Radiobutton(configmc_labelframe, bg='dodger blue', width=10, font=('Courier',15), borderwidth=0, text="Ngưỡng 2", variable =var, value=2)
-            radio2.place(x=300,y=170)
-            radio3 = Radiobutton(configmc_labelframe, bg='dodger blue', width=10, font=('Courier',15), borderwidth=0,text="Ngưỡng 1", variable =var, value=3, state='disabled')
-            radio3.place(x=300,y=271)
-            radio4 = Radiobutton(configmc_labelframe, bg='dodger blue', width=10, font=('Courier',15), borderwidth=0,text="Ngưỡng 2", variable =var, value=4, state='disabled')
-            radio4.place(x=300,y=328)
-            
+            kit1_button = Button(config1_lableframe, bg="lawn green", text="Kit ly trích Phù Sa", font=("Helvetica",12, 'bold'), borderwidth=0, height=4, width=17, command=kit1_click)
+            kit1_button.place(x=8,y=2)
+            kit2_button = Button(config1_lableframe, bg="grey88", fg='grey70', text="Kit ly trích khác", font=("Helvetica",12,'bold'), borderwidth=0, height=4, width=17, command=kit2_click)
+            kit2_button.place(x=210,y=2)
             if(thirdline=='8'):
                 radio1.select()
             else:
                 radio2.select()
 
-
         else:
-            kit1_button = Button(configmc_labelframe, bg="grey88", text="Phù Sa", borderwidth=0, height=6, width=8, command=kit1_click)
-            kit1_button.place(x=140,y=100)
-            kit2_button = Button(configmc_labelframe, bg="lawn green", text="Khác", borderwidth=0, height=6, width=8, command=kit2_click)
-            kit2_button.place(x=140,y=258)
-            radio1 = Radiobutton(configmc_labelframe, bg='dodger blue', width=10, font=('Courier',15), borderwidth=0, text="Ngưỡng 1", variable =var, value=1, state='disabled')
-            radio1.place(x=300,y=113)
-            radio2 = Radiobutton(configmc_labelframe, bg='dodger blue', width=10, font=('Courier',15), borderwidth=0, text="Ngưỡng 2", variable =var, value=2, state='disabled')
-            radio2.place(x=300,y=170)
-            radio3 = Radiobutton(configmc_labelframe, bg='dodger blue', width=10, font=('Courier',15), borderwidth=0,text="Ngưỡng 1", variable =var, value=3)
-            radio3.place(x=300,y=271)
-            radio4 = Radiobutton(configmc_labelframe, bg='dodger blue', width=10, font=('Courier',15), borderwidth=0,text="Ngưỡng 2", variable =var, value=4)
-            radio4.place(x=300,y=328)
-
+            kit1_button = Button(config1_lableframe, bg="grey88", fg='grey70', text="Kit ly trích Phù Sa", font=("Helvetica",12, 'bold'), borderwidth=0, height=4, width=17, command=kit1_click)
+            kit1_button.place(x=8,y=2)
+            kit2_button = Button(config1_lableframe, bg="lawn green", text="Kit ly trích khác", font=("Helvetica",12,'bold'), borderwidth=0, height=4, width=17, command=kit2_click)
+            kit2_button.place(x=210,y=2)
             if(thirdline=='9'):
-                radio3.select()
+                radio1.select()
             else:
-                radio4.select()
+                radio2.select()
 
         def save_click():
             msg = messagebox.askquestion("Lưu ", "Bạn có muốn lưu lựa chọn ?")
             if(msg=='yes'):
                 radio_select = var.get()
-                if(var==1):
+                if(radio_select==1 and kit1_button['bg']=='lawn green'):
                     tc= open("/home/pi/Spotcheck/ct.txt","w")
-                    tc.trncate(0)
+                    tc.truncate(0)
                     tc.writelines("8"+"\n")
                     tc.writelines("8"+"\n")
                     tc.writelines("8"+"\n")
                     tc.writelines("8.5"+"\n")
-                if(var==2):
+                if(radio_select==2 and kit1_button['bg']=='lawn green'):
                     tc= open("/home/pi/Spotcheck/ct.txt","w")
-                    tc.trncate(0)
+                    tc.truncate(0)
                     tc.writelines("8.5"+"\n")
                     tc.writelines("8.5"+"\n")
                     tc.writelines("8.5"+"\n")
                     tc.writelines("9"+"\n")
-                if(var==3):
+                if(radio_select==1 and kit2_button['bg']=='lawn green'):
                     tc= open("/home/pi/Spotcheck/ct.txt","w")
-                    tc.trncate(0)
+                    tc.truncate(0)
                     tc.writelines("9"+"\n")
                     tc.writelines("9"+"\n")
                     tc.writelines("9"+"\n")
                     tc.writelines("9.5"+"\n")
-                if(var==4):
+                if(radio_select==2 and kit2_button['bg']=='lawn green'):
                     tc= open("/home/pi/Spotcheck/ct.txt","w")
-                    tc.trncate(0)
+                    tc.truncate(0)
                     tc.writelines("9.5"+"\n")
                     tc.writelines("9.5"+"\n")
                     tc.writelines("9.5"+"\n")
-                    tc.writelines("10"+"\n")            
+                    tc.writelines("10"+"\n")
 
                 messagebox.showinfo("", "Đã lưu xong !")
 
 
-        save_button = Button(configmc_labelframe, bg="yellow", text="Lưu", borderwidth=0, height=6, width=8, command=save_click)
-        save_button.place(x=160,y=470)
-        
+        save_button = Button(configmc_labelframe, bg="yellow", text="Lưu", borderwidth=0, height=3, width=10, command=save_click)
+        save_button.place(x=252,y=390)
 
     home_button = Button(mainscreen_labelframe, bg="dodger blue", activebackground="dodger blue", text="TRANG CHỦ ", fg='white', font=buttonFont, borderwidth=0, height=4, width=20,command=home_click)
     home_button.place(x=1,y=1)
@@ -1157,7 +1149,7 @@ def setid():
                 idpos_button[n]['text'] = '#'+str(n)
                 msgbox = messagebox.showwarning(" ","Bạn chưa nhập ID !")
             else:
-                idpos_button[n]['text'] = id_entry.get()    
+                idpos_button[n]['text'] = id_entry.get()
                 idpos_button[n]['bg'] = 'lawn green'
                 try:
                     if(n==46):
@@ -2272,7 +2264,7 @@ def analysis():
                 sheet.cell(row=64,column=4).alignment = Alignment(horizontal='center',vertical='center',wrapText=True)
                 sheet.cell(row=65,column=4).alignment = Alignment(horizontal='center',vertical='center',wrapText=True)
 
-                for r in range(11,60):  
+                for r in range(11,60):
                     for c in range(2,7):
                         sheet.cell(row=r,column=c).alignment = Alignment(horizontal='center',vertical='center',wrapText=True)
                         sheet.cell(row=r,column=c).border = thin_border
