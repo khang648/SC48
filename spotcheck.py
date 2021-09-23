@@ -1856,7 +1856,7 @@ def analysis():
     t1_labelframe = LabelFrame(t_labelframe, bg='white',text="T1", font=("Courier",13,'bold'), width=197, height=290)
     t1_labelframe.place(x=0,y=2)
     #t2_labelframe = LabelFrame(t_labelframe, bg='white',text="T2"+t2_set+chr(176)+'C' , font=("Courier",13,'bold'), width=197, height=290)
-    t2_lbelframe = LabelFrame(t_labelframe, bg='white',text="T2", font=("Courier",13,'bold'), width=197, height=290)
+    t2_labelframe = LabelFrame(t_labelframe, bg='white',text="T2", font=("Courier",13,'bold'), width=197, height=290)
     t2_labelframe.place(x=199,y=2)
     #t3_labelframe = LabelFrame(t_labelframe, bg='white',text="T3"+t3_set+chr(176)+'C' , font=("Courier",13,'bold'), width=197, height=290)
     t3_labelframe = LabelFrame(t_labelframe, bg='white',text="T3", font=("Courier",13,'bold'), width=197, height=290)
