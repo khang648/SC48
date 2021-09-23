@@ -1843,7 +1843,7 @@ def analysis():
     ser.flushOutput()
 
     global analysis_labelframe
-    analysis_labelframe = LabelFrame(root, bg='white', width=800, height=600)
+    analysis_labelframe = LabelFrame(root, bg='white', width=800, height=600)  
     analysis_labelframe.place(x=0,y=0)
     title_labelframe = LabelFrame(analysis_labelframe, bg='dodger blue', width=798, height=50)
     title_labelframe.place(x=0,y=0)
@@ -1859,7 +1859,7 @@ def analysis():
     t2_lbelframe = LabelFrame(t_labelframe, bg='white',text="T2", font=("Courier",13,'bold'), width=197, height=290)
     t2_labelframe.place(x=199,y=2)
     #t3_labelframe = LabelFrame(t_labelframe, bg='white',text="T3"+t3_set+chr(176)+'C' , font=("Courier",13,'bold'), width=197, height=290)
-    t3_labelframe = LabelFrame(t_labelframe, bg='white',text="T3"+t3_set+chr(176)+'C' , font=("Courier",13,'bold'), width=197, height=290)
+    t3_labelframe = LabelFrame(t_labelframe, bg='white',text="T3", font=("Courier",13,'bold'), width=197, height=290)
     t3_labelframe.place(x=398,y=2)
     t4_labelframe = LabelFrame(t_labelframe, bg='white smoke',text="T4", width=197, height=290)
     t4_labelframe.place(x=597,y=2)
