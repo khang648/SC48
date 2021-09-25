@@ -66,7 +66,7 @@ rsfile='/'
 idfile='/'
 test_list = list(range(48))
 warning_value = 0
-password = '123456789'
+password = 'SC4875444'
 thr1_set = 1
 thr2_set = 1
 thr3l_set = 1
@@ -88,7 +88,7 @@ server_on = int(fr1.readline())
 ftp_ip = '171.244.143.190'
 ftp_user = 'sc48'
 ftp_password = 'sc@12345'
-ftp_folder = '/Can Tho/Binh Thuy/'
+ftp_folder = '/Ha Noi/'
 
 hs = list(range(48))
 workbook = openpyxl.load_workbook('/home/pi/Spotcheck/coefficient.xlsx')
@@ -920,10 +920,10 @@ def mainscreen():
 
         configmc_labelframe = LabelFrame(mainscreen_labelframe, bg='white', width=624, height=478)
         configmc_labelframe.place(x=172,y=0)
-        
+
         config1_lableframe = LabelFrame(configmc_labelframe, bg='white', text="Loại kit ly trích", width=402, height=120)
         config1_lableframe.place(x=107,y=130)
-        
+
         fr4 = open("/home/pi/Spotcheck/ct.txt","r")
         firstline = (fr4.readline()).strip()
         secondline = (fr4.readline()).strip()
@@ -949,19 +949,19 @@ def mainscreen():
 #                 radio1.select()
 #             if(thirdline=='9.5'):
 #                 radio2.select()
-        
+
         var = IntVar()
-        radio1 = Radiobutton(configmc_labelframe, bg='white', width=10, font=('Courier',15), borderwidth=0, text="CT ≤ 30", variable=var, value=1)
+        radio1 = Radiobutton(configmc_labelframe, bg='white', width=10, font=('Courier',15), borderwidth=0, text="Ct ≤ 30", variable=var, value=1)
         radio1.place(x=227,y=250)
-        radio2 = Radiobutton(configmc_labelframe, bg='white', width=10, font=('Courier',15), borderwidth=0, text="CT > 30", variable=var, value=2)
+        radio2 = Radiobutton(configmc_labelframe, bg='white', width=10, font=('Courier',15), borderwidth=0, text="Ct > 30", variable=var, value=2)
         radio2.place(x=227,y=277)
-        
-        if(thirdline=='8' or thirdline=='8.5'):
+
+        if(thirdline=='7.5' or thirdline=='7.3'):
             kit1_button = Button(config1_lableframe, bg="lawn green", text="Kit ly trích Phù Sa", font=("Helvetica",12, 'bold'), borderwidth=0, height=4, width=17, command=kit1_click)
             kit1_button.place(x=8,y=2)
             kit2_button = Button(config1_lableframe, bg="grey88", fg='grey70', text="Kit ly trích khác", font=("Helvetica",12,'bold'), borderwidth=0, height=4, width=17, command=kit2_click)
             kit2_button.place(x=210,y=2)
-            if(thirdline=='8'):
+            if(thirdline=='7.5'):
                 radio1.select()
             else:
                 radio2.select()
@@ -971,7 +971,7 @@ def mainscreen():
             kit1_button.place(x=8,y=2)
             kit2_button = Button(config1_lableframe, bg="lawn green", text="Kit ly trích khác", font=("Helvetica",12,'bold'), borderwidth=0, height=4, width=17, command=kit2_click)
             kit2_button.place(x=210,y=2)
-            if(thirdline=='9'):
+            if(thirdline=='7.8'):
                 radio1.select()
             else:
                 radio2.select()
@@ -983,31 +983,31 @@ def mainscreen():
                 if(radio_select==1 and kit1_button['bg']=='lawn green'):
                     tc= open("/home/pi/Spotcheck/ct.txt","w")
                     tc.truncate(0)
-                    tc.writelines("8"+"\n")
-                    tc.writelines("8"+"\n")
-                    tc.writelines("8"+"\n")
-                    tc.writelines("8.5"+"\n")
+                    tc.writelines("7.5"+"\n")
+                    tc.writelines("7.5"+"\n")
+                    tc.writelines("7.5"+"\n")
+                    tc.writelines("7.8"+"\n")
                 if(radio_select==2 and kit1_button['bg']=='lawn green'):
                     tc= open("/home/pi/Spotcheck/ct.txt","w")
                     tc.truncate(0)
-                    tc.writelines("8.5"+"\n")
-                    tc.writelines("8.5"+"\n")
-                    tc.writelines("8.5"+"\n")
-                    tc.writelines("9"+"\n")
+                    tc.writelines("7.3"+"\n")
+                    tc.writelines("7.3"+"\n")
+                    tc.writelines("7.3"+"\n")
+                    tc.writelines("7.7"+"\n")
                 if(radio_select==1 and kit2_button['bg']=='lawn green'):
                     tc= open("/home/pi/Spotcheck/ct.txt","w")
                     tc.truncate(0)
-                    tc.writelines("9"+"\n")
-                    tc.writelines("9"+"\n")
-                    tc.writelines("9"+"\n")
-                    tc.writelines("9.5"+"\n")
+                    tc.writelines("7.8"+"\n")
+                    tc.writelines("7.8"+"\n")
+                    tc.writelines("7.8"+"\n")
+                    tc.writelines("8"+"\n")
                 if(radio_select==2 and kit2_button['bg']=='lawn green'):
                     tc= open("/home/pi/Spotcheck/ct.txt","w")
                     tc.truncate(0)
-                    tc.writelines("9.5"+"\n")
-                    tc.writelines("9.5"+"\n")
-                    tc.writelines("9.5"+"\n")
-                    tc.writelines("10"+"\n")
+                    tc.writelines("7.7"+"\n")
+                    tc.writelines("7.7"+"\n")
+                    tc.writelines("7.7"+"\n")
+                    tc.writelines("7.9"+"\n")
 
                 messagebox.showinfo("", "Đã lưu xong !")
 
@@ -1031,7 +1031,7 @@ def mainscreen():
     viewresult_button.place(x=1,y=241)
     viewresult_canvas = Canvas(mainscreen_labelframe, bg="dodger blue", bd=0, highlightthickness=0, height=72, width=13)
     viewresult_canvas.place(x=1,y=243)
-    config_button = Button(mainscreen_labelframe, bg="dodger blue", activebackground="dodger blue", text="CẤU HÌNH", fg='white', font=buttonFont, borderwidth=0, height=4, width=20, command=config_click)
+    config_button = Button(mainscreen_labelframe, bg="dodger blue", activebackground="dodger blue", text="CHỌN\nKIT LY TRÍCH", fg='white', font=buttonFont, borderwidth=0, height=4, width=20, command=config_click)
     config_button.place(x=1,y=321)
     config_canvas = Canvas(mainscreen_labelframe, bg="dodger blue", bd=0, highlightthickness=0, height=72, width=13)
     config_canvas.place(x=1,y=323)
@@ -1644,6 +1644,10 @@ def settemp():
 
 ######################################################### SAMPLES POSITION - START #################################################################
 def scanposition():
+    print(thr1_set)
+    print(thr2_set)
+    print(thr3l_set)
+    print(thr3h_set)
     global path0
     global path1
     global path2
@@ -1843,7 +1847,7 @@ def analysis():
     ser.flushOutput()
 
     global analysis_labelframe
-    analysis_labelframe = LabelFrame(root, bg='white', width=800, height=600)  
+    analysis_labelframe = LabelFrame(root, bg='white', width=800, height=600)
     analysis_labelframe.place(x=0,y=0)
     title_labelframe = LabelFrame(analysis_labelframe, bg='dodger blue', width=798, height=50)
     title_labelframe.place(x=0,y=0)
