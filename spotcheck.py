@@ -1050,6 +1050,8 @@ def mainscreen():
                 folder_entry['state'] = 'normal'
                 ip_entry.delete(0,END)
                 ip_entry.insert(0,ftp_ip)
+                user_entry.insert(0,ftp_user)
+                folder_entry.insert(0,ftp_folder)
 
             def off_click():
                 off_button['bg']='lawn green'
@@ -1069,6 +1071,8 @@ def mainscreen():
                 off_button = Button(configmc2_labelframe, bg="grey88",fg='grey70', text="Tắt", borderwidth=0, height=2, width=7,command=off_click)
                 off_button.place(x=220,y=85)
                 ip_entry.insert(0,ftp_ip)
+                user_entry.insert(0,ftp_user)
+                folder_entry.insert(0,ftp_folder)
 
             else:
                 on_button = Button(configmc2_labelframe, bg="grey88", fg='grey70', text="Bật", borderwidth=0, height=2, width=7, command=on_click)
@@ -1076,6 +1080,9 @@ def mainscreen():
                 off_button = Button(configmc2_labelframe, bg="lawn green", text="Tắt", borderwidth=0, height=2, width=7, command=off_click)
                 off_button.place(x=220,y=85)
                 ip_entry.delete(0,END)
+                user_entry.delete(0,END)
+                password_entry.delete(0,END)
+                folder_entry.delete(0,END)
                 ip_entry['state'] = 'disabled'
                 user_entry['state'] = 'disabled'
                 password_entry['state'] = 'disabled'
