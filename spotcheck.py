@@ -74,16 +74,17 @@ thr3h_set = 1
 
 fr = open("/home/pi/Spotcheck/check.txt","r")
 code = (fr.readline()).strip()
-fr1 = open("/home/pi/Spotcheck/config.txt","r")
+fr1 = open("/home/pi/Spotcheck/coordinates1.txt","r")
 x1 = int(fr1.readline())
 y1 = int(fr1.readline())
 x2 = int(fr1.readline())
 y2 = int(fr1.readline())
-server_on = int(fr1.readline())
-# ftp_ip = fr1.readline().strip('\n')
-# ftp_user = fr1.readline().strip('\n')
-# ftp_password = fr1.readline().strip('\n')
-# ftp_folder = fr1.readline().strip('\n')
+fr2 = open("/home/pi/Spotcheck/.server.txt","r")
+server_on = int(fr2.readline())
+ftp_ip = fr2.readline().strip('\n')
+ftp_user = fr2.readline().strip('\n')
+ftp_password = fr2.readline().strip('\n')
+ftp_folder = fr2.readline().strip('\n')
 
 ftp_ip = '171.244.143.190'
 ftp_user = 'sc48'
@@ -112,8 +113,8 @@ for i in range(0,48):
         pos = str(chr(65+i-41)) + "9"
     hs[i] = float(sheet[pos].value)
 
-fr2 = open("/var/tmp/admin.txt","r")
-start_trial = int(fr2.readline())
+fr3 = open("/var/tmp/.admin.txt","r")
+start_trial = int(fr3.readline())
 print("start_trial: ", start_trial)
 ########################################################### GLOBAL VARIABLE - END ##################################################################
 
@@ -921,99 +922,225 @@ def mainscreen():
         configmc_labelframe = LabelFrame(mainscreen_labelframe, bg='white', width=624, height=478)
         configmc_labelframe.place(x=172,y=0)
 
-        config1_lableframe = LabelFrame(configmc_labelframe, bg='white', text="Loại kit ly trích", width=402, height=120)
-        config1_lableframe.place(x=107,y=130)
+        def ct_click():
+            configmc1_labelframe = LabelFrame(mainscreen_labelframe, bg='white', width=624, height=478)
+            configmc1_labelframe.place(x=172,y=0)
+            config1_lableframe = LabelFrame(configmc1_labelframe, bg='white', text="Loại kit ly trích", width=402, height=120)
+            config1_lableframe.place(x=107,y=130)
+            ct_label = Label(configmc1_labelframe, text='CHỌN KIT LY TRÍCH',font=('bold'), width=61, bg='dodger blue')
+            ct_label.place(x=3,y=1)
 
-        fr4 = open("/home/pi/Spotcheck/ct.txt","r")
-        firstline = (fr4.readline()).strip()
-        secondline = (fr4.readline()).strip()
-        thirdline = (fr4.readline()).strip()
-        fourthline = (fr4.readline()).strip()
+            fr4 = open("/home/pi/Spotcheck/ct.txt","r")
+            firstline = (fr4.readline()).strip()
+            secondline = (fr4.readline()).strip()
+            thirdline = (fr4.readline()).strip()
+            fourthline = (fr4.readline()).strip()
 
-        def kit1_click():
-            kit1_button['bg'] = 'lawn green'
-            kit2_button['bg'] = 'grey88'
-            kit1_button['fg'] = 'black'
-            kit2_button['fg'] = 'grey70'
-#             if(thirdline=='8'):
-#                 radio1.select()
-#             if(thirdline=='8.5'):
-#                 radio2.select()
+            def kit1_click():
+                kit1_button['bg'] = 'lawn green'
+                kit2_button['bg'] = 'grey88'
+                kit1_button['fg'] = 'black'
+                kit2_button['fg'] = 'grey70'
 
-        def kit2_click():
-            kit1_button['bg'] = 'grey88'
-            kit2_button['bg'] = 'lawn green'
-            kit1_button['fg'] = 'grey70'
-            kit2_button['fg'] = 'black'
-#             if(thirdline=='9'):
-#                 radio1.select()
-#             if(thirdline=='9.5'):
-#                 radio2.select()
+            def kit2_click():
+                kit1_button['bg'] = 'grey88'
+                kit2_button['bg'] = 'lawn green'
+                kit1_button['fg'] = 'grey70'
+                kit2_button['fg'] = 'black'
 
-        var = IntVar()
-        radio1 = Radiobutton(configmc_labelframe, bg='white', width=10, font=('Courier',15), borderwidth=0, text="Ct ≤ 30", variable=var, value=1)
-        radio1.place(x=227,y=250)
-        radio2 = Radiobutton(configmc_labelframe, bg='white', width=10, font=('Courier',15), borderwidth=0, text="Ct > 30", variable=var, value=2)
-        radio2.place(x=227,y=277)
+            var = IntVar()
+            radio1 = Radiobutton(configmc1_labelframe, bg='white', width=19, font=('Courier',15), borderwidth=0, text="Ct ≤ 30 (Điều trị)", variable=var, value=1)
+            radio1.place(x=175,y=250)
+            radio2 = Radiobutton(configmc1_labelframe, bg='white', width=19, font=('Courier',15), borderwidth=0, text="Ct > 30 (Tầm soát)", variable=var, value=2)
+            radio2.place(x=175,y=277)
 
-        if(thirdline=='7.5' or thirdline=='7.3'):
-            kit1_button = Button(config1_lableframe, bg="lawn green", text="Kit ly trích Phù Sa", font=("Helvetica",12, 'bold'), borderwidth=0, height=4, width=17, command=kit1_click)
-            kit1_button.place(x=8,y=2)
-            kit2_button = Button(config1_lableframe, bg="grey88", fg='grey70', text="Kit ly trích khác", font=("Helvetica",12,'bold'), borderwidth=0, height=4, width=17, command=kit2_click)
-            kit2_button.place(x=210,y=2)
-            if(thirdline=='7.5'):
-                radio1.select()
+            if(thirdline=='7.5' or thirdline=='7.3'):
+                kit1_button = Button(config1_lableframe, bg="lawn green", text="Kit ly trích Phù Sa", font=("Helvetica",12, 'bold'), borderwidth=0, height=4, width=17, command=kit1_click)
+                kit1_button.place(x=8,y=2)
+                kit2_button = Button(config1_lableframe, bg="grey88", fg='grey70', text="Kit ly trích khác", font=("Helvetica",12,'bold'), borderwidth=0, height=4, width=17, command=kit2_click)
+                kit2_button.place(x=210,y=2)
+                if(thirdline=='7.5'):
+                    radio1.select()
+                else:
+                    radio2.select()
+
             else:
-                radio2.select()
+                kit1_button = Button(config1_lableframe, bg="grey88", fg='grey70', text="Kit ly trích Phù Sa", font=("Helvetica",12, 'bold'), borderwidth=0, height=4, width=17, command=kit1_click)
+                kit1_button.place(x=8,y=2)
+                kit2_button = Button(config1_lableframe, bg="lawn green", text="Kit ly trích khác", font=("Helvetica",12,'bold'), borderwidth=0, height=4, width=17, command=kit2_click)
+                kit2_button.place(x=210,y=2)
+                if(thirdline=='7.8'):
+                    radio1.select()
+                else:
+                    radio2.select()
 
-        else:
-            kit1_button = Button(config1_lableframe, bg="grey88", fg='grey70', text="Kit ly trích Phù Sa", font=("Helvetica",12, 'bold'), borderwidth=0, height=4, width=17, command=kit1_click)
-            kit1_button.place(x=8,y=2)
-            kit2_button = Button(config1_lableframe, bg="lawn green", text="Kit ly trích khác", font=("Helvetica",12,'bold'), borderwidth=0, height=4, width=17, command=kit2_click)
-            kit2_button.place(x=210,y=2)
-            if(thirdline=='7.8'):
-                radio1.select()
+            def save_click():
+                msg = messagebox.askquestion("Lưu ", "Bạn có muốn lưu lựa chọn ?")
+                if(msg=='yes'):
+                    radio_select = var.get()
+                    if(radio_select==1 and kit1_button['bg']=='lawn green'):
+                        tc= open("/home/pi/Spotcheck/ct.txt","w")
+                        tc.truncate(0)
+                        tc.writelines("7.5"+"\n")
+                        tc.writelines("7.5"+"\n")
+                        tc.writelines("7.5"+"\n")
+                        tc.writelines("7.8"+"\n")
+                    if(radio_select==2 and kit1_button['bg']=='lawn green'):
+                        tc= open("/home/pi/Spotcheck/ct.txt","w")
+                        tc.truncate(0)
+                        tc.writelines("7.3"+"\n")
+                        tc.writelines("7.3"+"\n")
+                        tc.writelines("7.3"+"\n")
+                        tc.writelines("7.7"+"\n")
+                    if(radio_select==1 and kit2_button['bg']=='lawn green'):
+                        tc= open("/home/pi/Spotcheck/ct.txt","w")
+                        tc.truncate(0)
+                        tc.writelines("7.8"+"\n")
+                        tc.writelines("7.8"+"\n")
+                        tc.writelines("7.8"+"\n")
+                        tc.writelines("8"+"\n")
+                    if(radio_select==2 and kit2_button['bg']=='lawn green'):
+                        tc= open("/home/pi/Spotcheck/ct.txt","w")
+                        tc.truncate(0)
+                        tc.writelines("7.7"+"\n")
+                        tc.writelines("7.7"+"\n")
+                        tc.writelines("7.7"+"\n")
+                        tc.writelines("7.9"+"\n")
+
+                    messagebox.showinfo("", "Đã lưu xong !")
+
+            def back_click():
+                config_click()
+            save_button = Button(configmc1_labelframe, bg="yellow", text="Lưu", borderwidth=0, height=3, width=10, command=save_click)
+            save_button.place(x=318,y=390)
+            back_button = Button(configmc1_labelframe, bg="grey88", text="Trở lại", borderwidth=0, height=3, width=10, command=back_click)
+            back_button.place(x=188,y=390)
+
+        def server_click():
+            global server_on, ftp_ip , ftp_user, ftp_password, ftp_folder
+
+            configmc2_labelframe = LabelFrame(mainscreen_labelframe, bg='white', width=624, height=478)
+            configmc2_labelframe.place(x=172,y=0)
+
+            server_label = Label(configmc2_labelframe, text='FTP SERVER',font=('bold'), width=61, bg='dodger blue')
+            server_label.place(x=3,y=1)
+
+            ip_label = Label(configmc2_labelframe, bg='white', text='IP', font=('Courier',13,'bold'))
+            ip_label.place(x=80,y=155)
+            user_label = Label(configmc2_labelframe, bg='white', text='User', font=('Courier',13,'bold'))
+            user_label.place(x=80,y=205)
+            password_label = Label(configmc2_labelframe, bg='white', text='Password', font=('Courier',13,'bold'))
+            password_label.place(x=80,y=255)
+            folder_label = Label(configmc2_labelframe, bg='white', text='Folder', font=('Courier',13,'bold'))
+            folder_label.place(x=80,y=305)
+
+            ip_entry = Entry(configmc2_labelframe,width=28, font=('Courier',14))
+            ip_entry.place(x=210,y=155)
+            user_entry = Entry(configmc2_labelframe,width=28, font=('Courier',14))
+            user_entry.place(x=210,y=205)
+            password_entry = Entry(configmc2_labelframe,width=28, font=('Courier',14))
+            password_entry.place(x=210,y=255)
+            folder_entry = Entry(configmc2_labelframe,width=28, font=('Courier',14))
+            folder_entry.place(x=210,y=305)
+
+
+            def on_click():
+                on_button['bg']='lawn green'
+                on_button['fg'] = 'black'
+                off_button['bg']='grey88'
+                off_button['fg'] = 'grey70'
+                ip_entry['state'] = 'normal'
+                user_entry['state'] = 'normal'
+                password_entry['state'] = 'normal'
+                folder_entry['state'] = 'normal'
+                ip_entry.insert(0,ftp_ip)
+
+            def off_click():
+                off_button['bg']='lawn green'
+                off_utton['fg'] = 'black'
+                on_button['bg']='grey88'
+                on_button['fg'] = 'grey70'
+                ip_entry['state'] = 'disabled'
+                user_entry['state'] = 'disabled'
+                password_entry['state'] = 'disabled'
+                folder_entry['state'] = 'disabled'
+                ip_entry.delete(0,END)
+
+            if(server_on==1):
+                on_button = Button(configmc2_labelframe, bg="lawn green", text="Bật", borderwidth=0, height=2, width=7,command=on_click)
+                on_button.place(x=302,y=85)
+                off_button = Button(configmc2_labelframe, bg="grey88",fg='grey70', text="Tắt", borderwidth=0, height=2, width=7,command=off_click)
+                off_button.place(x=220,y=85)
+                ip_entry.insert(0,ftp_ip)
+
             else:
-                radio2.select()
-
-        def save_click():
-            msg = messagebox.askquestion("Lưu ", "Bạn có muốn lưu lựa chọn ?")
-            if(msg=='yes'):
-                radio_select = var.get()
-                if(radio_select==1 and kit1_button['bg']=='lawn green'):
-                    tc= open("/home/pi/Spotcheck/ct.txt","w")
-                    tc.truncate(0)
-                    tc.writelines("7.5"+"\n")
-                    tc.writelines("7.5"+"\n")
-                    tc.writelines("7.5"+"\n")
-                    tc.writelines("7.8"+"\n")
-                if(radio_select==2 and kit1_button['bg']=='lawn green'):
-                    tc= open("/home/pi/Spotcheck/ct.txt","w")
-                    tc.truncate(0)
-                    tc.writelines("7.3"+"\n")
-                    tc.writelines("7.3"+"\n")
-                    tc.writelines("7.3"+"\n")
-                    tc.writelines("7.7"+"\n")
-                if(radio_select==1 and kit2_button['bg']=='lawn green'):
-                    tc= open("/home/pi/Spotcheck/ct.txt","w")
-                    tc.truncate(0)
-                    tc.writelines("7.8"+"\n")
-                    tc.writelines("7.8"+"\n")
-                    tc.writelines("7.8"+"\n")
-                    tc.writelines("8"+"\n")
-                if(radio_select==2 and kit2_button['bg']=='lawn green'):
-                    tc= open("/home/pi/Spotcheck/ct.txt","w")
-                    tc.truncate(0)
-                    tc.writelines("7.7"+"\n")
-                    tc.writelines("7.7"+"\n")
-                    tc.writelines("7.7"+"\n")
-                    tc.writelines("7.9"+"\n")
-
-                messagebox.showinfo("", "Đã lưu xong !")
+                on_button = Button(configmc2_labelframe, bg="grey88", fg='grey70', text="Bật", borderwidth=0, height=2, width=7, command=on_click)
+                on_button.place(x=302,y=85)
+                off_button = Button(configmc2_labelframe, bg="lawn green", text="Tắt", borderwidth=0, height=2, width=7, command=off_click)
+                off_button.place(x=220,y=85)
+                ip_entry.delete(0,END)
+                ip_entry['state'] = 'disabled'
+                user_entry['state'] = 'disabled'
+                password_entry['state'] = 'disabled'
+                folder_entry['state'] = 'disabled'
 
 
-        save_button = Button(configmc_labelframe, bg="yellow", text="Lưu", borderwidth=0, height=3, width=10, command=save_click)
-        save_button.place(x=252,y=390)
+            def save_click():
+                msg = messagebox.askquestion("Lưu ", "Bạn có muốn lưu cài đặt ?")
+                if(msg=='yes'):
+                    if(on_button['bg']=='lawn green'):
+                        ip_set = ip_entry.get()
+                        user_set = user_entry.get()
+                        password_set = password_entry.get()
+                        folder_set = folder_entry.get()
+                        if(ip_set==''):
+                            messagebox.showwarning("","Bạn chưa nhập IP !")
+                        elif(user_set==''):
+                            messagebox.showwarning("","Bạn chưa nhập Tên đăng nhập !")
+                        elif(ip_set==''):
+                            messagebox.showwarning("","Bạn chưa nhập Mật khẩu !")
+                        elif(folder_set==''):
+                            messagebox.showwarning("","Bạn chưa nhập Đường dẫn thư mục !")
+                        else:
+                            ftp = FTP(ftp_ip, ftp_user, ftp_password)
+                            ftp.cwd(ftp_folder)
+                            ftp.quit()
+                            tc= open("/home/pi/Spotcheck/.server.txt","w")
+                            tc.writelines('1\n')
+                            tc.writelines(ip_set+"\n")
+                            tc.writelines(user_set+"\n")
+                            tc.writelines(password_set+"\n")
+                            tc.writelines(folder_set+"\n")
+                            server_on = 1
+                            ftp_ip = ip_set
+                            ftp_user = user_set
+                            ftp_password = password_set
+                            ftp_folder = folder_set
+
+                        except Exception as e :
+                            error = messagebox.showwarning("Không thể kết nối đến Server !",str(e))
+                            if(error=='ok'):
+                                pass
+                    else:
+                        tc= open("/home/pi/Spotcheck/.server.txt","w")
+                        tc.writelines('0\n')
+                        tc.writelines(ftp_ip+"\n")
+                        tc.writelines(ftp_user+"\n")
+                        tc.writelines(ftp_password+"\n")
+                        tc.writelines(ftp_folder+"\n")
+                        server_on = 0
+
+            def back_click():
+                config_click()
+            save_button = Button(configmc2_labelframe, bg="yellow", text="Lưu", borderwidth=0, height=3, width=10, command=save_click)
+            save_button.place(x=318,y=390)
+            back_button = Button(configmc2_labelframe, bg="grey88", text="Trở lại", borderwidth=0, height=3, width=10, command=back_click)
+            back_button.place(x=188,y=390)
+
+        ct_button = Button(configmc_labelframe, bg="grey88", text="Chọn kit ly trích", borderwidth=0, height=4, width=15, command=ct_click)
+        ct_button.place(x=230,y=150)
+        server_button = Button(configmc_labelframe, bg="grey85", text="Server", borderwidth=0, height=4, width=15, command=server_click)
+        server_button.place(x=230,y=240)
 
     home_button = Button(mainscreen_labelframe, bg="dodger blue", activebackground="dodger blue", text="TRANG CHỦ ", fg='white', font=buttonFont, borderwidth=0, height=4, width=20,command=home_click)
     home_button.place(x=1,y=1)
@@ -1031,7 +1158,7 @@ def mainscreen():
     viewresult_button.place(x=1,y=241)
     viewresult_canvas = Canvas(mainscreen_labelframe, bg="dodger blue", bd=0, highlightthickness=0, height=72, width=13)
     viewresult_canvas.place(x=1,y=243)
-    config_button = Button(mainscreen_labelframe, bg="dodger blue", activebackground="dodger blue", text="CHỌN\nKIT LY TRÍCH", fg='white', font=buttonFont, borderwidth=0, height=4, width=20, command=config_click)
+    config_button = Button(mainscreen_labelframe, bg="dodger blue", activebackground="dodger blue", text="CẤU HÌNH", fg='white', font=buttonFont, borderwidth=0, height=4, width=20, command=config_click)
     config_button.place(x=1,y=321)
     config_canvas = Canvas(mainscreen_labelframe, bg="dodger blue", bd=0, highlightthickness=0, height=72, width=13)
     config_canvas.place(x=1,y=323)
@@ -1152,7 +1279,7 @@ def setid():
                 idpos_button[n]['text'] = id_entry.get()
                 idpos_button[n]['bg'] = 'lawn green'
                 try:
-                    if(n==46):
+                    if(n==47):
                         idpos_click(1)
                     else:
                         idpos_click(n+1)
@@ -1201,10 +1328,10 @@ def setid():
             idpos_button[i]['state']='disabled'
             idpos_button[i]['bg']= 'red'
             idpos_button[i]['text']= 'P'
-        if(i==47):
-            idpos_button[i]['state']='disabled'
-            idpos_button[i]['bg']= 'green'
-            idpos_button[i]['text']= 'N'
+        #if(i==47):
+        #    idpos_button[i]['state']='disabled'
+        #    idpos_button[i]['bg']= 'green'
+        #    idpos_button[i]['text']= 'N'
 
     def cancel_click():
         msg = messagebox.askquestion("Hủy", "Bạn muốn hủy mà không lưu lại tệp ?")
@@ -1239,7 +1366,7 @@ def setid():
                 sheet[pos] = 'N/A'
 
         sheet['B12']='POSC'
-        sheet['B59']='NEGC'
+        #sheet['B59']='NEGC'
 
         msg = messagebox.askquestion("Lưu ", "Bạn có muốn lưu tệp ?")
         if(msg=='yes'):
@@ -1299,8 +1426,8 @@ def setid():
                         idpos_button[i]['bg']='lawn green'
                     if(i==0):
                         idpos_button[i]['bg']= 'red'
-                    if(i==47):
-                        idpos_button[i]['bg']= 'green'
+                    #if(i==47):
+                    #    idpos_button[i]['bg']= 'green'
         else:
             pass
     def keyboard_click():
@@ -1751,7 +1878,7 @@ def scanposition():
         end_point = (bourect47[0]+bourect47[2]+9, bourect47[1]+bourect47[3]+9)
         print('Start point:', start_point)
         print('End point:', end_point)
-        fw= open("/home/pi/Spotcheck/coordinates.txt",'w')
+        fw= open("/home/pi/Spotcheck/coordinates2.txt",'w')
         fw.writelines("Start Point: " + str(start_point) + "\n")
         fw.writelines("End Point: " + str(end_point))
 
@@ -2213,19 +2340,30 @@ def analysis():
                 t2_run=0
                 t3_run=0
 
-                workbook1 = load_workbook("/home/pi/Spotcheck/template.xlsm", keep_vba = True)
-                sheet = workbook1.active
+                if(server_on == 1):
+                    workbook1 = load_workbook("/home/pi/Desktop/Spotcheck ID/" + excel_file, keep_vba = True)
+                    sheet = workbook1.active
+                else:
+                    workbook1 = load_workbook("/home/pi/Spotcheck/template.xlsm", keep_vba = True)
+                    sheet = workbook1.active
 
                 sheet.protection.sheet = True
                 sheet.protection.enable()
 
+                if(server_on == 0)
+                    sheet["C10"].protection = Protection(locked=False, hidden=False)
                 #sheet["B7"].protection = Protection(locked=False, hidden=False)
                 sheet["B8"].protection = Protection(locked=False, hidden=False)
                 #sheet["B9"].protection = Protection(locked=False, hidden=False)
 
+                font0 = Font(bold=False)
                 font1 = Font(size='14', bold=True, color='00FF0000')
                 font2 = Font(bold=True)
                 thin_border = Border(left=Side(style='thin'), right=Side(style='thin'), top=Side(style='thin'), bottom=Side(style='thin'))
+
+                for i in range(12,60):
+                    sheet["B"+str(i)].font = font0
+                    sheet["D"+str(i)].font = font0
 
                 img = Img('/home/pi/Spotcheck/logo.png')
                 img.height = 39
