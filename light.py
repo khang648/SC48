@@ -57,17 +57,13 @@ password = '123456789'
 
 fr = open("/home/pi/Spotcheck/check.txt","r")
 code = (fr.readline()).strip()
-fr1 = open("/home/pi/Spotcheck/config.txt","r")
-thr1_set = float(fr1.readline())
-thr2_set = float(fr1.readline())
-thr3l_set = float(fr1.readline())
-thr3h_set = float(fr1.readline())
+fr1 = open("/home/pi/Spotcheck/coordinates1.txt","r")
 x1 = int(fr1.readline())
 y1 = int(fr1.readline())
 x2 = int(fr1.readline())
 y2 = int(fr1.readline())
 
-fr2 = open("/var/tmp/admin.txt","r")
+fr2 = open("/var/tmp/.admin.txt","r")
 start_trial = int(fr2.readline())
 print("start_trial: ", start_trial)
 ########################################################### GLOBAL VARIABLE - END ##################################################################
