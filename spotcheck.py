@@ -1059,6 +1059,9 @@ def mainscreen():
                 on_button['bg']='grey88'
                 on_button['fg'] = 'grey70'
                 ip_entry.delete(0,END)
+                user_entry.delete(0,END)
+                password_entry.delete(0,END)
+                folder_entry.delete(0,END)
                 ip_entry['state'] = 'disabled'
                 user_entry['state'] = 'disabled'
                 password_entry['state'] = 'disabled'
