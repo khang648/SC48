@@ -1350,8 +1350,8 @@ def setid():
             mainscreen()
 
     def save_click():
-        workbook = load_workbook("/home/pi/Spotcheck/temmplate.xlsm", keep_vba = True)
-        sheet = workbook1.active
+        workbook = load_workbook("/home/pi/Spotcheck/template.xlsm", keep_vba = True)
+        sheet = workbook.active
         # for i in range(0,48):
         #     #pos = "C"+str(i+3)
         #     if(i<8):
