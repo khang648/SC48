@@ -86,11 +86,6 @@ ftp_user = fr2.readline().strip('\n')
 ftp_password = fr2.readline().strip('\n')
 ftp_folder = fr2.readline().strip('\n')
 
-ftp_ip = '171.244.143.190'
-ftp_user = 'sc48'
-ftp_password = 'sc@12345'
-ftp_folder = '/Ha Noi/'
-
 hs = list(range(48))
 workbook = openpyxl.load_workbook('/home/pi/Spotcheck/coefficient.xlsx')
 sheet = workbook.active
@@ -1053,18 +1048,20 @@ def mainscreen():
                 user_entry['state'] = 'normal'
                 password_entry['state'] = 'normal'
                 folder_entry['state'] = 'normal'
+                ip_entry.delete(0,END)
                 ip_entry.insert(0,ftp_ip)
 
             def off_click():
                 off_button['bg']='lawn green'
-                off_utton['fg'] = 'black'
+                off_button['fg'] = 'black'
                 on_button['bg']='grey88'
                 on_button['fg'] = 'grey70'
+                ip_entry.delete(0,END)
                 ip_entry['state'] = 'disabled'
                 user_entry['state'] = 'disabled'
                 password_entry['state'] = 'disabled'
                 folder_entry['state'] = 'disabled'
-                ip_entry.delete(0,END)
+
 
             if(server_on==1):
                 on_button = Button(configmc2_labelframe, bg="lawn green", text="Bật", borderwidth=0, height=2, width=7,command=on_click)
@@ -1102,33 +1099,36 @@ def mainscreen():
                         elif(folder_set==''):
                             messagebox.showwarning("","Bạn chưa nhập Đường dẫn thư mục !")
                         else:
-                            ftp = FTP(ftp_ip, ftp_user, ftp_password)
-                            ftp.cwd(ftp_folder)
-                            ftp.quit()
-                            tc= open("/home/pi/Spotcheck/.server.txt","w")
-                            tc.writelines('1\n')
-                            tc.writelines(ip_set+"\n")
-                            tc.writelines(user_set+"\n")
-                            tc.writelines(password_set+"\n")
-                            tc.writelines(folder_set+"\n")
-                            server_on = 1
-                            ftp_ip = ip_set
-                            ftp_user = user_set
-                            ftp_password = password_set
-                            ftp_folder = folder_set
-
-                        except Exception as e :
-                            error = messagebox.showwarning("Không thể kết nối đến Server !",str(e))
-                            if(error=='ok'):
-                                pass
+                            try:
+                                ftp = FTP(ip_set, user_set, password_set)
+                                ftp.cwd(folder_set)
+                                ftp.quit()
+                                tc= open("/home/pi/Spotcheck/.server.txt","w")
+                                tc.writelines('1\n')
+                                tc.writelines(ip_set+"\n")
+                                tc.writelines(user_set+"\n")
+                                tc.writelines(password_set+"\n")
+                                tc.writelines(folder_set+"\n")
+                                global server_on, ftp_ip , ftp_user, ftp_password, ftp_folder
+                                server_on = 1
+                                ftp_ip = ip_set
+                                ftp_user = user_set
+                                ftp_password = password_set
+                                ftp_folder = folder_set
+                                messagebox.showinfo("", "Đã lưu xong !")
+                            except Exception as e :
+                                error = messagebox.showwarning("Không thể kết nối đến Server !",str(e))
+                                if(error=='ok'):
+                                    pass
                     else:
                         tc= open("/home/pi/Spotcheck/.server.txt","w")
                         tc.writelines('0\n')
-                        tc.writelines(ftp_ip+"\n")
-                        tc.writelines(ftp_user+"\n")
-                        tc.writelines(ftp_password+"\n")
-                        tc.writelines(ftp_folder+"\n")
+                        tc.writelines("\n")
+                        tc.writelines("\n")
+                        tc.writelines("\n")
+                        tc.writelines("\n")
                         server_on = 0
+                        messagebox.showinfo("", "Đã lưu xong !")
 
             def back_click():
                 config_click()
@@ -1158,7 +1158,7 @@ def mainscreen():
     viewresult_button.place(x=1,y=241)
     viewresult_canvas = Canvas(mainscreen_labelframe, bg="dodger blue", bd=0, highlightthickness=0, height=72, width=13)
     viewresult_canvas.place(x=1,y=243)
-    config_button = Button(mainscreen_labelframe, bg="dodger blue", activebackground="dodger blue", text="CẤU HÌNH", fg='white', font=buttonFont, borderwidth=0, height=4, width=20, command=config_click)
+    config_button = Button(mainscreen_labelframe, bg="dodger blue", activebackground="dodger blue", text="CÀI ĐẶT", fg='white', font=buttonFont, borderwidth=0, height=4, width=20, command=config_click)
     config_button.place(x=1,y=321)
     config_canvas = Canvas(mainscreen_labelframe, bg="dodger blue", bd=0, highlightthickness=0, height=72, width=13)
     config_canvas.place(x=1,y=323)
@@ -2350,7 +2350,7 @@ def analysis():
                 sheet.protection.sheet = True
                 sheet.protection.enable()
 
-                if(server_on == 0)
+                if(server_on == 0):
                     sheet["C10"].protection = Protection(locked=False, hidden=False)
                 #sheet["B7"].protection = Protection(locked=False, hidden=False)
                 sheet["B8"].protection = Protection(locked=False, hidden=False)

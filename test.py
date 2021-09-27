@@ -60,7 +60,7 @@ for i in range(0,48):
         pos = str(chr(65+i-41)) + "9"
     hs[i] = float(sheet[pos].value)
 
-fr1 = open("/home/pi/Spotcheck/config.txt","r")
+fr1 = open("/home/pi/Spotcheck/coordinates1.txt","r")
 thr1_set = float(fr1.readline())
 thr2_set = float(fr1.readline())
 thr3l_set = float(fr1.readline())
