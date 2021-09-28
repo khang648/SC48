@@ -111,6 +111,20 @@ for i in range(0,48):
 fr3 = open("/var/tmp/.admin.txt","r")
 start_trial = int(fr3.readline())
 print("start_trial: ", start_trial)
+
+if not os.path.exists('/home/pi/Spotcheck Ket Qua'):
+    f = os.path.join("/home/pi/", "Spotcheck Ket Qua")
+    os.mkdir(f)    
+if not os.path.exists('/home/pi/Desktop/Spotcheck ID'):
+    f = os.path.join("/home/pi/Desktop", "Spotcheck ID")
+    os.mkdir(f)
+if not os.path.exists('/home/pi/Desktop/Spotcheck ID/Spotcheck ID - Old'):
+    f = os.path.join("/home/pi/Desktop/Spotcheck ID/", "Spotcheck ID - Old")
+    os.mkdir(f)
+if not os.path.exists('/home/pi/Desktop/Ket Qua Phan Tich'):
+    f = os.path.join("/home/pi/Desktop/", "Ket Qua Phan Tich")
+    os.mkdir(f)
+
 ########################################################### GLOBAL VARIABLE - END ##################################################################
 
 ################################################################# TRIAL _ START ####################################################################
@@ -976,29 +990,29 @@ def mainscreen():
                     if(radio_select==1 and kit1_button['bg']=='lawn green'):
                         tc= open("/home/pi/Spotcheck/ct.txt","w")
                         tc.truncate(0)
-                        tc.writelines("7.5"+"\n")
-                        tc.writelines("7.5"+"\n")
+                        tc.writelines("7.0"+"\n")
+                        tc.writelines("7.0"+"\n")
                         tc.writelines("7.5"+"\n")
                         tc.writelines("7.8"+"\n")
                     if(radio_select==2 and kit1_button['bg']=='lawn green'):
                         tc= open("/home/pi/Spotcheck/ct.txt","w")
                         tc.truncate(0)
-                        tc.writelines("7.3"+"\n")
-                        tc.writelines("7.3"+"\n")
+                        tc.writelines("7.0"+"\n")
+                        tc.writelines("7.0"+"\n")
                         tc.writelines("7.3"+"\n")
                         tc.writelines("7.7"+"\n")
                     if(radio_select==1 and kit2_button['bg']=='lawn green'):
                         tc= open("/home/pi/Spotcheck/ct.txt","w")
                         tc.truncate(0)
-                        tc.writelines("7.8"+"\n")
-                        tc.writelines("7.8"+"\n")
+                        tc.writelines("7.0"+"\n")
+                        tc.writelines("7.0"+"\n")
                         tc.writelines("7.8"+"\n")
                         tc.writelines("8"+"\n")
                     if(radio_select==2 and kit2_button['bg']=='lawn green'):
                         tc= open("/home/pi/Spotcheck/ct.txt","w")
                         tc.truncate(0)
-                        tc.writelines("7.7"+"\n")
-                        tc.writelines("7.7"+"\n")
+                        tc.writelines("7.0"+"\n")
+                        tc.writelines("7.0"+"\n")
                         tc.writelines("7.7"+"\n")
                         tc.writelines("7.9"+"\n")
 
