@@ -178,7 +178,7 @@ def trial():
                     msg = messagebox.showerror(" ","Mã kích hoạt không đúng !")
                 if(code==password):
                     msg = messagebox.showinfo(" ","Kích hoạt thành công !")
-                    f1=open("/var/tmp/admin.txt",'w')
+                    f1=open("/var/tmp/.admin.txt",'w')
                     f1.writelines("0")
                     mainscreen()
 
