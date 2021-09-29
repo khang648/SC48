@@ -129,10 +129,10 @@ if not os.path.exists('/home/pi/Desktop/Ket Qua Phan Tich'):
 
 ################################################################# TRIAL _ START ####################################################################
 def trial():
-    old_day = int(fr2.readline())
-    old_month = int(fr2.readline())
-    old_year = int(fr2.readline())
-    limit = int(fr2.readline())
+    old_day = int(fr3.readline())
+    old_month = int(fr3.readline())
+    old_year = int(fr3.readline())
+    limit = int(fr3.readline())
     print("Ngày bắt đầu:", old_day, old_month, old_year)
 
     today = datetime.now()
@@ -329,26 +329,26 @@ def process_image(image_name, start_point=(x1,y1), end_point=(x2,y2)):
     area = list(range(48))
 
 #Gray
-#     tmp_list = list(range(48))
-#     blur1_img = cv2.GaussianBlur(image.copy(), (25,25), 0)
-#     grayprocess_img = cv2.cvtColor(blur1_img, cv2.COLOR_BGR2GRAY)
-#     #cv2.imwrite("mau.jpg",grayprocess_img)
-#     for i in range(len(sorted_contours1)):
-#         cimg = np.zeros_like(gray_img)
-#         cv2.drawContours(cimg, sorted_contours1, i, color = 255, thickness = -1)
-#         pts = np.where(cimg == 255)
-#         list_intensities.append(grayprocess_img[pts[0], pts[1]])
-#         list_intensities[i].sort()
-#         #print("list_intensities",str(i),":",list_intensities[i])
-#         #print("value", str(i), " : ", list_intensities[i][len(list_intensities[i])-1])
-#         sum_intensities.append(sum(list_intensities[i][len(list_intensities[i])-280:]))
-#         #sum_intensities.append(sum(list_intensities[i][len(list_intensities[i])-240:]))
-#         area[i]= cv2.contourArea(sorted_contours1[i])
-#         #result_list[i] = sum_intensities[i]
-#         tmp_list[i] = sum_intensities[i]/1000
-#         #result_list[i] = round(tmp_list[i])
-#         #result_list[i] = round(round(tmp_list[i],1)*1.5)
-#         result_list[i] = round(tmp_list[i],1)
+    # tmp_list = list(range(48))
+    # blur1_img = cv2.GaussianBlur(image.copy(), (25,25), 0)
+    # grayprocess_img = cv2.cvtColor(blur1_img, cv2.COLOR_BGR2GRAY)
+    # #cv2.imwrite("mau.jpg",grayprocess_img)
+    # for i in range(len(sorted_contours1)):
+    #     cimg = np.zeros_like(gray_img)
+    #     cv2.drawContours(cimg, sorted_contours1, i, color = 255, thickness = -1)
+    #     pts = np.where(cimg == 255)
+    #     list_intensities.append(grayprocess_img[pts[0], pts[1]])
+    #     list_intensities[i].sort()
+    #     #print("list_intensities",str(i),":",list_intensities[i])
+    #     #print("value", str(i), " : ", list_intensities[i][len(list_intensities[i])-1])
+    #     sum_intensities.append(sum(list_intensities[i][len(list_intensities[i])-280:]))
+    #     #sum_intensities.append(sum(list_intensities[i][len(list_intensities[i])-240:]))
+    #     area[i]= cv2.contourArea(sorted_contours1[i])
+    #     #result_list[i] = sum_intensities[i]
+    #     tmp_list[i] = sum_intensities[i]/1000
+    #     #result_list[i] = round(tmp_list[i])
+    #     #result_list[i] = round(round(tmp_list[i],1)*1.5)
+    #     result_list[i] = round(tmp_list[i],1)
 
 #BGR
     blur1_img = cv2.GaussianBlur(image.copy(), (25,25), 0)
@@ -370,7 +370,7 @@ def process_image(image_name, start_point=(x1,y1), end_point=(x2,y2)):
         result_list[i] = round(tmp_list[i],1)
 
 #HSV
-#     tmp_list = list(range(48))
+#    tmp_list = list(range(48))
 #     #blur1_img = cv2.fastNlMeansDenoisingColored(image.copy(),None,9,9,7,19)
 #     #cv2.imwrite("mau1.jpg",blur1_img)
 #     blur1_img = cv2.GaussianBlur(image.copy(), (3,3), 0)
