@@ -824,14 +824,14 @@ def mainscreen():
 
         s48_img = Image.open('/home/pi/Spotcheck/48well.JPG')
         s48_width, s48_height = s48_img.size
-        scale_percent = 80
+        scale_percent = 56
         width = int(s48_width * scale_percent / 100)
         height = int(s48_height * scale_percent / 100)
         display_img = s48_img.resize((width,height))
         image_select = ImageTk.PhotoImage(display_img)
         setid_label = Label(setid_labelframe, bg='white',image=image_select)
         setid_label.image = image_select
-        setid_label.place(x=84,y=40)
+        setid_label.place(x=99,y=40)
 
         def ok_click():
             global covid19_createclicked
