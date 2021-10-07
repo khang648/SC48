@@ -114,7 +114,7 @@ print("start_trial: ", start_trial)
 
 if not os.path.exists('/home/pi/Spotcheck Ket Qua'):
     f = os.path.join("/home/pi/", "Spotcheck Ket Qua")
-    os.mkdir(f)    
+    os.mkdir(f)
 if not os.path.exists('/home/pi/Desktop/Spotcheck ID'):
     f = os.path.join("/home/pi/Desktop", "Spotcheck ID")
     os.mkdir(f)
@@ -1297,14 +1297,14 @@ def setid():
         def ok_click(event=None):
             if(id_entry.get()==''):
                 idpos_button[n]['bg'] = 'lavender'
-                idpos_button[n]['text'] = '#'+str(n)
+                idpos_button[n]['text'] = '#'+str(n+1)
                 msgbox = messagebox.showwarning(" ","Bạn chưa nhập ID !")
             else:
                 idpos_button[n]['text'] = id_entry.get()
                 idpos_button[n]['bg'] = 'lawn green'
                 try:
-                    if(n==47):
-                        idpos_click(1)
+                    if(n==45):
+                        idpos_click(0)
                     else:
                         idpos_click(n+1)
                 except:
@@ -1345,17 +1345,17 @@ def setid():
         if(i%8==0 and i!=0):
             h=0
             c+=1
-        idpos_button[i] = Button(setidtable_labelframe, bg='lavender', activebackground="white", justify='left', borderwidth=0, text='#'+str(i), width=2, height=2)
+        idpos_button[i] = Button(setidtable_labelframe, bg='lavender', activebackground="white", justify='left', borderwidth=0, text='#'+str(i+1), width=2, height=2)
         idpos_button[i]['command'] = partial(idpos_click,i)
         idpos_button[i].grid(row=h,column=c,padx=4,pady=4)
-        if(i==0):
+        if(i==46):
             idpos_button[i]['state']='disabled'
             idpos_button[i]['bg']= 'red'
             idpos_button[i]['text']= 'P'
-        #if(i==47):
-        #    idpos_button[i]['state']='disabled'
-        #    idpos_button[i]['bg']= 'green'
-        #    idpos_button[i]['text']= 'N'
+        if(i==47):
+            idpos_button[i]['state']='disabled'
+            idpos_button[i]['bg']= 'green'
+            idpos_button[i]['text']= 'N'
 
     def cancel_click():
         msg = messagebox.askquestion("Hủy", "Bạn muốn hủy mà không lưu lại tệp ?")
@@ -1388,8 +1388,8 @@ def setid():
             else:
                 sheet[pos] = 'N/A'
 
-        sheet['B12']='POSC'
-        #sheet['B59']='NEGC'
+        sheet['B58']='POSC'
+        sheet['B59']='NEGC'
 
         msg = messagebox.askquestion("Lưu ", "Bạn có muốn lưu tệp ?")
         if(msg=='yes'):
@@ -1447,10 +1447,10 @@ def setid():
                     idpos_button[i]['text'] = idfile_list[i]
                     if(idpos_button[i]['text']!='N/A'):
                         idpos_button[i]['bg']='lawn green'
-                    if(i==0):
+                    if(i==46):
                         idpos_button[i]['bg']= 'red'
-                    #if(i==47):
-                    #    idpos_button[i]['bg']= 'green'
+                    if(i==47):
+                        idpos_button[i]['bg']= 'green'
         else:
             pass
     def keyboard_click():
@@ -1471,7 +1471,7 @@ def setid():
                 pass
             root.attributes('-fullscreen', True)
 
-    idpos_click(1)
+    idpos_click(0)
 
     cancel_button = Button(setid1_labelframe, font=('Courier','12','bold'), bg="lavender", text="Hủy" , height=3, width=11, borderwidth=0, command=cancel_click)
     cancel_button.place(x=653,y=170)
