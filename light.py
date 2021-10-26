@@ -29,9 +29,6 @@ from datetime import *
 ############################################################ IMPORT MODULES - END ##################################################################
 
 ########################################################## GLOBAL VARIABLE - START #################################################################
-lampclicked = 0
-viewresultclicked = 0
-temp_label = 0
 name = "/"
 entry_num = 0
 wait = 0
@@ -46,14 +43,15 @@ foldername = ""
 importfilename = ""
 id_list = list(range(48))
 samples = 0
-lamp_createclicked = 0
-lampdir_old = ""
 div = list(range(48))
 start_point = (0,0)
 end_point = (0,0)
 thr_set= 15
-#thr2_set = 15
+tmp = 0
 password = '123456789'
+value_max = 30
+value_min = 10
+
 
 fr = open("/home/pi/Spotcheck/check.txt","r")
 code = (fr.readline()).strip()
@@ -62,10 +60,13 @@ x1 = int(fr1.readline())
 y1 = int(fr1.readline())
 x2 = int(fr1.readline())
 y2 = int(fr1.readline())
-
 fr2 = open("/var/tmp/.admin.txt","r")
 start_trial = int(fr2.readline())
 print("start_trial: ", start_trial)
+fr3 = open("/home/pi/Spotcheck/mmvalue.txt")
+value_max = int(fr.readline()).strip()
+value_min = int(fr.readline()).strip()
+
 ########################################################### GLOBAL VARIABLE - END ##################################################################
 
 ############################################################### TRIAL - START ######################################################################
@@ -187,6 +188,7 @@ ser = serial.Serial(
     bytesize = serial.EIGHTBITS,
     timeout = 1
 )
+
 ############################################################# SERIAL INIT - END ####################################################################
 
 ######################################################### SORTING CONTOURS - START #################################################################
@@ -354,7 +356,7 @@ def mainscreen():
                 print("Data received:", receive_data)
                 if(receive_data=='C'):
                     wait = 1
-                    break;
+                    break
         while(wait==1):
             try:
                 camera_capture('/home/pi/Spotcheck/Kiem tra do sang/do-sang.jpg')
@@ -409,7 +411,6 @@ def mainscreen():
                 sheet[pos] = test_list[i]
 
             workbook.save('/home/pi/Spotcheck/Kiem tra do sang/do-sang.xlsx')
-            print(test_list)
 
             scanposition_progressbar['value'] = 50
             root.update_idletasks()
@@ -422,39 +423,87 @@ def mainscreen():
 
             process_label.place_forget()
             scanposition_progressbar.place_forget()
-            start_button.place(x=315,y=250)
+            #start_button.place(x=315,y=250)
             wait = 0
             break
-
-        if((test_list[20]>21 or test_list[20]< 17) or
-            (test_list[21]>21 or test_list[21]< 17) or
-            (test_list[26]>21 or test_list[26]< 17) or
-            (test_list[26]>21 or test_list[26]< 17)):
-            msgbox = messagebox.showerror(" ","Hệ thống lỗi, vui lòng liên hệ với nhà cung cấp !")
-            if(msgbox=='ok'):
-#                 while(1):
-#                     msgbox = messagebox.showerror(" "," ")
+        
+        if(test_list[20]>value_max or test_list[21]>value_max or test_list[26]>value_max or test_list[27]>value_max):
+            if(tmp==1):
+                msgbox = messagebox.showerror(" ","Hệ thống lỗi, vui lòng liên hệ với nhà cung cấp !")
                 fw = open("/home/pi/Spotcheck/check.txt","w")
                 fw.truncate(0)
                 fw.writelines("1111\n")
+                if(msgbox=='ok'):
+                    root.destroy()
+            else:
+                ser.flushInput()
+                ser.flushOutput()
+                send_data = 'H'
+                ser.write(send_data.encode())
+                sc_label = Label(mainscreen_labelframe, font=("Courier",40,'bold'), bg='white',text='...')
+                sc_label.place(x=338, y=260)
+                fw = open("/home/pi/Spotcheck/check.txt","w")
+                fw.truncate(0)
+                fw.writelines("1111\n")
+                msgbox = messagebox.showerror("Giá trị sáng tăng","Hệ thống sẽ tiến hành gia nhiệt tự động\nVui lòng chờ trong vài phút !")
+                
+        elif(test_list[20]<value_min or test_list[21]<value_min or test_list[26]<value_min or test_list[27]<value_min):
+            msgbox = messagebox.showerror(" ","Hệ thống lỗi, vui lòng liên hệ với nhà cung cấp !")
+            fw = open("/home/pi/Spotcheck/check.txt","w")
+            fw.truncate(0)
+            fw.writelines("1111\n")
+            if(msgbox=='ok'):
                 root.destroy()
+        else:            
+            average_value = round(sum(test_list)/len(test_list),1)
+            fw0 = open("/home/pi/Spotcheck/ct.txt","w")
+            fw0.truncate(0)
+            if(average_value - 20 == 0):
+                thr3l_value = 7.2
+                thr3h_value = thr3l_value + 0.2
+                thr1_value = thr3l_value - 1
+                thr2_value = thr3l_value - 1
+            else:
+                thr3l_value =  round((7.2 + (average_value - 20)/2),1)
+                thr3h_value = thr3l_value + 0.2
+                thr1_value = thr3l_value - 1
+                thr2_value = thr3l_value - 1
 
-        else:
-            #msgbox = messagebox.showinfo(" ","Hệ thống ổn định !")
+            fw0 = open("/home/pi/Spotcheck/ct.txt","w")
+            fw0.truncate(0)
+            fw0.writelines(str(thr1_value))
+            fw0.writelines(str(thr2_value))
+            fw0.writelines(str(thr3l_value))
+            fw0.writelines(str(thr3h_value))
+
             fw = open("/home/pi/Spotcheck/check.txt","w")
             fw.truncate(0)
             fw.writelines("1234\n")
-            root.destroy()
+            msgbox = messagebox.showinfo(" ","Thiết bị đã sẵn sàng sử dụng !")
+            if(msgbox == 'ok'):
+                root.destroy()
 
     start_button = Button(mainscreen_labelframe, bg="grey98", text="Bắt đầu", font=('Courier',12,'bold'), borderwidth=0, height=3, width=12, command=start_click)
-    start_button.place(x=350,y=250)
+    #start_button.place(x=350,y=250)
     start_click()
 
 ############################################################### LOOP - START #######################################################################
-while True:
-    if(start_trial==1):
-        trial()
-    else:
-        mainscreen()
-    root.mainloop()
+def readSerial():
+    if(ser.in_waiting>0):
+        receive_data = ser.readline().rstrip()
+        print("Data received:", receive_data)
+        if(receive_data==b'F\xff'):
+            global tmp
+            tmp=tmp+1
+            if(tmp<2):
+                mainscreen()
+    root.after(100, readSerial)
+
+if(start_trial==1):
+    trial()
+else:
+    mainscreen()
+
+root.after(100, readSerial)
+root.mainloop()
 ################################################################ LOOP - END ########################################################################
