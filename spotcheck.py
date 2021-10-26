@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+.#!/usr/bin/python3
 ########################################################### IMPORT MODULES - START #################################################################
 from tkinter import *
 from tkinter import messagebox
@@ -60,13 +60,13 @@ t1_run = 0
 t2_run = 0
 t3_run = 0
 t1_set = '35'
-t2_set = '65'
+t2_set = '50'
 t3_set = '73'
 rsfile='/'
 idfile='/'
 test_list = list(range(48))
 warning_value = 0
-password = '123456789'
+password = 'SC4875444'
 thr1_set = 1
 thr2_set = 1
 thr3l_set = 1
