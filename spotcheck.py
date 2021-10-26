@@ -1,4 +1,4 @@
-.#!/usr/bin/python3
+#!/usr/bin/python3
 ########################################################### IMPORT MODULES - START #################################################################
 from tkinter import *
 from tkinter import messagebox
