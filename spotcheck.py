@@ -60,13 +60,13 @@ t1_run = 0
 t2_run = 0
 t3_run = 0
 t1_set = '35'
-t2_set = '50'
+t2_set = '65'
 t3_set = '73'
 rsfile='/'
 idfile='/'
 test_list = list(range(48))
 warning_value = 0
-password = 'SC4875444'
+password = '123456789'
 thr1_set = 1
 thr2_set = 1
 thr3l_set = 1
@@ -1350,12 +1350,12 @@ def setid():
         idpos_button[i].grid(row=h,column=c,padx=4,pady=4)
         if(i==46):
             idpos_button[i]['state']='disabled'
-            idpos_button[i]['bg']= 'red'
-            idpos_button[i]['text']= 'P'
-        if(i==47):
-            idpos_button[i]['state']='disabled'
             idpos_button[i]['bg']= 'green'
             idpos_button[i]['text']= 'N'
+        if(i==47):
+            idpos_button[i]['state']='disabled'
+            idpos_button[i]['bg']= 'red'
+            idpos_button[i]['text']= 'P'
 
     def cancel_click():
         msg = messagebox.askquestion("Hủy", "Bạn muốn hủy mà không lưu lại tệp ?")
@@ -1388,8 +1388,8 @@ def setid():
             else:
                 sheet[pos] = 'N/A'
 
-        sheet['B58']='POSC'
-        sheet['B59']='NEGC'
+        sheet['B58']='NEGC'
+        sheet['B59']='POSC'
 
         msg = messagebox.askquestion("Lưu ", "Bạn có muốn lưu tệp ?")
         if(msg=='yes'):
@@ -1448,9 +1448,9 @@ def setid():
                     if(idpos_button[i]['text']!='N/A'):
                         idpos_button[i]['bg']='lawn green'
                     if(i==46):
-                        idpos_button[i]['bg']= 'red'
-                    if(i==47):
                         idpos_button[i]['bg']= 'green'
+                    if(i==47):
+                        idpos_button[i]['bg']= 'red'
         else:
             pass
     def keyboard_click():
