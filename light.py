@@ -66,7 +66,10 @@ print("start_trial: ", start_trial)
 fr3 = open("/home/pi/Spotcheck/mmvalue.txt")
 value_min = float(fr3.readline())
 value_max = float(fr3.readline())
-
+fr4 = open("/home/pi/Spotcheck/threshold.txt","r")
+raw = float(fr3.readline())
+threshold = float(fr3.readline())
+ratio = float(fr3.readline())
 ########################################################### GLOBAL VARIABLE - END ##################################################################
 
 ############################################################### TRIAL - START ######################################################################
@@ -455,10 +458,10 @@ def mainscreen():
             if(msgbox=='ok'):
                 root.destroy()
         else:
+            global raw, threshold, ratio
             average_value = round(sum(test_list)/len(test_list),1)
             print("average_value:", average_value)
-
-            thr3l_value =  round((7.0 + (average_value - 20)/2),1)
+            thr3l_value =  round((threshold + (average_value - raw)/ratio),1)
             thr3h_value = thr3l_value + 0.2
             thr1_value = round(thr3l_value - 1,1)
             thr2_value = round(thr3l_value - 1,1)
