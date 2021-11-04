@@ -67,9 +67,9 @@ fr3 = open("/home/pi/Spotcheck/mmvalue.txt")
 value_min = float(fr3.readline())
 value_max = float(fr3.readline())
 fr4 = open("/home/pi/Spotcheck/threshold.txt","r")
-raw = float(fr3.readline())
-threshold = float(fr3.readline())
-ratio = float(fr3.readline())
+raw = float(fr4.readline())
+threshold = float(fr4.readline())
+ratio = float(fr4.readline())
 ########################################################### GLOBAL VARIABLE - END ##################################################################
 
 ############################################################### TRIAL - START ######################################################################
