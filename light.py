@@ -463,8 +463,8 @@ def mainscreen():
             print("average_value:", average_value)
             thr3l_value =  round((threshold + (average_value - raw)/ratio),1)
             thr3h_value = thr3l_value + 0.2
-            thr1_value = round(thr3l_value - 1,1)
-            thr2_value = round(thr3l_value - 1,1)
+            thr1_value = round(thr3l_value - 0.2,1)
+            thr2_value = round(thr3l_value - 0.2,1)
 
             fw0 = open("/home/pi/Spotcheck/ct.txt","w")
             fw0.truncate(0)
