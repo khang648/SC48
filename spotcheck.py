@@ -112,6 +112,12 @@ fr3 = open("/var/tmp/.admin.txt","r")
 start_trial = int(fr3.readline())
 print("start_trial: ", start_trial)
 
+fr4 = open("/home/pi/Spotcheck/mmvalue.txt","r")
+v01 = float(fr4.readline())
+v02= float(fr4.readline())
+plus_value1 = float(fr4.readline())
+plus_value2 = float(fr4.readline())
+
 if not os.path.exists('/home/pi/Spotcheck Ket Qua'):
     f = os.path.join("/home/pi/", "Spotcheck Ket Qua")
     os.mkdir(f)
@@ -2493,16 +2499,19 @@ def analysis():
                         if(t1_result[c1]>float(thr1_set) and t2_result[c1]>float(thr2_set) and t3_result[c1]<=float(thr3l_set)):
                             sheet['D'+str(i+12)] = 'N'
                             sheet['D'+str(i+12)].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')
-                        if(t1_result[c1]>float(thr1_set) and t2_result[c1]>float(thr2_set) and t3_result[c1]>float(thr3l_set) and t3_result[c1]<=float(thr3h_set)):
+                        if(t1_result[c1]>float(thr1_set) and t2_result[c1]>float(thr2_set) and t3_result[c1]>(float(thr3l_set)+plus_value1) and t3_result[c1]<=(float(thr3l_set)+plus_value2)):
                             sheet['D'+str(i+12)] = 'R'
                             sheet['D'+str(i+12)].fill = PatternFill(start_color='0000FFFF', end_color='0000FFFF', fill_type='solid')
                             sheet['D'+str(i+12)].font = font2
                             sheet['B'+str(i+12)].font = font2
-                        if(t1_result[c1]>float(thr1_set) and t2_result[c1]>float(thr2_set) and t3_result[c1]>float(thr3h_set)):
+                        if(t1_result[c1]>float(thr1_set) and t2_result[c1]>float(thr2_set) and t3_result[c1]>float(thr3l_set) and  t3_result[c1]<=(float(thr3l_set)+plus_value1)):
                             sheet['D'+str(i+12)] = 'P'
                             sheet['D'+str(i+12)].fill = PatternFill(start_color='00FF6666', end_color='00FF0000', fill_type='solid')
                             sheet['D'+str(i+12)].font = font2
                             sheet['B'+str(i+12)].font = font2
+                        if(t1_result[c1]>float(thr1_set) and t2_result[c1]>float(thr2_set) and t3_result[c1]>(float(thr3l_set)+plus_value2)):
+                            sheet['D'+str(i+12)] = 'N'
+                            sheet['D'+str(i+12)].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')
                     sheet['E'+str(i+12)].protection = Protection(locked=False, hidden=False)
                     sheet['F'+str(i+12)].protection = Protection(locked=False, hidden=False)
 
@@ -2520,16 +2529,19 @@ def analysis():
                         if(t1_result[c2]>float(thr1_set) and t2_result[c2]>float(thr2_set) and t3_result[c2]<=float(thr3l_set)):
                             sheet['D'+str(i+20)] = 'N'
                             sheet['D'+str(i+20)].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')
-                        if(t1_result[c2]>float(thr1_set) and t2_result[c2]>float(thr2_set) and t3_result[c2]>float(thr3l_set) and t3_result[c2]<=float(thr3h_set)):
+                        if(t1_result[c2]>float(thr1_set) and t2_result[c2]>float(thr2_set) and t3_result[c2]>(float(thr3l_set)+plus_value1) and t3_result[c2]<=(float(thr3l_set)+plus_value2)):
                             sheet['D'+str(i+20)] = 'R'
                             sheet['D'+str(i+20)].fill = PatternFill(start_color='0000FFFF', end_color='0000FFFF', fill_type='solid')
                             sheet['D'+str(i+20)].font = font2
                             sheet['B'+str(i+20)].font = font2
-                        if(t1_result[c2]>float(thr1_set) and t2_result[c2]>float(thr2_set) and t3_result[c2]>float(thr3h_set)):
+                        if(t1_result[c2]>float(thr1_set) and t2_result[c2]>float(thr2_set) and t3_result[c2]>float(thr3l_set) and  t3_result[c2]<=(float(thr3l_set)+plus_value1)):
                             sheet['D'+str(i+20)] = 'P'
                             sheet['D'+str(i+20)].fill = PatternFill(start_color='00FF6666', end_color='00FF0000', fill_type='solid')
                             sheet['D'+str(i+20)].font = font2
                             sheet['B'+str(i+20)].font = font2
+                        if(t1_result[c2]>float(thr1_set) and t2_result[c2]>float(thr2_set) and t3_result[c2]>(float(thr3l_set)+plus_value2)):
+                            sheet['D'+str(i+20)] = 'N'
+                            sheet['D'+str(i+20)].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')
                     sheet['E'+str(i+20)].protection = Protection(locked=False, hidden=False)
                     sheet['F'+str(i+20)].protection = Protection(locked=False, hidden=False)
 
@@ -2547,16 +2559,19 @@ def analysis():
                         if(t1_result[c3]>float(thr1_set) and t2_result[c3]>float(thr2_set) and t3_result[c3]<=float(thr3l_set)):
                             sheet['D'+str(i+28)] = 'N'
                             sheet['D'+str(i+28)].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')
-                        if(t1_result[c3]>float(thr1_set) and t2_result[c3]>float(thr2_set) and t3_result[c3]>float(thr3l_set) and t3_result[c3]<=float(thr3h_set)):
+                        if(t1_result[c3]>float(thr1_set) and t2_result[c3]>float(thr2_set) and t3_result[c3]>(float(thr3l_set)+plus_value1) and t3_result[c3]<=(float(thr3l_set)+plus_value2)):
                             sheet['D'+str(i+28)] = 'R'
                             sheet['D'+str(i+28)].fill = PatternFill(start_color='0000FFFF', end_color='0000FFFF', fill_type='solid')
                             sheet['D'+str(i+28)].font = font2
                             sheet['B'+str(i+28)].font = font2
-                        if(t1_result[c3]>float(thr1_set) and t2_result[c3]>float(thr2_set) and t3_result[c3]>float(thr3h_set)):
+                        if(t1_result[c3]>float(thr1_set) and t2_result[c3]>float(thr2_set) and t3_result[c3]>float(thr3l_set) and  t3_result[c3]<=(float(thr3l_set)+plus_value1)):
                             sheet['D'+str(i+28)] = 'P'
                             sheet['D'+str(i+28)].fill = PatternFill(start_color='00FF6666', end_color='00FF0000', fill_type='solid')
                             sheet['D'+str(i+28)].font = font2
                             sheet['B'+str(i+28)].font = font2
+                        if(t1_result[c3]>float(thr1_set) and t2_result[c3]>float(thr2_set) and t3_result[c3]>(float(thr3l_set)+plus_value2)):
+                            sheet['D'+str(i+28)] = 'N'
+                            sheet['D'+str(i+28)].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')
                     sheet['E'+str(i+28)].protection = Protection(locked=False, hidden=False)
                     sheet['F'+str(i+28)].protection = Protection(locked=False, hidden=False)
 
@@ -2574,16 +2589,19 @@ def analysis():
                         if(t1_result[c4]>float(thr1_set) and t2_result[c4]>float(thr2_set) and t3_result[c4]<=float(thr3l_set)):
                             sheet['D'+str(i+36)] = 'N'
                             sheet['D'+str(i+36)].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')
-                        if(t1_result[c4]>float(thr1_set) and t2_result[c4]>float(thr2_set) and t3_result[c4]>float(thr3l_set) and t3_result[c4]<=float(thr3h_set)):
+                        if(t1_result[c4]>float(thr1_set) and t2_result[c4]>float(thr2_set) and t3_result[c4]>(float(thr3l_set)+plus_value1) and t3_result[c4]<=(float(thr3l_set)+plus_value2)):
                             sheet['D'+str(i+36)] = 'R'
                             sheet['D'+str(i+36)].fill = PatternFill(start_color='0000FFFF', end_color='0000FFFF', fill_type='solid')
                             sheet['D'+str(i+36)].font = font2
                             sheet['B'+str(i+36)].font = font2
-                        if(t1_result[c4]>float(thr1_set) and t2_result[c4]>float(thr2_set) and t3_result[c4]>float(thr3h_set)):
+                        if(t1_result[c4]>float(thr1_set) and t2_result[c4]>float(thr2_set) and t3_result[c4]>float(thr3l_set) and  t3_result[c4]<=(float(thr3l_set)+plus_value1)):
                             sheet['D'+str(i+36)] = 'P'
                             sheet['D'+str(i+36)].fill = PatternFill(start_color='00FF6666', end_color='00FF0000', fill_type='solid')
                             sheet['D'+str(i+36)].font = font2
                             sheet['B'+str(i+36)].font = font2
+                        if(t1_result[c4]>float(thr1_set) and t2_result[c4]>float(thr2_set) and t3_result[c4]>(float(thr3l_set)+plus_value2)):
+                            sheet['D'+str(i+36)] = 'N'
+                            sheet['D'+str(i+36)].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')
                     sheet['E'+str(i+36)].protection = Protection(locked=False, hidden=False)
                     sheet['F'+str(i+36)].protection = Protection(locked=False, hidden=False)
 
@@ -2601,16 +2619,19 @@ def analysis():
                         if(t1_result[c5]>float(thr1_set) and t2_result[c5]>float(thr2_set) and t3_result[c5]<=float(thr3l_set)):
                             sheet['D'+str(i+44)] = 'N'
                             sheet['D'+str(i+44)].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')
-                        if(t1_result[c5]>float(thr1_set) and t2_result[c5]>float(thr2_set) and t3_result[c5]>float(thr3l_set) and t3_result[c5]<=float(thr3h_set)):
+                        if(t1_result[c5]>float(thr1_set) and t2_result[c5]>float(thr2_set) and t3_result[c5]>(float(thr3l_set)+plus_value1) and t3_result[c5]<=(float(thr3l_set)+plus_value2)):
                             sheet['D'+str(i+44)] = 'R'
                             sheet['D'+str(i+44)].fill = PatternFill(start_color='0000FFFF', end_color='0000FFFF', fill_type='solid')
                             sheet['D'+str(i+44)].font = font2
                             sheet['B'+str(i+44)].font = font2
-                        if(t1_result[c5]>float(thr1_set) and t2_result[c5]>float(thr2_set) and t3_result[c5]>float(thr3h_set)):
+                        if(t1_result[c5]>float(thr1_set) and t2_result[c5]>float(thr2_set) and t3_result[c5]>float(thr3l_set) and  t3_result[c5]<=(float(thr3l_set)+plus_value1)):
                             sheet['D'+str(i+44)] = 'P'
                             sheet['D'+str(i+44)].fill = PatternFill(start_color='00FF6666', end_color='00FF0000', fill_type='solid')
                             sheet['D'+str(i+44)].font = font2
                             sheet['B'+str(i+44)].font = font2
+                        if(t1_result[c5]>float(thr1_set) and t2_result[c5]>float(thr2_set) and t3_result[c5]>(float(thr3l_set)+plus_value2)):
+                            sheet['D'+str(i+44)] = 'N'
+                            sheet['D'+str(i+44)].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')
                     sheet['E'+str(i+44)].protection = Protection(locked=False, hidden=False)
                     sheet['F'+str(i+44)].protection = Protection(locked=False, hidden=False)
 
@@ -2628,16 +2649,19 @@ def analysis():
                         if(t1_result[c6]>float(thr1_set) and t2_result[c6]>float(thr2_set) and t3_result[c6]<=float(thr3l_set)):
                             sheet['D'+str(i+52)] = 'N'
                             sheet['D'+str(i+52)].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')
-                        if(t1_result[c6]>float(thr1_set) and t2_result[c6]>float(thr2_set) and t3_result[c6]>float(thr3l_set) and t3_result[c6]<=float(thr3h_set)):
+                        if(t1_result[c6]>float(thr1_set) and t2_result[c6]>float(thr2_set) and t3_result[c6]>(float(thr3l_set)+plus_value1) and t3_result[c6]<=(float(thr3l_set)+plus_value2)):
                             sheet['D'+str(i+52)] = 'R'
                             sheet['D'+str(i+52)].fill = PatternFill(start_color='0000FFFF', end_color='0000FFFF', fill_type='solid')
                             sheet['D'+str(i+52)].font = font2
                             sheet['B'+str(i+52)].font = font2
-                        if(t1_result[c6]>float(thr1_set) and t2_result[c6]>float(thr2_set) and t3_result[c6]>float(thr3h_set)):
+                        if(t1_result[c6]>float(thr1_set) and t2_result[c6]>float(thr2_set) and t3_result[c6]>float(thr3l_set) and  t3_result[c6]<=(float(thr3l_set)+plus_value1)):
                             sheet['D'+str(i+52)] = 'P'
                             sheet['D'+str(i+52)].fill = PatternFill(start_color='00FF6666', end_color='00FF0000', fill_type='solid')
                             sheet['D'+str(i+52)].font = font2
                             sheet['B'+str(i+52)].font = font2
+                        if(t1_result[c6]>float(thr1_set) and t2_result[c6]>float(thr2_set) and t3_result[c6]>(float(thr3l_set)+plus_value2)):
+                            sheet['D'+str(i+52)] = 'N'
+                            sheet['D'+str(i+52)].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')
                     sheet['E'+str(i+52)].protection = Protection(locked=False, hidden=False)
                     sheet['F'+str(i+52)].protection = Protection(locked=False, hidden=False)
 
@@ -2759,14 +2783,18 @@ def analysis():
                                 #if(t1_result[i]>21.5 and t2_result[i]>21.5 and t3_result[i]<=21.5):
                                     label[i] = Label(result_labelframe, bg='lawn green', text='N', width=4, height=2)
                                     label[i].grid(row=row_value,column=j,padx=2,pady=2)
-                                if(t1_result[i]>float(thr1_set) and t2_result[i]>float(thr2_set) and t3_result[i]>float(thr3l_set) and t3_result[i]<=float(thr3h_set)):
+                                if(t1_result[i]>float(thr1_set) and t2_result[i]>float(thr2_set) and t3_result[i]>(float(thr3l_set)+plus_value1) and t3_result[i]<=(float(thr3l_set)+plus_value2)):
                                 #if(t1_result[i]>21.5 and t2_result[i]>21.5 and t3_result[i]>21.5 and t3_result[i]<=21.5):
                                     label[i] = Label(result_labelframe, bg='cyan', text='R', width=4, height=2)
                                     label[i].grid(row=row_value,column=j,padx=2,pady=2)
-                                if(t1_result[i]>float(thr1_set) and t2_result[i]>float(thr2_set) and t3_result[i]>float(thr3h_set)):
+                                if(t1_result[i]>float(thr1_set) and t2_result[i]>float(thr2_set) and t3_result[i]>float(thr3l_set) and t3_result[i]<=(float(thr3l_set)+plus_value1)):
                                 #if(t1_result[i]>21.5 and t2_result[i]>21.5 and t3_result[i]>22.5):
                                     label[i] = Label(result_labelframe, bg='red', text='P', width=4, height=2)
                                     label[i].grid(row=row_value,column=j,padx=2,pady=2)
+                                if(t1_result[i]>float(thr1_set) and t2_result[i]>float(thr2_set) and t3_result[i]>(float(thr3l_set)+plus_value2)):
+                                    label[i] = Label(result_labelframe, bg='lawn green', text='N', width=4, height=2)
+                                    label[i].grid(row=row_value,column=j,padx=2,pady=2)
+
 
                     result_table(0,6,0)
                     result_table(6,12,1)
@@ -2819,12 +2847,15 @@ def analysis():
                                     if(t1_result[i]>float(thr1_set) and t2_result[i]>float(thr2_set) and t3_result[i]<=float(thr3l_set)):
                                     #if(t1_result[i]>21.5 and t2_result[i]>21.5 and t3_result[i]<=21.5):
                                         label[i]['text'] = str('%.1f'%t3_result[i])
-                                    if(t1_result[i]>float(thr1_set) and t2_result[i]>float(thr2_set) and t3_result[i]>float(thr3l_set) and t3_result[i]<=float(thr3h_set)):
+                                    if(t1_result[i]>float(thr1_set) and t2_result[i]>float(thr2_set) and t3_result[i]>(float(thr3l_set)+plus_value1) and t3_result[i]<=(float(thr3l_set)+plus_value2)):
                                     #if(t1_result[i]>21.5 and t2_result[i]>21.5 and t3_result[i]>21.5 and t3_result[i]<=21.5):
                                         label[i]['text'] = str('%.1f'%t3_result[i])
-                                    if(t1_result[i]>float(thr1_set) and t2_result[i]>float(thr2_set) and t3_result[i]>float(thr3h_set)):
+                                    if(t1_result[i]>float(thr1_set) and t2_result[i]>float(thr2_set) and t3_result[i]>float(thr3l_set) and t3_result[i]<=(float(thr3l_set)+plus_value1)):
                                     #if(t1_result[i]>21.5 and t2_result[i]>21.5 and t3_result[i]>22.5):
                                         label[i]['text'] = str('%.1f'%t3_result[i])
+                                    if(t1_result[i]>float(thr1_set) and t2_result[i]>float(thr2_set) and t3_result[i]>(float(thr3l_set)+plus_value2)):
+                                        label[i]['text'] = str('%.1f'%t3_result[i])
+
                             root.update_idletasks()
                             subprocess.call(["scrot",path0+"/gia-tri.jpg"])
 
@@ -2832,20 +2863,7 @@ def analysis():
                         msgbox = messagebox.askquestion('Ket thuc chuong trinh','Bạn có muốn quay lại ?', icon = 'question')
                         if(msgbox=='yes'):
                             for i in range (0,48):
-                                if(id_list[i]=='N/A'):
-                                    label[i]['text'] = str('%.1f'%t3_result[i])
-
-                                else:
-                                    if(t1_result[i]<=float(thr1_set)):
-                                        label[i]['text'] = str('%.1f'%t3_result[i])
-                                    if(t1_result[i]>float(thr1_set) and t2_result[i]<=float(thr2_set)):
-                                        label[i]['text'] = str('%.1f'%t3_result[i])
-                                    if(t1_result[i]>float(thr1_set) and t2_result[i]>float(thr2_set) and t3_result[i]<=float(thr3l_set)):
-                                        label[i]['text'] = str('%.1f'%t3_result[i])
-                                    if(t1_result[i]>float(thr1_set) and t2_result[i]>float(thr2_set) and t3_result[i]>float(thr3l_set) and t3_result[i]<=float(thr3h_set)):
-                                        label[i]['text'] = str('%.1f'%t3_result[i])
-                                    if(t1_result[i]>float(thr1_set) and t2_result[i]>float(thr2_set) and t3_result[i]>float(thr3h_set)):
-                                        label[i]['text'] = str('%.1f'%t3_result[i])
+                                label[i]['text'] = str('%.1f'%t3_result[i])                         
                             root.update_idletasks()
                             subprocess.call(["scrot",path3+"/gia-tri.jpg"])
                             #detail_click()

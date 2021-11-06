@@ -430,27 +430,8 @@ def mainscreen():
             wait = 0
             break
 
-        if(test_list[20]>value_max or test_list[21]>value_max or test_list[26]>value_max or test_list[27]>value_max):
-            if(tmp==1):
-                msgbox = messagebox.showerror(" ","Hệ thống lỗi, vui lòng liên hệ với nhà cung cấp !")
-                fw = open("/home/pi/Spotcheck/check.txt","w")
-                fw.truncate(0)
-                fw.writelines("1111\n")
-                if(msgbox=='ok'):
-                    root.destroy()
-            else:
-                ser.flushInput()
-                ser.flushOutput()
-                send_data = 'H'
-                ser.write(send_data.encode())
-                sc_label = Label(mainscreen_labelframe, font=("Courier",40,'bold'), bg='white',text='...')
-                sc_label.place(x=338, y=260)
-                fw = open("/home/pi/Spotcheck/check.txt","w")
-                fw.truncate(0)
-                fw.writelines("1111\n")
-                msgbox = messagebox.showerror("Giá trị sáng tăng","Hệ thống sẽ tiến hành gia nhiệt tự động\nVui lòng chờ trong vài phút !")
-
-        elif(test_list[20]<value_min or test_list[21]<value_min or test_list[26]<value_min or test_list[27]<value_min):
+        if(test_list[20]>value_max or test_list[21]>value_max or test_list[26]>value_max or test_list[27]>value_max or
+           test_list[20]<value_min or test_list[21]<value_min or test_list[26]<value_min or test_list[27]<value_min):
             msgbox = messagebox.showerror(" ","Hệ thống lỗi, vui lòng liên hệ với nhà cung cấp !")
             fw = open("/home/pi/Spotcheck/check.txt","w")
             fw.truncate(0)
@@ -463,8 +444,8 @@ def mainscreen():
             print("average_value:", average_value)
             thr3l_value =  round((threshold + (average_value - raw)/ratio),1)
             thr3h_value = thr3l_value + 0.2
-            thr1_value = round(thr3l_value - 0.2,1)
-            thr2_value = round(thr3l_value - 0.2,1)
+            thr1_value = round(thr3l_value - 0.5,1)
+            thr2_value = round(thr3l_value - 0.5,1)
 
             fw0 = open("/home/pi/Spotcheck/ct.txt","w")
             fw0.truncate(0)
@@ -482,7 +463,15 @@ def mainscreen():
 
     start_button = Button(mainscreen_labelframe, bg="grey98", text="Bắt đầu", font=('Courier',12,'bold'), borderwidth=0, height=3, width=12, command=start_click)
     #start_button.place(x=350,y=250)
-    start_click()
+
+    if(tmp==0):
+        send_data = 'H'
+        ser.write(send_data.encode())
+        msgbox = messagebox.showwarning("","Hệ thống sẽ tiến hành gia nhiệt tự động\nVui lòng chờ trong vài phút !")
+        sc_label = Label(mainscreen_labelframe, font=("Courier",40,'bold'), bg='white',text='...')
+        sc_label.place(x=338, y=260)
+    else:
+        start_click()
 
 ############################################################### LOOP - START #######################################################################
 def readSerial():
