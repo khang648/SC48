@@ -467,10 +467,14 @@ def mainscreen():
     if(tmp==0):
         send_data = 'H'
         ser.write(send_data.encode())
-        msgbox = messagebox.showwarning("","Hệ thống sẽ tiến hành gia nhiệt tự động\nVui lòng chờ trong vài phút !")
-        sc_label = Label(mainscreen_labelframe, font=("Courier",40,'bold'), bg='white',text='...')
-        sc_label.place(x=338, y=260)
+        #msgbox = messagebox.showwarning("","Hệ thống sẽ tiến hành gia nhiệt tự động\nVui lòng chờ trong vài phút !")
+        sc_label = Label(mainscreen_labelframe, font=("Courier",15,'bold'), bg='white',text='Hệ thống sẽ tiến hành gia nhiệt tự động\nVui lòng chờ trong vài phút !')
+        sc_label.place(x=100, y=260)
     else:
+        try:
+            sc_label.place_forget()
+        except:
+            pass
         start_click()
 
 ############################################################### LOOP - START #######################################################################

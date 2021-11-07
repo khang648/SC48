@@ -2664,6 +2664,23 @@ def analysis():
                             sheet['D'+str(i+52)].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')
                     sheet['E'+str(i+52)].protection = Protection(locked=False, hidden=False)
                     sheet['F'+str(i+52)].protection = Protection(locked=False, hidden=False)
+                
+                ### Vị trí H6 chỉ có P hoặc N
+                if(t1_result[47]<=float(thr1_set)):
+                    sheet['D59'] = 'E'
+                    sheet['D59')].fill = PatternFill(start_color='00FFFF33', end_color='00FFFF00', fill_type='solid')
+                if(t1_result[47]>float(thr1_set) and t1_result[47]>float(thr2_set)):
+                    sheet['D59'] = 'E'
+                    sheet['D59')].fill = PatternFill(start_color='00FFFF33', end_color='00FFFF00', fill_type='solid')
+                if(t1_result[47]>float(thr1_set) and t2_result[47]>float(thr2_set) and t3_result[47]<=float(thr3l_set)):
+                    sheet['D59'] = 'N'
+                    sheet['D59'].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')
+                if(t1_result[47]>float(thr1_set) and t2_result[47]>float(thr2_set) and t3_result[47]>float(thr3l_set)):
+                    sheet['D59'] = 'P'
+                    sheet['D59'].fill = PatternFill(start_color='00FF6666', end_color='00FF0000', fill_type='solid')
+                    sheet['D59'].font = font2
+                    sheet['B59'].font = font2
+                
 
                 sheet.print_area = 'A1:G70'
                 workbook1.save("/home/pi/Desktop/Ket Qua Phan Tich/" + importfilename + ".xlsm")
@@ -2804,6 +2821,21 @@ def analysis():
                     result_table(30,36,5)
                     result_table(36,42,6)
                     result_table(42,48,7)
+
+                    ### Vị trí H6 chỉ có P hoặc N
+                    if(t1_result[47]<=float(thr1_set)):
+                        label[47]['bg']='yellow'
+                        label[47]['text']='R'
+                    if(t1_result[47]>float(thr1_set) and t2_result[47]<=float(thr2_set)):
+                        label[47]['bg']='yellow'
+                        label[47]['text']='R'
+                    if(t1_result[47]>float(thr1_set) and t2_result[47]>float(thr2_set) and t3_result[47]<=float(thr3l_set)):
+                        label[47]['bg']='lawn green'
+                        label[47]['text']='N'
+                    if(t1_result[47]>float(thr1_set) and t2_result[47]>float(thr2_set) and t3_result[47]>float(thr3l_set)):
+                        label[47]['bg']='lawn green'
+                        label[47]['text']='P'
+                    
                     root.update_idletasks()
 
                     def detail_click():
