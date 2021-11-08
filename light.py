@@ -468,7 +468,7 @@ def mainscreen():
         send_data = 'H'
         ser.write(send_data.encode())
         #msgbox = messagebox.showwarning("","Hệ thống sẽ tiến hành gia nhiệt tự động\nVui lòng chờ trong vài phút !")
-        sc_label = Label(mainscreen_labelframe, font=("Courier",15,'bold'), bg='white',text='Hệ thống sẽ tiến hành gia nhiệt tự động\nVui lòng chờ trong vài phút...')
+        sc_label = Label(mainscreen_labelframe, font=("Courier",15,'bold'), fg ='red', bg='white',text='Hệ thống sẽ tiến hành gia nhiệt tự động\nVui lòng chờ trong vài phút...')
         sc_label.place(x=158, y=260)
     else:
         try:
