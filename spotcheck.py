@@ -452,10 +452,18 @@ def process_image(image_name, start_point=(x1,y1), end_point=(x2,y2)):
                     else:
                         cv2.drawContours(blurori_img, sorted_contours1, i, (0,0,255), thickness = 2)
                 if(t3_run==1):
-                    if(result_list[i] <= float(thr3l_set)):
-                        cv2.drawContours(blurori_img, sorted_contours1, i, (255,255,0), thickness = 2)
+                    if(i!=47):
+                        if(result_list[i] <= float(thr3l_set) or result_list[i] > (float(thr3l_set)+plus_value2) ):
+                            cv2.drawContours(blurori_img, sorted_contours1, i, (255,255,0), thickness = 2)
+                        else:
+                            cv2.drawContours(blurori_img, sorted_contours1, i, (0,0,255), thickness = 2)
                     else:
-                        cv2.drawContours(blurori_img, sorted_contours1, i, (0,0,255), thickness = 2)
+                        if(result_list[i] <= float(thr3l_set)):
+                            cv2.drawContours(blurori_img, sorted_contours1, i, (255,255,0), thickness = 2)
+                        else:
+                            cv2.drawContours(blurori_img, sorted_contours1, i, (0,0,255), thickness = 2)
+    
+                   
     return (result_list, blurori_img)
 ########################################################### IMAGE ANALYSIS - END ###################################################################
 
@@ -2668,10 +2676,10 @@ def analysis():
                 ### Vị trí H6 chỉ có P hoặc N
                 if(t1_result[47]<=float(thr1_set)):
                     sheet['D59'] = 'E'
-                    sheet['D59')].fill = PatternFill(start_color='00FFFF33', end_color='00FFFF00', fill_type='solid')
+                    sheet['D59'].fill = PatternFill(start_color='00FFFF33', end_color='00FFFF00', fill_type='solid')
                 if(t1_result[47]>float(thr1_set) and t1_result[47]>float(thr2_set)):
                     sheet['D59'] = 'E'
-                    sheet['D59')].fill = PatternFill(start_color='00FFFF33', end_color='00FFFF00', fill_type='solid')
+                    sheet['D59'].fill = PatternFill(start_color='00FFFF33', end_color='00FFFF00', fill_type='solid')
                 if(t1_result[47]>float(thr1_set) and t2_result[47]>float(thr2_set) and t3_result[47]<=float(thr3l_set)):
                     sheet['D59'] = 'N'
                     sheet['D59'].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')
@@ -2833,7 +2841,7 @@ def analysis():
                         label[47]['bg']='lawn green'
                         label[47]['text']='N'
                     if(t1_result[47]>float(thr1_set) and t2_result[47]>float(thr2_set) and t3_result[47]>float(thr3l_set)):
-                        label[47]['bg']='lawn green'
+                        label[47]['bg']='red'
                         label[47]['text']='P'
                     
                     root.update_idletasks()
