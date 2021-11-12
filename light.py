@@ -69,7 +69,8 @@ value_max = float(fr3.readline())
 fr4 = open("/home/pi/Spotcheck/threshold.txt","r")
 raw = float(fr4.readline())
 threshold = float(fr4.readline())
-ratio = float(fr4.readline())
+ratio1 = float(fr4.readline())
+ratio2 = float(fr4.readline())
 ########################################################### GLOBAL VARIABLE - END ##################################################################
 
 ############################################################### TRIAL - START ######################################################################
@@ -442,10 +443,12 @@ def mainscreen():
             global raw, threshold, ratio
             average_value = round(sum(test_list)/len(test_list),1)
             print("average_value:", average_value)
-            thr3l_value =  round((threshold + (average_value - raw)/ratio),1)
+            #thr3l_value =  round((threshold + (average_value - 0)/(ratio1/ratio2)),1)
+            tmp = round((average_value - raw)/ratio1,1)
+            thr3l_value =  round((tmp*ratio2)+threshold,1)
             thr3h_value = thr3l_value + 0.2
-            thr1_value = round(thr3l_value - 0.5,1)
-            thr2_value = round(thr3l_value - 0.5,1)
+            thr1_value = round(thr3l_value + 2,1)
+            thr2_value = round(thr3l_value + 1,1)
 
             fw0 = open("/home/pi/Spotcheck/ct.txt","w")
             fw0.truncate(0)
@@ -470,7 +473,7 @@ def mainscreen():
         #msgbox = messagebox.showwarning("","Hệ thống sẽ tiến hành gia nhiệt tự động\nVui lòng chờ trong vài phút !")
         sc_label = Label(mainscreen_labelframe, font=("Courier",15,'bold'), fg ='red', bg='white',text='Hệ thống sẽ tiến hành gia nhiệt tự động\nVui lòng chờ trong vài phút...')
         sc_label.place(x=158, y=260)
-    else:
+    else: 
         try:
             sc_label.place_forget()
         except:
