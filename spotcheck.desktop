@@ -2,7 +2,7 @@
 Name=Spotcheck Application
 Comment=Spotcheck Application
 Icon=/home/pi/Spotcheck/icon.ico
-Exec=/home/pi/Spotcheck/spotcheck.py
+Exec=/home/pi/Spotcheck/dist/spotcheck/spotcheck
 Type=Application
 Encoding=UTF-8
 Terminal=false
