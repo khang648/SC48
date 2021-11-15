@@ -2496,12 +2496,12 @@ def analysis():
                             sheet['D'+str(i+12)].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')
                         elif(t3_result[c1]<=float(thr3l_set)):
                             sheet['D'+str(i+12)] = 'P'
-                            sheet['D'+str(i+12)].fill = PatternFill(start_color='00FF6633', end_color='00FF6633', fill_type='solid')
+                            sheet['D'+str(i+12)].fill = PatternFill(start_color='00FF6666', end_color='00FF6666', fill_type='solid')
                             sheet['D'+str(i+12)].font = font2
                             sheet['B'+str(i+12)].font = font2
                         else:
                             sheet['D'+str(i+12)] = 'P+'
-                            sheet['D'+str(i+12)].fill = PatternFill(start_color='00FF6666', end_color='00FF6666', fill_type='solid')
+                            sheet['D'+str(i+12)].fill = PatternFill(start_color='00FF4141', end_color='00FF4141', fill_type='solid')
                             sheet['D'+str(i+12)].font = font2
                             sheet['B'+str(i+12)].font = font2
                     
@@ -2521,12 +2521,12 @@ def analysis():
                             sheet['D'+str(i+20)].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')
                         elif(t3_result[c2]<=float(thr3l_set)):
                             sheet['D'+str(i+20)] = 'P'
-                            sheet['D'+str(i+20)].fill = PatternFill(start_color='00FF6633', end_color='00FF6633', fill_type='solid')
+                            sheet['D'+str(i+20)].fill = PatternFill(start_color='00FF6666', end_color='00FF6666', fill_type='solid')
                             sheet['D'+str(i+20)].font = font2
                             sheet['B'+str(i+20)].font = font2
                         else:
                             sheet['D'+str(i+20)] = 'P+'
-                            sheet['D'+str(i+20)].fill = PatternFill(start_color='00FF6666', end_color='00FF6666', fill_type='solid')
+                            sheet['D'+str(i+20)].fill = PatternFill(start_color='00FF4141', end_color='00FF4141', fill_type='solid')
                             sheet['D'+str(i+20)].font = font2
                             sheet['B'+str(i+20)].font = font2
                        
@@ -2546,12 +2546,12 @@ def analysis():
                             sheet['D'+str(i+28)].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')
                         elif(t3_result[c3]<=float(thr3l_set)):
                             sheet['D'+str(i+28)] = 'P'
-                            sheet['D'+str(i+28)].fill = PatternFill(start_color='00FF6633', end_color='00FF0033', fill_type='solid')
+                            sheet['D'+str(i+28)].fill = PatternFill(start_color='00FF6666', end_color='00FF6666', fill_type='solid')
                             sheet['D'+str(i+28)].font = font2
                             sheet['B'+str(i+28)].font = font2
                         else:
                             sheet['D'+str(i+28)] = 'P+'
-                            sheet['D'+str(i+28)].fill = PatternFill(start_color='00FF6666', end_color='00FF6666', fill_type='solid')
+                            sheet['D'+str(i+28)].fill = PatternFill(start_color='00FF4141', end_color='00FF4141', fill_type='solid')
                             sheet['D'+str(i+28)].font = font2
                             sheet['B'+str(i+28)].font = font2
                         
@@ -2571,12 +2571,12 @@ def analysis():
                             sheet['D'+str(i+36)].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')
                         elif(t3_result[c4]<=float(thr3l_set)):
                             sheet['D'+str(i+36)] = 'P'
-                            sheet['D'+str(i+36)].fill = PatternFill(start_color='00FF6633', end_color='00FF6633', fill_type='solid')
+                            sheet['D'+str(i+36)].fill = PatternFill(start_color='00FF6666', end_color='00FF6666', fill_type='solid')
                             sheet['D'+str(i+36)].font = font2
                             sheet['B'+str(i+36)].font = font2
                         else:
                             sheet['D'+str(i+36)] = 'P+'
-                            sheet['D'+str(i+36)].fill = PatternFill(start_color='00FF6666', end_color='00FF6666', fill_type='solid')
+                            sheet['D'+str(i+36)].fill = PatternFill(start_color='00FF4141', end_color='00FF4141', fill_type='solid')
                             sheet['D'+str(i+36)].font = font2
                             sheet['B'+str(i+36)].font = font2
                         
@@ -2596,12 +2596,12 @@ def analysis():
                             sheet['D'+str(i+44)].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')
                         elif(t3_result[c5]<=float(thr3l_set)):
                             sheet['D'+str(i+44)] = 'P'
-                            sheet['D'+str(i+44)].fill = PatternFill(start_color='00FF6633', end_color='00FF6633', fill_type='solid')
+                            sheet['D'+str(i+44)].fill = PatternFill(start_color='00FF6666', end_color='00FF6666', fill_type='solid')
                             sheet['D'+str(i+44)].font = font2
                             sheet['B'+str(i+44)].font = font2
                         else:
                             sheet['D'+str(i+44)] = 'P+'
-                            sheet['D'+str(i+44)].fill = PatternFill(start_color='00FF6666', end_color='00FF6666', fill_type='solid')
+                            sheet['D'+str(i+44)].fill = PatternFill(start_color='00FF4141', end_color='00FF4141', fill_type='solid')
                             sheet['D'+str(i+44)].font = font2
                             sheet['B'+str(i+44)].font = font2
                         
@@ -2621,12 +2621,12 @@ def analysis():
                             sheet['D'+str(i+52)].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')
                         elif(t3_result[c6]<=float(thr3l_set)):
                             sheet['D'+str(i+52)] = 'P'
-                            sheet['D'+str(i+52)].fill = PatternFill(start_color='00FF6633', end_color='00FF6633', fill_type='solid')
+                            sheet['D'+str(i+52)].fill = PatternFill(start_color='00FF6666', end_color='00FF6666', fill_type='solid')
                             sheet['D'+str(i+52)].font = font2
                             sheet['B'+str(i+52)].font = font2                  
                         else:
                             sheet['D'+str(i+52)] = 'P+'
-                            sheet['D'+str(i+52)].fill = PatternFill(start_color='00FF6666', end_color='00FF6666', fill_type='solid')
+                            sheet['D'+str(i+52)].fill = PatternFill(start_color='00FF4141', end_color='00FF4141', fill_type='solid')
                             sheet['D'+str(i+52)].font = font2
                             sheet['B'+str(i+52)].font = font2
 
@@ -2675,7 +2675,7 @@ def analysis():
                     negative_label.place(x=75,y=32)
                     negativetext_label = Label(annotate_labelframe, bg='white', text='  (N)           ÂM TÍNH', height=2)
                     negativetext_label.place(x=145,y=32)
-                    positive_label = Label(annotate_labelframe, bg='orange red', width=4, height=2)
+                    positive_label = Label(annotate_labelframe, bg='tomato', width=4, height=2)
                     positive_label.place(x=75,y=82)
                     positivetext_label = Label(annotate_labelframe, bg='white', text='  (P)           DƯƠNG TÍNH', height=2)
                     positivetext_label.place(x=145,y=82)
@@ -2745,7 +2745,7 @@ def analysis():
                                     label[i] = Label(result_labelframe, bg='lawn green', text='N', width=4, height=2)
                                     label[i].grid(row=row_value,column=j,padx=2,pady=2)
                                 elif(t3_result[i]<=float(thr3l_set)):
-                                    label[i] = Label(result_labelframe, bg='orange red', text='P', width=4, height=2)
+                                    label[i] = Label(result_labelframe, bg='tomato', text='P', width=4, height=2)
                                     label[i].grid(row=row_value,column=j,padx=2,pady=2)
                                 else:
                                     label[i] = Label(result_labelframe, bg='red', text='P+', width=4, height=2)
