@@ -38,6 +38,7 @@ name = "/"
 entry_num = 0
 wait = 0
 pos_result = list(range(48))
+t2_tmp= list(range(48))
 path0 = "/"
 path1 = "/"
 path2 = "/"
@@ -54,8 +55,6 @@ covid19dir_old = ""
 div = list(range(48))
 start_point = (0,0)
 end_point = (0,0)
-setid48clicked = 0
-setid25clicked = 0
 t1_run = 0
 t2_run = 0
 t3_run = 0
@@ -445,12 +444,13 @@ def process_image(image_name, start_point=(x1,y1), end_point=(x2,y2)):
                     else:
                         cv2.drawContours(blurori_img, sorted_contours1, i, (0,0,255), thickness = 2)
                 if(t2_run==1):
+                    t2_tmp = result_list
                     if(result_list[i] <= float(thr2_set)):
                         cv2.drawContours(blurori_img, sorted_contours1, i, (0,255,0), thickness = 2)
                     else:
                         cv2.drawContours(blurori_img, sorted_contours1, i, (0,0,255), thickness = 2)
                 if(t3_run==1):
-                    if(result_list[i] <= float(thr2_set)):
+                    if(t2_tmp[i] <= float(thr2_set)):
                         cv2.drawContours(blurori_img, sorted_contours1, i, (0,255,0), thickness = 2)
                     else:
                         cv2.drawContours(blurori_img, sorted_contours1, i, (0,0,255), thickness = 2)                            
