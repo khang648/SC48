@@ -444,13 +444,12 @@ def process_image(image_name, start_point=(x1,y1), end_point=(x2,y2)):
                     else:
                         cv2.drawContours(blurori_img, sorted_contours1, i, (0,0,255), thickness = 2)
                 if(t2_run==1):
-                    t2_tmp = result_list
                     if(result_list[i] <= float(thr2_set)):
                         cv2.drawContours(blurori_img, sorted_contours1, i, (0,255,0), thickness = 2)
                     else:
                         cv2.drawContours(blurori_img, sorted_contours1, i, (0,0,255), thickness = 2)
                 if(t3_run==1):
-                    if(t2_tmp[i] <= float(thr2_set)):
+                    if(result_list[i] <= float(thr3l_set)):
                         cv2.drawContours(blurori_img, sorted_contours1, i, (0,255,0), thickness = 2)
                     else:
                         cv2.drawContours(blurori_img, sorted_contours1, i, (0,0,255), thickness = 2)                            
