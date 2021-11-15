@@ -454,7 +454,7 @@ def process_image(image_name, start_point=(x1,y1), end_point=(x2,y2)):
                         cv2.drawContours(blurori_img, sorted_contours1, i, (0,255,0), thickness = 2)
                     else:
                         cv2.drawContours(blurori_img, sorted_contours1, i, (0,0,255), thickness = 2)                            
-                                 
+                                  
     return (result_list, blurori_img)
 ########################################################### IMAGE ANALYSIS - END ###################################################################
 
@@ -2676,11 +2676,11 @@ def analysis():
                     negative_label.place(x=75,y=32)
                     negativetext_label = Label(annotate_labelframe, bg='white', text='  (N)           ÂM TÍNH', height=2)
                     negativetext_label.place(x=145,y=32)
-                    positive_label = Label(annotate_labelframe, bg='red', width=4, height=2)
+                    positive_label = Label(annotate_labelframe, bg='orange red', width=4, height=2)
                     positive_label.place(x=75,y=82)
                     positivetext_label = Label(annotate_labelframe, bg='white', text='  (P)           DƯƠNG TÍNH', height=2)
                     positivetext_label.place(x=145,y=82)
-                    redue_label = Label(annotate_labelframe, bg='orange red', width=4, height=2)
+                    redue_label = Label(annotate_labelframe, bg='red', width=4, height=2)
                     redue_label.place(x=75,y=132)
                     reduetext_label = Label(annotate_labelframe, bg='white', text='  (R)           DƯƠNG TÍNH (Ct<30)', height=2)
                     reduetext_label.place(x=145,y=132)
