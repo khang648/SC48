@@ -618,7 +618,7 @@ def mainscreen():
                     thr1_set = float(fr3.readline())
                     thr2_set = float(fr3.readline())
                     thr3l_set = float(fr3.readline())
-                    thr3h_set = float(fr3.readline())
+                    #thr3h_set = float(fr3.readline())
 
                     mainscreen_labelframe.place_forget()
                     scanposition()
@@ -642,7 +642,7 @@ def mainscreen():
                             print(ftpfile, "download done!")
                     ftp.quit()
                 except Exception as e :
-                    error = messagebox.showwarning("Sự cố đồng bộ server !",str(e))
+                    error = messagebox.showwarning("Có lỗi xảy ra khi đồng bộ server !",str(e))
                     if(error=='ok'):
                         pass
             file = filedialog.askopenfile(initialdir='/home/pi/Desktop/Spotcheck ID/', mode='r', filetypes=[('Excel file','*.xlsm *.xlsx *.xls')])
