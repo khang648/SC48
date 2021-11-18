@@ -445,17 +445,17 @@ def mainscreen():
             print("average_value:", average_value)
             #thr3l_value =  round((threshold + (average_value - 0)/(ratio1/ratio2)),1)
             tmp = round((average_value - raw)/ratio1,1)
-            thr3l_value =  round((tmp*ratio2)+threshold, 1)
-            thr3h_value = thr3l_value + 0.2
-            thr1_value = round(thr3l_value + 2, 1)
-            thr2_value = round(thr3l_value + 1, 1)
+            thr2_value =  round((tmp*ratio2)+threshold, 1)
+            #thr3h_value = thr3l_value + 0.2
+            thr1_value = round(thr2_value*90/100, 1)
+            thr3l_value = round(thr2_value*92/100, 1)
 
             fw0 = open("/home/pi/Spotcheck/ct.txt","w")
             fw0.truncate(0)
             fw0.writelines(str(thr1_value)+"\n")
             fw0.writelines(str(thr2_value)+"\n")
             fw0.writelines(str(thr3l_value)+"\n")
-            fw0.writelines(str(thr3h_value)+"\n")
+            #fw0.writelines(str(thr3h_value)+"\n")
 
             fw = open("/home/pi/Spotcheck/check.txt","w")
             fw.truncate(0)
