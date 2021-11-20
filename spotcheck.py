@@ -2416,7 +2416,6 @@ def analysis():
                 sheet['B62'] = '+ E: Lỗi'
                 sheet['C61'] = '+ N: Âm tính'
                 sheet['C62'] = '+ P: Dương tính'
-                sheet['E61'] = '+ P+: Dương tính (Ct<30)'
 
                 sheet.merge_cells(start_row=64, start_column=4, end_row=64, end_column=6)
                 sheet.merge_cells(start_row=65, start_column=4, end_row=65, end_column=6)
