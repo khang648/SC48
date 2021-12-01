@@ -440,12 +440,12 @@ def mainscreen():
             if(msgbox=='ok'):
                 root.destroy()
         else:
-            global raw, threshold, ratio
+            global raw, threshold, ratio1, ratio2
             average_value = round(sum(test_list)/len(test_list),1)
             print("average_value:", average_value)
             #thr3l_value =  round((threshold + (average_value - 0)/(ratio1/ratio2)),1)
-            tmp = (average_value - raw)//ratio1
-            thr2_value =  round((tmp*ratio2)+threshold, 1)
+            tmp_value = (average_value - raw)//ratio1
+            thr2_value =  round((tmp_value*ratio2)+threshold, 1)
             #thr3h_value = thr3l_value + 0.2
             thr1_value = round(thr2_value*90/100, 1)
             thr3l_value = round(thr2_value*92/100, 1)
