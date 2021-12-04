@@ -33,6 +33,7 @@ from datetime import *
 ########################################################## GLOBAL VARIABLE - START #################################################################
 covid19clicked = 0
 viewresultclicked = 0
+sorted_contours1 = list(range(48))
 temp_label = 0
 name = "/"
 entry_num = 0
@@ -283,6 +284,7 @@ def sorting_xy(contour):
 
 ########################################################## IMAGE ANALYSIS - START ##################################################################
 def process_image(image_name, start_point=(x1,y1), end_point=(x2,y2)):
+    global sorted_contours1
     image = cv2.imread(image_name)
     blur_img = cv2.GaussianBlur(image.copy(), (35,35), 0)
     gray_img = cv2.cvtColor(blur_img, cv2.COLOR_BGR2GRAY)
@@ -426,7 +428,7 @@ def process_image(image_name, start_point=(x1,y1), end_point=(x2,y2)):
             print('%.1f'%(result_list[i]), end = ' | ')
 
     blurori_img = cv2.GaussianBlur(image.copy(), (25,25), 0)
-    global t1_run, t2_run, t3_run, thr1_set, thr2_set, thr3l_set, thr3h_set, id_list
+    global t1_run, t2_run, t3_run, thr1_set, thr2_set, thr3l_set, id_list
     for i in range(len(sorted_contours1)):
         if(id_list[i]=='N/A'):
             cv2.drawContours(blurori_img, sorted_contours1, i, (0,0,0), thickness = -1)
@@ -2284,7 +2286,7 @@ def analysis():
                 tprocess_label = Label(t3_labelframe, bg=atk.DEFAULT_COLOR, fg='white smoke', text='Đang phân tích...', font=("Courier",9,'bold'))
                 tprocess_label.place(x=38,y=112)
 
-                camera_capture(path1 + "/T3(1).jpg")
+                camera_capture(path1 + "/T3(1).jpg") 
                 sleep(1)
                 camera_capture(path1 + "/T3(2).jpg")
 
@@ -2298,6 +2300,11 @@ def analysis():
                 t3_result = list(range(48))
                 for i in range(0,48):
                     t3_result[i]=round((t3_result1[i]+t3_result2[i])/2,1)
+                
+                if(t3_result[i] <= float(thr3l_set)):
+                    cv2.drawContours(t3_image, sorted_contours1, i, (0,255,0), thickness = 2)
+                else:
+                    cv2.drawContours(t3_image, sorted_contours1, i, (0,0,255), thickness = 2)
 
                 output = path2 + "/T3.jpg"
                 cv2.imwrite(output, t3_image)
@@ -2611,7 +2618,7 @@ def analysis():
                     c6=c6+6
                     sheet['B'+str(i+52)] = id_list[c6]
                     if(id_list[c6]=='N/A'):
-                        sheet['D'+str(i+52)] = 'N/A'
+                        sheet['D'+str(i+52)] = 'N/A' 
                     else:
                         if(t1_result[c6]<=float(thr1_set)):
                             sheet['D'+str(i+52)] = 'E'
