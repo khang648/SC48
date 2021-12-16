@@ -447,7 +447,7 @@ def mainscreen():
             tmp_value = int((average_value - raw)/ratio1)
             thr2_value =  round((tmp_value*ratio2)+threshold, 1)
             #thr3h_value = thr3l_value + 0.2
-            thr3l_value = round(thr2_value/1.08, 1)
+            thr3l_value = round(thr2_value/1.05, 1)
             thr1_value = thr3l_value - 1
 
             fw0 = open("/home/pi/Spotcheck/ct.txt","w")
