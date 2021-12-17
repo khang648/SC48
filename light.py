@@ -441,7 +441,7 @@ def mainscreen():
                 root.destroy()
         else:
             global raw, threshold, ratio1, ratio2
-            average_value = round(sum(test_list)/len(m),1)
+            average_value = round(sum(test_list)/len(test_list),1)
             print("average_value:", average_value)
             #thr3l_value =  round((threshold + (average_value - 0)/(ratio1/ratio2)),1)
             tmp_value = int((average_value - raw)/ratio1)
