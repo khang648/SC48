@@ -2849,9 +2849,10 @@ def analysis():
                             for i in range (0,48):
                                 label[i]['text'] = str('%.1f'%t3_result[i])                         
                             root.update_idletasks()
+                            sleep(1)
                             subprocess.call(["scrot",path3+"/gia-tri.jpg"])
                             #detail_click()
-                            sleep(1)
+                            sleep(2)
                             global foldername
                             global covid19clicked
                             foldername = ""
