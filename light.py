@@ -432,14 +432,14 @@ def mainscreen():
             pass
 
         average_value = round(sum(test_list)/len(test_list),1)
-        if(average_value > average_raw+(average_raw*0.15) or average_value < average_raw-(average_raw*0.15)):
+        if(average_value > average_raw+2 or average_value < average_raw-2):
             msgbox = messagebox.showerror(" ","Hệ thống lỗi, vui lòng liên hệ với nhà cung cấp !")
             fw = open("/home/pi/Spotcheck/check.txt","w")
             fw.truncate(0)
             fw.writelines("1111\n")
             if(msgbox=='ok'):
                 root.destroy()
-        elif(average_value > average_raw+(average_raw*0.05) or average_value < average_raw-(average_raw*0.05) ):
+        elif(average_value > average_raw+1 or average_value < average_raw-1):
             if(tmp==0):
                 send_data = 'H'
                 ser.write(send_data.encode())
