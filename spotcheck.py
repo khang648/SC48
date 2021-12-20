@@ -124,7 +124,6 @@ if not os.path.exists('/home/pi/Desktop/Spotcheck ID/Spotcheck ID - Old'):
 if not os.path.exists('/home/pi/Desktop/Ket Qua Phan Tich'):
     f = os.path.join("/home/pi/Desktop/", "Ket Qua Phan Tich")
     os.mkdir(f)
-
 ########################################################### GLOBAL VARIABLE - END ##################################################################
 
 ################################################################# TRIAL _ START ####################################################################
