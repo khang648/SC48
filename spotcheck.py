@@ -450,8 +450,8 @@ def process_image(image_name, start_point=(x1,y1), end_point=(x2,y2)):
                 #     if(result_list[i] <= float(thr3l_set)):
                 #         cv2.drawContours(blurori_img, sorted_contours1, i, (0,255,0), thickness = 2)
                 #     else:
-                #         cv2.drawContours(blurori_img, sorted_contours1, i, (0,0,255), thickness = 2)                            
-                                  
+                #         cv2.drawContours(blurori_img, sorted_contours1, i, (0,0,255), thickness = 2)
+
     return (result_list, blurori_img)
 ########################################################### IMAGE ANALYSIS - END ###################################################################
 
@@ -613,8 +613,8 @@ def mainscreen():
 
                     global thr1_set, thr2_set
                     fr4 = open("/home/pi/Spotcheck/parameters.txt","r")
-                    thr1_set = float(fr3.readline())
-                    thr2_set = float(fr3.readline())
+                    thr1_set = float(fr4.readline())
+                    thr2_set = float(fr4.readline())
                     #thr3l_set = float(fr3.readline())
                     #thr3h_set = float(fr3.readline())
 
@@ -1799,8 +1799,7 @@ def settemp():
 def scanposition():
     print(thr1_set)
     print(thr2_set)
-    print(thr3l_set)
-    print(thr3h_set)
+
     global path0
     global path1
     global path2
@@ -2066,7 +2065,7 @@ def analysis():
     stop_button.place(x=600,y=390)
     root.update()
 
-    send_data = "t"+ t2_set + "," + t3_set + "z"
+    send_data = "t"+ t1_set + "," + t2_set + "z"
     ser.write(send_data.encode())
     print("Data send: ", send_data)
     #t0 = time.time()
@@ -2093,7 +2092,7 @@ def analysis():
     global id_list
     while(wait==1):
         if(ser.in_waiting>0):
-            global t1_run, t2_run, t3_run
+            global t1_run, t2_run
             receive_data = ser.readline().decode('utf-8',errors='ignore').rstrip()
             #print("Data received:", receive_data)
             # if(receive_data!='C1' and receive_data!='C2' and receive_data!='C3'):
@@ -2213,11 +2212,11 @@ def analysis():
                 #t2_result, t2_image = process_image(path1 + "/T2.jpg", start_point, end_point)
                 t2_result1, _ = process_image(path1 + "/T2(1).jpg")
                 t2_result2, t2_image = process_image(path1 + "/T2(2).jpg")
-                
+
                 t2_result = list(range(48))
                 for i in range(0,48):
                     t2_result[i]=round((t2_result1[i]+t2_result2[i])/2,1)
-                    
+
                 if(t2_result[i] <= float(thr2_set)):
                     cv2.drawContours(t2_image, sorted_contours1, i, (0,255,0), thickness = 2)
                 else:
@@ -2297,7 +2296,7 @@ def analysis():
             #     tprocess_label = Label(t3_labelframe, bg=atk.DEFAULT_COLOR, fg='white smoke', text='Đang phân tích...', font=("Courier",9,'bold'))
             #     tprocess_label.place(x=38,y=112)
 
-            #     camera_capture(path1 + "/T3(1).jpg") 
+            #     camera_capture(path1 + "/T3(1).jpg")
             #     sleep(1)
             #     camera_capture(path1 + "/T3(2).jpg")
 
@@ -2311,7 +2310,7 @@ def analysis():
             #     t3_result = list(range(48))
             #     for i in range(0,48):
             #         t3_result[i]=round((t3_result1[i]+t3_result2[i])/2,1)
-                
+
             #     if(t3_result[i] <= float(thr3l_set)):
             #         cv2.drawContours(t3_image, sorted_contours1, i, (0,255,0), thickness = 2)
             #     else:
@@ -2517,7 +2516,7 @@ def analysis():
                             sheet['D'+str(i+12)].fill = PatternFill(start_color='00FF4141', end_color='00FF4141', fill_type='solid')
                             sheet['D'+str(i+12)].font = font2
                             sheet['B'+str(i+12)].font = font2
-                    
+
                     sheet['E'+str(i+12)].protection = Protection(locked=False, hidden=False)
                     sheet['F'+str(i+12)].protection = Protection(locked=False, hidden=False)
 
@@ -2537,7 +2536,7 @@ def analysis():
                             sheet['D'+str(i+20)].fill = PatternFill(start_color='00FF4141', end_color='00FF4141', fill_type='solid')
                             sheet['D'+str(i+20)].font = font2
                             sheet['B'+str(i+20)].font = font2
-                       
+
                     sheet['E'+str(i+20)].protection = Protection(locked=False, hidden=False)
                     sheet['F'+str(i+20)].protection = Protection(locked=False, hidden=False)
 
@@ -2557,7 +2556,7 @@ def analysis():
                             sheet['D'+str(i+28)].fill = PatternFill(start_color='00FF4141', end_color='00FF4141', fill_type='solid')
                             sheet['D'+str(i+28)].font = font2
                             sheet['B'+str(i+28)].font = font2
-                        
+
                     sheet['E'+str(i+28)].protection = Protection(locked=False, hidden=False)
                     sheet['F'+str(i+28)].protection = Protection(locked=False, hidden=False)
 
@@ -2577,7 +2576,7 @@ def analysis():
                             sheet['D'+str(i+36)].fill = PatternFill(start_color='00FF4141', end_color='00FF4141', fill_type='solid')
                             sheet['D'+str(i+36)].font = font2
                             sheet['B'+str(i+36)].font = font2
-                        
+
                     sheet['E'+str(i+36)].protection = Protection(locked=False, hidden=False)
                     sheet['F'+str(i+36)].protection = Protection(locked=False, hidden=False)
 
@@ -2597,14 +2596,14 @@ def analysis():
                             sheet['D'+str(i+44)].fill = PatternFill(start_color='00FF4141', end_color='00FF4141', fill_type='solid')
                             sheet['D'+str(i+44)].font = font2
                             sheet['B'+str(i+44)].font = font2
-                        
+
                     sheet['E'+str(i+44)].protection = Protection(locked=False, hidden=False)
                     sheet['F'+str(i+44)].protection = Protection(locked=False, hidden=False)
 
                     c6=c6+6
                     sheet['B'+str(i+52)] = id_list[c6]
                     if(id_list[c6]=='N/A'):
-                        sheet['D'+str(i+52)] = 'N/A' 
+                        sheet['D'+str(i+52)] = 'N/A'
                     else:
                         if(t1_result[c6]<=float(thr1_set)):
                             sheet['D'+str(i+52)] = 'E'
@@ -2620,7 +2619,7 @@ def analysis():
 
                     sheet['E'+str(i+52)].protection = Protection(locked=False, hidden=False)
                     sheet['F'+str(i+52)].protection = Protection(locked=False, hidden=False)
-                
+
                 sheet.print_area = 'A1:G70'
                 workbook1.save("/home/pi/Desktop/Ket Qua Phan Tich/" + importfilename + ".xlsm")
 
@@ -2744,7 +2743,7 @@ def analysis():
                     result_table(30,36,5)
                     result_table(36,42,6)
                     result_table(42,48,7)
-                    
+
                     root.update_idletasks()
 
                     def detail_click():
@@ -2804,7 +2803,7 @@ def analysis():
                         msgbox = messagebox.askquestion(' ','Bạn có muốn quay lại màn hình chính?', icon = 'question')
                         if(msgbox=='yes'):
                             for i in range (0,48):
-                                label[i]['text'] = str('%.1f'%t2_result[i])                         
+                                label[i]['text'] = str('%.1f'%t2_result[i])
                             root.update_idletasks()
                             subprocess.call(["scrot",path3+"/gia-tri.jpg"])
                             #detail_click()
