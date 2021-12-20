@@ -4,6 +4,8 @@ from tkinter import *
 from tkinter import messagebox
 import time
 from time import sleep, gmtime, strftime
+
+from numpy.lib.function_base import average
 from picamera import PiCamera
 import cv2
 import numpy as np
@@ -49,9 +51,6 @@ end_point = (0,0)
 thr_set= 15
 tmp = 0
 password = '123456789'
-value_max = 30
-value_min = 10
-
 
 fr = open("/home/pi/Spotcheck/check.txt","r")
 code = (fr.readline()).strip()
@@ -63,14 +62,10 @@ y2 = int(fr1.readline())
 fr2 = open("/var/tmp/.admin.txt","r")
 start_trial = int(fr2.readline())
 print("start_trial: ", start_trial)
-fr3 = open("/home/pi/Spotcheck/mmvalue.txt")
-value_min = float(fr3.readline())
-value_max = float(fr3.readline())
-fr4 = open("/home/pi/Spotcheck/threshold.txt","r")
-raw = float(fr4.readline())
-threshold = float(fr4.readline())
-ratio1 = float(fr4.readline())
-ratio2 = float(fr4.readline())
+fr3 = open("/home/pi/Spotcheck/parameters.txt")
+thr1_set = float(fr3.readline())
+thr2_set = float(fr3.readline())
+average_raw = float(fr3.readline())
 ########################################################### GLOBAL VARIABLE - END ##################################################################
 
 ############################################################### TRIAL - START ######################################################################
@@ -430,55 +425,45 @@ def mainscreen():
             #start_button.place(x=315,y=250)
             wait = 0
             break
+        
+        try:
+            sc_label.place_forget()
+        except:
+            pass
 
-        if(test_list[20]>value_max or test_list[21]>value_max or test_list[26]>value_max or test_list[27]>value_max or
-           test_list[20]<value_min or test_list[21]<value_min or test_list[26]<value_min or test_list[27]<value_min):
+        average_value = round(sum(test_list)/len(test_list),1)
+        if(average_value > average_raw+(average_raw*0.15) or average_value < average_raw-(average_raw*0.15)):
             msgbox = messagebox.showerror(" ","Hệ thống lỗi, vui lòng liên hệ với nhà cung cấp !")
             fw = open("/home/pi/Spotcheck/check.txt","w")
             fw.truncate(0)
             fw.writelines("1111\n")
             if(msgbox=='ok'):
                 root.destroy()
+        elif(average_value > average_raw+(average_raw*0.05) or average_value < average_raw-(average_raw*0.05) ):
+            if(tmp==0):
+                send_data = 'H'
+                ser.write(send_data.encode())
+                sc_label = Label(mainscreen_labelframe, font=("Courier",15,'bold'), fg ='red', bg='white',text='Hệ thống sẽ tiến hành gia nhiệt tự động\nVui lòng chờ trong vài phút...')
+                sc_label.place(x=158, y=260)
+            else:
+                msgbox = messagebox.showerror(" ","Hệ thống lỗi, vui lòng liên hệ với nhà cung cấp !")
+                fw = open("/home/pi/Spotcheck/check.txt","w")
+                fw.truncate(0)
+                fw.writelines("1111\n")
+                if(msgbox=='ok'):
+                    root.destroy()
         else:
-            global raw, threshold, ratio1, ratio2
-            average_value = round(sum(test_list)/len(test_list),1)
-            print("average_value:", average_value)
-            #thr3l_value =  round((threshold + (average_value - 0)/(ratio1/ratio2)),1)
-            tmp_value = int((average_value - raw)/ratio1)
-            thr2_value =  round((tmp_value*ratio2)+threshold, 1)
-            #thr3h_value = thr3l_value + 0.2
-            thr3l_value = round(thr2_value/1.05, 1)
-            thr1_value = thr3l_value - 1
-
-            fw0 = open("/home/pi/Spotcheck/ct.txt","w")
-            fw0.truncate(0)
-            fw0.writelines(str(thr1_value)+"\n")
-            fw0.writelines(str(thr2_value)+"\n")
-            fw0.writelines(str(thr3l_value)+"\n")
-            #fw0.writelines(str(thr3h_value)+"\n")
-
             fw = open("/home/pi/Spotcheck/check.txt","w")
             fw.truncate(0)
             fw.writelines("1234\n")
-            msgbox = messagebox.showinfo(" ","Thiết bị đã sẵn sàng sử dụng !")
+            msgbox = messagebox.showinfo(" ","Thiết bị đã sẵn sàng để sử dụng !")
             if(msgbox == 'ok'):
                 root.destroy()
 
     start_button = Button(mainscreen_labelframe, bg="grey98", text="Bắt đầu", font=('Courier',12,'bold'), borderwidth=0, height=3, width=12, command=start_click)
     #start_button.place(x=350,y=250)
-
-    if(tmp==0):
-        send_data = 'H'
-        ser.write(send_data.encode())
-        #msgbox = messagebox.showwarning("","Hệ thống sẽ tiến hành gia nhiệt tự động\nVui lòng chờ trong vài phút !")
-        sc_label = Label(mainscreen_labelframe, font=("Courier",15,'bold'), fg ='red', bg='white',text='Hệ thống sẽ tiến hành gia nhiệt tự động\nVui lòng chờ trong vài phút...')
-        sc_label.place(x=158, y=260)
-    else: 
-        try:
-            sc_label.place_forget()
-        except:
-            pass
-        start_click()
+    
+    start_click()
 
 ############################################################### LOOP - START #######################################################################
 def readSerial():
