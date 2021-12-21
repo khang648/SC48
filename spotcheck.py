@@ -1989,7 +1989,6 @@ def scanposition():
             analysis()
         next_button = Button(scanposition_labelframe, font=("Courier",12,'bold'), bg="lavender", text="Tiếp theo", height=3, width=11, borderwidth=0,command=thread)
         next_button.place(x=647,y=406)
-
 ########################################################## SAMPLES POSITION - END ##################################################################
 
 ######################################################### SAMPLES ANALYSIS - START #################################################################
