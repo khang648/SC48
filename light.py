@@ -66,6 +66,10 @@ fr3 = open("/home/pi/Spotcheck/parameters.txt")
 thr1_set = float(fr3.readline())
 thr2_set = float(fr3.readline())
 average_raw = float(fr3.readline())
+fr4 = open("/home/pi/Spotcheck/mmvalue.txt")
+value1 = float(fr4.readline())
+value2 = float(fr4.readline())
+
 ########################################################### GLOBAL VARIABLE - END ##################################################################
 
 ############################################################### TRIAL - START ######################################################################
@@ -187,7 +191,6 @@ ser = serial.Serial(
     bytesize = serial.EIGHTBITS,
     timeout = 1
 )
-
 ############################################################# SERIAL INIT - END ####################################################################
 
 ######################################################### SORTING CONTOURS - START #################################################################
@@ -432,14 +435,14 @@ def mainscreen():
             pass
 
         average_value = round(sum(test_list)/len(test_list),1)
-        if(average_value > average_raw+2 or average_value < average_raw-2):
+        if(average_value > average_raw+value2 or average_value < average_raw-value2):
             msgbox = messagebox.showerror(" ","Hệ thống lỗi, vui lòng liên hệ với nhà cung cấp !")
             fw = open("/home/pi/Spotcheck/check.txt","w")
             fw.truncate(0)
             fw.writelines("1111\n")
             if(msgbox=='ok'):
                 root.destroy()
-        elif(average_value > average_raw+1 or average_value < average_raw-1):
+        elif(average_value > average_raw+value1 or average_value < average_raw-value1):
             if(tmp==0):
                 send_data = 'H'
                 ser.write(send_data.encode())
@@ -464,7 +467,6 @@ def mainscreen():
     #start_button.place(x=350,y=250)
     
     start_click()
-
 ############################################################### LOOP - START #######################################################################
 def readSerial():
     if(ser.in_waiting>0):
