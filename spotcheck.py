@@ -2215,10 +2215,13 @@ def analysis():
                 t2_result = list(range(48))
                 for i in range(0,48):
                     t2_result[i]=round((t2_result1[i]+t2_result2[i])/2,1)
-                    if(t2_result[i] <= float(thr2_set)):
-                        cv2.drawContours(t2_image, sorted_contours1, i, (0,255,0), thickness = 2)
+                    if(id_list[i]=='N/A'):
+                        cv2.drawContours(t2_image, sorted_contours1, i, (0,0,0), thickness = -1)
                     else:
-                        cv2.drawContours(t2_image, sorted_contours1, i, (0,0,255), thickness = 2)
+                        if(t2_result[i] <= float(thr2_set)):
+                            cv2.drawContours(t2_image, sorted_contours1, i, (0,255,0), thickness = 2)
+                        else:
+                            cv2.drawContours(t2_image, sorted_contours1, i, (0,0,255), thickness = 2)
 
                 output = path2 + "/T2.jpg"
                 cv2.imwrite(output, t2_image)
