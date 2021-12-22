@@ -442,7 +442,7 @@ def mainscreen():
             fw.writelines("1111\n")
             if(msgbox=='ok'):
                 root.destroy()
-        elif(average_value > average_raw+value1 or average_value < average_raw-value1):
+        elif(average_value > average_raw+value1):
             if(tmp==0):
                 send_data = 'H'
                 ser.write(send_data.encode())
