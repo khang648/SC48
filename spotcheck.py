@@ -401,8 +401,10 @@ def process_image(image_name, start_point=(x1,y1), end_point=(x2,y2)):
 #Nhân hệ số
     global hs
     for i in range(len(sorted_contours1)):
-        if(id_list[i]=='N' or id_list[i]=='Negative' or id_list[i]=='n' or id_list[i]=='negative' or id_list[i]=='NEGC'):
+        if(id_list[i]=='N' or id_list[i]=='Negative' or id_list[i]=='n' or id_list[i]=='negative' or id_list[i]=='NEGC' or id_list[i]=='NEGATIVE'):
             result_list[i] = round(result_list[i]*0.85,1)
+        elif(id_list[i]=='P' or id_list[i]=='Positive' or id_list[i]=='p' or id_list[i]=='positive' or id_list[i]=='POSC' or id_list[i]=='POSITIVE'):
+            result_list[i] = round(result_list[i]*1.18,1)
         else:
             result_list[i] = round(result_list[i]*hs[i],1)
 
