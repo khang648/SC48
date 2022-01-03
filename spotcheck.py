@@ -397,6 +397,7 @@ def process_image(image_name, start_point=(x1,y1), end_point=(x2,y2)):
 #         tmp_list[i] = list_intensities[i]/1000
 #         result_list[i] = round(tmp_list[i])
 
+    global t1_run, t2_run, t3_run, thr1_set, thr2_set, thr3l_set, id_list
 #Nhân hệ số
     global hs
     for i in range(len(sorted_contours1)):
@@ -429,7 +430,7 @@ def process_image(image_name, start_point=(x1,y1), end_point=(x2,y2)):
             print('%.1f'%(result_list[i]), end = ' | ')
 
     blurori_img = cv2.GaussianBlur(image.copy(), (25,25), 0)
-    global t1_run, t2_run, t3_run, thr1_set, thr2_set, thr3l_set, id_list
+    
     for i in range(len(sorted_contours1)):
         if(id_list[i]=='N/A'):
             cv2.drawContours(blurori_img, sorted_contours1, i, (0,0,0), thickness = -1)
