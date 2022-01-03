@@ -62,13 +62,14 @@ y2 = int(fr1.readline())
 fr2 = open("/var/tmp/.admin.txt","r")
 start_trial = int(fr2.readline())
 print("start_trial: ", start_trial)
-fr3 = open("/home/pi/Spotcheck/parameters.txt")
+fr3 = open("/home/pi/Spotcheck/threshold.txt")
 thr1_set = float(fr3.readline())
 thr2_set = float(fr3.readline())
-average_raw = float(fr3.readline())
-fr4 = open("/home/pi/Spotcheck/mmvalue.txt")
+thr3l_set = float(fr3.readline())
+fr4 = open("/home/pi/Spotcheck/parameters.txt")
 value1 = float(fr4.readline())
 value2 = float(fr4.readline())
+average_raw = float(fr4.readline())
 
 ########################################################### GLOBAL VARIABLE - END ##################################################################
 

@@ -114,10 +114,6 @@ fr3 = open("/var/tmp/.admin.txt","r")
 start_trial = int(fr3.readline())
 print("start_trial: ", start_trial)
 
-fr4 = open("/home/pi/Spotcheck/mmvalue.txt","r")
-v01 = float(fr4.readline())
-v02= float(fr4.readline())
-
 if not os.path.exists('/home/pi/Spotcheck Ket Qua'):
     f = os.path.join("/home/pi/", "Spotcheck Ket Qua")
     os.mkdir(f)
@@ -626,11 +622,11 @@ def mainscreen():
                     path5 = os.path.join(path0,"Chương trình nhiệt")
                     os.mkdir(path5)
 
-                    global thr1_set, thr2_set,thr3l_set, thr3h_set
-                    fr3 = open("/home/pi/Spotcheck/ct.txt","r")
-                    thr1_set = float(fr3.readline())
-                    thr2_set = float(fr3.readline())
-                    thr3l_set = float(fr3.readline())
+                    global thr1_set, thr2_set,thr3l_set
+                    fr4 = open("/home/pi/Spotcheck/threshold.txt","r")
+                    thr1_set = float(fr4.readline())
+                    thr2_set = float(fr4.readline())
+                    thr3l_set = float(fr4.readline())
                     #thr3h_set = float(fr3.readline())
 
                     mainscreen_labelframe.place_forget()
@@ -1007,17 +1003,17 @@ def mainscreen():
                 msg = messagebox.askquestion("Lưu ", "Bạn có muốn lưu lựa chọn ?")
                 if(msg=='yes'):
                     if(kit1_button['bg']=='lawn green'):
-                        tc= open("/home/pi/Spotcheck/ct.txt","w")
+                        tc= open("/home/pi/Spotcheck/threshold.txt","w")
                         tc.truncate(0)
                         tc.writelines(str(round(float(sl1_value)-1,1))+"\n")
                         tc.writelines(sl1_value+"\n")
-                        tc.writelines('12.5'+"\n")
+                        tc.writelines(str(round(float(sl1_value)+4.2,1))+"\n")
                     else:
-                        tc= open("/home/pi/Spotcheck/ct.txt","w")
+                        tc= open("/home/pi/Spotcheck/threshold.txt","w")
                         tc.truncate(0)
                         tc.writelines(str(round(float(sl2_value)-1,1))+"\n")
                         tc.writelines(sl2_value+"\n")
-                        tc.writelines('12.5'+"\n")
+                        tc.writelines(str(round(float(sl1_value)+4.8,1))+"\n")
 
                     messagebox.showinfo("", "Đã lưu xong !")
 
@@ -1898,7 +1894,7 @@ def scanposition():
                 scanposition_progressbar['value'] = 20
                 root.update_idletasks()
                 wait = 1
-                break;
+                break
     while(wait==1):
         try:
             camera_capture(path4 + "/mau.jpg")
