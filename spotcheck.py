@@ -971,7 +971,7 @@ def mainscreen():
             ct_label = Label(configmc1_labelframe, text='CHỌN NGƯỠNG SÀNG LỌC',font=('bold'), width=61, bg='dodger blue')
             ct_label.place(x=3,y=1)
 
-            fr5 = open("/home/pi/Spotcheck/ct.txt","r")
+            fr5 = open("/home/pi/Spotcheck/threshold.txt","r")
             firstline = (fr5.readline()).strip()
             secondline = (fr5.readline()).strip()
             thirdline = (fr5.readline()).strip()
@@ -1014,7 +1014,7 @@ def mainscreen():
                         tc.truncate(0)
                         tc.writelines(str(round(float(sl2_value)-1,1))+"\n")
                         tc.writelines(sl2_value+"\n")
-                        tc.writelines(str(round(float(sl1_value)+4.8,1))+"\n")
+                        tc.writelines(str(round(float(sl2_value)+4.8,1))+"\n")
 
                     messagebox.showinfo("", "Đã lưu xong !")
 
