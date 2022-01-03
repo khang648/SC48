@@ -2316,7 +2316,7 @@ def analysis():
                 for i in range(0,48):
                     t3_result[i]=round((t3_result1[i]+t3_result2[i])/2,1)
                     if(id_list[i]=='N/A'):
-                        cv2.drawContours(blurori_img, sorted_contours1, i, (0,0,0), thickness = -1)
+                        cv2.drawContours(t3_image, sorted_contours1, i, (0,0,0), thickness = -1)
                     else:
                         if(t3_result[i] <= float(thr3l_set)):
                             cv2.drawContours(t3_image, sorted_contours1, i, (0,255,0), thickness = 2)
