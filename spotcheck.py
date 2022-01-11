@@ -407,7 +407,7 @@ def process_image(image_name, start_point=(x1,y1), end_point=(x2,y2)):
             result_list[i] = round(result_list[i]*1.18,1)
         else:
             result_list[i] = round(result_list[i]*hs[i],1)
-
+   
 #     for i in range(len(sorted_contours1)):
 #         if(i==0):
 #             result_list[i] = round(result_list[i]*1.03,1)
@@ -2221,13 +2221,28 @@ def analysis():
                 tprocess_label = Label(t2_labelframe, bg=atk.DEFAULT_COLOR, fg='white smoke', text='Đang phân tích...', font=("Courier",9,'bold'))
                 tprocess_label.place(x=38,y=112)
 
-                camera_capture(path1 + "/T2.jpg")
+                camera_capture(path1 + "/T2(1).jpg")
+                sleep(1)
+                camera_capture(path1 + "/T2(2).jpg")
+
 
                 send_data = 'C'
                 ser.write(send_data.encode())
                 print('Capture done!')
                 #t2_result, t2_image = process_image(path1 + "/T2.jpg", start_point, end_point)
-                t2_result, t2_image= process_image(path1 + "/T2.jpg")
+                t2_result1,_ = process_image(path1 + "/T2(1).jpg")
+                t2_result2, t2_image = process_image(path1 + "/T2(2).jpg")
+
+                t2_result = list(range(48))
+                for i in range(0,48):
+                    t2_result[i]=round((t2_result1[i]+t2_result2[i])/2,1)
+                    if(id_list[i]=='N/A'):
+                        cv2.drawContours(t2_image, sorted_contours1, i, (0,0,0), thickness = -1)
+                    else:
+                        if(t2_result[i] <= float(thr3l_set)):
+                            cv2.drawContours(t2_image, sorted_contours1, i, (0,255,0), thickness = 2)
+                        else:
+                            cv2.drawContours(t2_image, sorted_contours1, i, (0,0,255), thickness = 2)
 
                 output = path2 + "/T2.jpg"
                 cv2.imwrite(output, t2_image)
@@ -2303,27 +2318,13 @@ def analysis():
                 tprocess_label = Label(t3_labelframe, bg=atk.DEFAULT_COLOR, fg='white smoke', text='Đang phân tích...', font=("Courier",9,'bold'))
                 tprocess_label.place(x=38,y=112)
 
-                camera_capture(path1 + "/T3(1).jpg") 
-                sleep(1)
-                camera_capture(path1 + "/T3(2).jpg")
+                camera_capture(path1 + "/T3.jpg") 
 
                 send_data = 'C'
                 ser.write(send_data.encode())
                 print('Capture done!')
                 #t3_result, t3_image = process_image(path1 + "/T3.jpg", start_point, end_point)
-                t3_result1,_ = process_image(path1 + "/T3(1).jpg")
-                t3_result2, t3_image = process_image(path1 + "/T3(2).jpg")
-
-                t3_result = list(range(48))
-                for i in range(0,48):
-                    t3_result[i]=round((t3_result1[i]+t3_result2[i])/2,1)
-                    if(id_list[i]=='N/A'):
-                        cv2.drawContours(t3_image, sorted_contours1, i, (0,0,0), thickness = -1)
-                    else:
-                        if(t3_result[i] <= float(thr3l_set)):
-                            cv2.drawContours(t3_image, sorted_contours1, i, (0,255,0), thickness = 2)
-                        else:
-                            cv2.drawContours(t3_image, sorted_contours1, i, (0,0,255), thickness = 2)
+                t3_result, t3_image = process_image(path1 + "/T3.jpg")
 
                 output = path2 + "/T3.jpg"
                 cv2.imwrite(output, t3_image)
@@ -2759,7 +2760,7 @@ def analysis():
                                     label[i] = Label(result_labelframe, bg='lawn green', text='N', width=4, height=2)
                                     label[i].grid(row=row_value,column=j,padx=2,pady=2)
                                 if(t1_result[i]>float(thr1_set) and t2_result[i]>float(thr2_set) and t3_result[i]<=float(thr3l_set)):
-                                    label[i] = Label(result_labelframe, bg='red', text='P', width=4, height=2)
+                                    label[i] = Label(result_labelframe, bg='red', text=str('%.1f'%t2_result[i]), width=4, height=2)
                                     label[i].grid(row=row_value,column=j,padx=2,pady=2)
                                 if(t1_result[i]>float(thr1_set) and t2_result[i]>float(thr2_set) and t3_result[i]>float(thr3l_set)):
                                     label[i] = Label(result_labelframe, bg='lawn green', text='N', width=4, height=2)
@@ -2832,11 +2833,11 @@ def analysis():
                     def finish_click():
                         msgbox = messagebox.askquestion('Ket thuc chuong trinh','Bạn có muốn quay lại ?', icon = 'question')
                         if(msgbox=='yes'):
-                            for i in range (0,48):
-                                label[i]['text'] = str('%.1f'%t3_result[i])                         
-                            root.update_idletasks()
-                            subprocess.call(["scrot",path3+"/gia-tri.jpg"])
-                            sleep(1)
+                            # for i in range (0,48):
+                            #     label[i]['text'] = str('%.1f'%t3_result[i])                         
+                            # root.update_idletasks()
+                            # subprocess.call(["scrot",path3+"/gia-tri.jpg"])
+                            # sleep(1)
                             global foldername
                             global covid19clicked
                             foldername = ""
