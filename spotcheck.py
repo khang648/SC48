@@ -2239,7 +2239,7 @@ def analysis():
                     if(id_list[i]=='N/A'):
                         cv2.drawContours(t2_image, sorted_contours1, i, (0,0,0), thickness = -1)
                     else:
-                        if(t2_result[i] <= float(thr3l_set)):
+                        if(t2_result[i] <= float(thr2_set)):
                             cv2.drawContours(t2_image, sorted_contours1, i, (0,255,0), thickness = 2)
                         else:
                             cv2.drawContours(t2_image, sorted_contours1, i, (0,0,255), thickness = 2)
