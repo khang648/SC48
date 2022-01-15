@@ -910,6 +910,12 @@ def mainscreen():
             warning_label.place(x=220,y=450)
 
     def viewresult_click():
+        try:
+                subprocess.Popen(['killall','florence'])
+        except:
+            pass
+        root.attributes('-fullscreen', True)
+
         home_canvas['bg'] = 'dodger blue'
         covid19_canvas['bg'] = 'dodger blue'
         viewresult_canvas['bg'] = 'white'
@@ -1178,7 +1184,7 @@ def mainscreen():
                     root.attributes('-fullscreen', True)
 
             keyboard_button = Button(configmc2_labelframe, font=('Courier','10','bold'), bg="grey85", text="Bàn phím", height=3, width=7, borderwidth=0, command=keyboard_click)
-            keyboard_button.place(x=706,y=374)
+            keyboard_button.place(x=530,y=374)
             save_button = Button(configmc2_labelframe, bg="yellow", text="Lưu", borderwidth=0, height=3, width=10, command=save_click)
             save_button.place(x=318,y=374)
             back_button = Button(configmc2_labelframe, bg="grey88", text="Trở lại", borderwidth=0, height=3, width=10, command=back_click)
@@ -2841,7 +2847,7 @@ def analysis():
                             global foldername
                             global covid19clicked
                             foldername = ""
-                            covid19clicked = 1
+                            covid19clicked = 0
                             analysis_labelframe.place_forget()
                             global wait
                             wait=0
