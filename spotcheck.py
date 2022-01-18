@@ -1055,7 +1055,7 @@ def mainscreen():
             ip_entry.place(x=253,y=155)
             user_entry = Entry(configmc2_labelframe,width=28, font=('Courier',14))
             user_entry.place(x=253,y=205)
-            password_entry = Entry(configmc2_labelframe,width=28, font=('Courier',14))
+            password_entry = Entry(configmc2_labelframe,width=28, show='⚫' font=('Courier',14))
             password_entry.place(x=253,y=255)
             folder_entry = Entry(configmc2_labelframe,width=28, font=('Courier',14))
             folder_entry.place(x=253,y=305)
