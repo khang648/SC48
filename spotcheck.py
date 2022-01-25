@@ -114,6 +114,11 @@ fr3 = open("/var/tmp/.admin.txt","r")
 start_trial = int(fr3.readline())
 print("start_trial: ", start_trial)
 
+fr7 = open("/home/pi/Spotcheck/parameters.txt")
+value1 = float(fr7.readline())
+value2 = float(fr7.readline())
+average_raw = float(fr7.readline())
+
 if not os.path.exists('/home/pi/Spotcheck Ket Qua'):
     f = os.path.join("/home/pi/", "Spotcheck Ket Qua")
     os.mkdir(f)
@@ -407,7 +412,7 @@ def process_image(image_name, start_point=(x1,y1), end_point=(x2,y2)):
             result_list[i] = round(result_list[i]*1.18,1)
         else:
             result_list[i] = round(result_list[i]*hs[i],1)
-   
+
 #     for i in range(len(sorted_contours1)):
 #         if(i==0):
 #             result_list[i] = round(result_list[i]*1.03,1)
@@ -432,7 +437,7 @@ def process_image(image_name, start_point=(x1,y1), end_point=(x2,y2)):
             print('%.1f'%(result_list[i]), end = ' | ')
 
     blurori_img = cv2.GaussianBlur(image.copy(), (25,25), 0)
-    
+
     for i in range(len(sorted_contours1)):
         if(id_list[i]=='N/A'):
             cv2.drawContours(blurori_img, sorted_contours1, i, (0,0,0), thickness = -1)
@@ -458,8 +463,8 @@ def process_image(image_name, start_point=(x1,y1), end_point=(x2,y2)):
                     if(result_list[i] <= float(thr3l_set)):
                         cv2.drawContours(blurori_img, sorted_contours1, i, (0,255,0), thickness = 2)
                     else:
-                        cv2.drawContours(blurori_img, sorted_contours1, i, (0,0,255), thickness = 2)                            
-                                  
+                        cv2.drawContours(blurori_img, sorted_contours1, i, (0,0,255), thickness = 2)
+
     return (result_list, blurori_img)
 ########################################################### IMAGE ANALYSIS - END ###################################################################
 
@@ -1842,7 +1847,7 @@ def scanposition():
     scanposition_labelframe.place(x=0,y=0)
     title_labelframe = LabelFrame(scanposition_labelframe, bg='dodger blue', width=798, height=50)
     title_labelframe.place(x=0,y=0)
-    scanposition_label = Label(scanposition_labelframe, bg='dodger blue', text='XÁC ĐỊNH VỊ TRÍ MẪU', font=("Courier",17,'bold'), width=20, height=1 )
+    scanposition_label = Label(scanposition_labelframe, bg='dodger blue', text='KIỂM TRA HỆ THỐNG', font=("Courier",17,'bold'), width=20, height=1 )
     scanposition_label.place(x=258,y=12)
 
     scan_img = Image.open('/home/pi/Spotcheck/scan.png')
@@ -1950,72 +1955,97 @@ def scanposition():
         root.update_idletasks()
         sleep(1)
 
+        workbook0 = Workbook()
+        sheet0 = workbook0.active
+
+        sheet0["A2"] = "A"
+        sheet0["A3"] = "B"
+        sheet0["A4"] = "C"
+        sheet0["A5"] = "D"
+        sheet0["A6"] = "E"
+        sheet0["A7"] = "F"
+        sheet0["A8"] = "G"
+        sheet0["A9"] = "H"
+        sheet0["B1"] = "1"
+        sheet0["C1"] = "2"
+        sheet0["D1"] = "3"
+        sheet0["E1"] = "4"
+        sheet0["F1"] = "5"
+        sheet0["G1"] = "6"
+        for i in range(0,48):
+            if(i<6):
+                pos = str(chr(65+i+1)) + "2"
+            if(i>=6 and i<12):
+                pos = str(chr(65+i-5)) + "3"
+            if(i>=12 and i<18):
+                pos = str(chr(65+i-11)) + "4"
+            if(i>=18 and i<24):
+                pos = str(chr(65+i-17)) + "5"
+            if(i>=24 and i<30):
+                pos = str(chr(65+i-23)) + "6"
+            if(i>=30 and i<36):
+                pos = str(chr(65+i-29)) + "7"
+            if(i>=36 and i<42):
+                pos = str(chr(65+i-35)) + "8"
+            if(i>=42):
+                pos = str(chr(65+i-41)) + "9"
+
+            sheet0[pos] = pos_result[i]
+
+        workbook0.save(path4 + "/gia-tri.xlsx")
+
         scanresult_labelframe = LabelFrame(scanposition_labelframe, bg='ghost white', width=528,height = 307)
         scanresult_labelframe.place(x=248,y=60)
 
+        average_value = round(sum(pos_result)/len(pos_result),1)
         label = list(range(48))
-        global id_list
-        def result_table(range_a, range_b, row_value):
-            global samples
-            j=-1
-            for i in range(range_a, range_b):
-                j+=1
-                if(i<6):
-                    t='A'+ str(i+1)
-                if(i>=6 and i<12):
-                    t='B'+ str(i-5)
-                if(i>=12 and i<18):
-                    t='C'+ str(i-11)
-                if(i>=18 and i<24):
-                    t='D'+ str(i-17)
-                if(i>=24 and i<30):
-                    t='E'+ str(i-23)
-                if(i>=30 and i<36):
-                    t='F'+ str(i-29)
-                if(i>=36 and i<42):
-                    t='G'+ str(i-35)
-                if(i>=42):
-                    t='H'+ str(i-41)
-                if(id_list[i]=='N/A'):
-                    label[i] = Label(scanresult_labelframe, bg='white', text=t, width=5, height=2)
-                    label[i].grid(row=row_value,column=j,padx=3,pady=3)
+        for i in range(0,8):
+            for j in range(0,6):
+                if(average_value > average_raw+3 or average_value < average_raw-3):
+                    label[i] = Label(scanresult_labelframe, bg='yellow', text='!', width=5, height=2)
+                    label[i].grid(row=i,column=j,padx=3,pady=3)
                 else:
-                    if(pos_result[i]<=8):
-                        label[i] = Label(scanresult_labelframe, bg='gainsboro', text=t, width=5, height=2)
-                        label[i].grid(row=row_value,column=j,padx=3,pady=3)
-                    else:
-                        label[i] = Label(scanresult_labelframe, bg='OliveDrab1', text=t, width=5, height=2)
-                        label[i].grid(row=row_value,column=j,padx=3,pady=3)
-                        samples += 1
+                    label[i] = Label(scanresult_labelframe, bg='DodgerBlue2', fg='lawn green', text='✓', width=5, height=2)
+                    label[i].grid(row=i,column=j,padx=3,pady=3)
+
         scanposition_progressbar['value'] = 100
         root.update_idletasks()
 
-        result_table(0,6,0)
-        result_table(6,12,1)
-        result_table(12,18,2)
-        result_table(18,24,3)
-        result_table(24,30,4)
-        result_table(30,36,5)
-        result_table(36,42,6)
-        result_table(42,48,7)
-        global samples
-        samplenum_label = Label(scanposition_labelframe, text='Số mẫu hiện tại: ' + str(samples), fg='dodger blue', bg='white', font=("Courier",13,'bold'))
-        samplenum_label.place(x=300,y=432)
         scan_label.place_forget()
         scanposition_progressbar.place_forget()
         process_label.place_forget()
         wait = 0
-        samples = 0
-        def thread():
-            th1 = Thread(target = next_click)
-            th1.start()
-        def next_click():
-            global createclicked
-            createclicked = 0
-            scanposition_labelframe.place_forget()
-            analysis()
-        next_button = Button(scanposition_labelframe, font=("Courier",12,'bold'), bg="lavender", text="Tiếp theo", height=3, width=11, borderwidth=0,command=thread)
-        next_button.place(x=647,y=406)
+
+        samplenum_label = Label(scanposition_labelframe, bg='white', font=("Courier",13,'bold'))
+        if(average_value > average_raw+3):
+            err = messagebox.showerror('','Vui lòng không cho mẫu vào trong quá trình kiểm tra !')
+            samplenum_label['text'] = 'HỆ THỐNG LỖI, XIN THỬ LẠI !'
+            samplenum_label['fg'] = "red"
+            samplenum_label.place(x=265,y=432)
+        elif(average_value < average_raw-3):
+            err = messagebox.showerror('','Hệ thống lỗi, vui lòng liên hệ với nhà cung cấp !')
+            samplenum_label['text'] = 'HỆ THỐNG LỖI, XIN THỬ LẠI !'
+            samplenum_label['fg'] = "red"
+            samplenum_label.place(x=265,y=432)
+        else:
+            info = messagebox.showinfo('Hoàn thành','Có thể cho mẫu vào và tiến hành phân tích.')
+            samplenum_label['text'] = 'ĐÃ KIỂM TRA XONG !'
+            samplenum_label['fg'] = "green4"
+            samplenum_label.place(x=310,y=432)
+
+
+            def thread():
+                th1 = Thread(target = next_click)
+                th1.start()
+
+            def next_click():
+                global createclicked
+                createclicked = 0
+                scanposition_labelframe.place_forget()
+                analysis()
+
+            next_button = Button(scanposition_labelframe, font=("Courier",12,'bold'), bg="lavender", text="Tiếp theo", height=3, width=11, borderwidth=0,command=thread)
+            next_button.place(x=647,y=406)
 
 ########################################################## SAMPLES POSITION - END ##################################################################
 
@@ -2324,7 +2354,7 @@ def analysis():
                 tprocess_label = Label(t3_labelframe, bg=atk.DEFAULT_COLOR, fg='white smoke', text='Đang phân tích...', font=("Courier",9,'bold'))
                 tprocess_label.place(x=38,y=112)
 
-                camera_capture(path1 + "/T3.jpg") 
+                camera_capture(path1 + "/T3.jpg")
 
                 send_data = 'C'
                 ser.write(send_data.encode())
@@ -2535,7 +2565,7 @@ def analysis():
                         if(t1_result[c1]>float(thr1_set) and t2_result[c1]>float(thr2_set) and t3_result[c1]>float(thr3l_set)):
                             sheet['D'+str(i+12)] = 'N'
                             sheet['D'+str(i+12)].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')
-                    
+
                     sheet['E'+str(i+12)].protection = Protection(locked=False, hidden=False)
                     sheet['F'+str(i+12)].protection = Protection(locked=False, hidden=False)
 
@@ -2558,7 +2588,7 @@ def analysis():
                         if(t1_result[c2]>float(thr1_set) and t2_result[c2]>float(thr2_set) and t3_result[c2]>float(thr3l_set)):
                             sheet['D'+str(i+20)] = 'N'
                             sheet['D'+str(i+20)].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')
-                       
+
                     sheet['E'+str(i+20)].protection = Protection(locked=False, hidden=False)
                     sheet['F'+str(i+20)].protection = Protection(locked=False, hidden=False)
 
@@ -2581,7 +2611,7 @@ def analysis():
                         if(t1_result[c3]>float(thr1_set) and t2_result[c3]>float(thr2_set) and t3_result[c3]>float(thr3l_set)):
                             sheet['D'+str(i+28)] = 'N'
                             sheet['D'+str(i+28)].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')
-                        
+
                     sheet['E'+str(i+28)].protection = Protection(locked=False, hidden=False)
                     sheet['F'+str(i+28)].protection = Protection(locked=False, hidden=False)
 
@@ -2604,7 +2634,7 @@ def analysis():
                         if(t1_result[c4]>float(thr1_set) and t2_result[c4]>float(thr2_set) and t3_result[c4]>float(thr3l_set)):
                             sheet['D'+str(i+36)] = 'N'
                             sheet['D'+str(i+36)].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')
-                        
+
                     sheet['E'+str(i+36)].protection = Protection(locked=False, hidden=False)
                     sheet['F'+str(i+36)].protection = Protection(locked=False, hidden=False)
 
@@ -2627,14 +2657,14 @@ def analysis():
                         if(t1_result[c5]>float(thr1_set) and t2_result[c5]>float(thr2_set) and t3_result[c5]>float(thr3l_set)):
                             sheet['D'+str(i+44)] = 'N'
                             sheet['D'+str(i+44)].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')
-                        
+
                     sheet['E'+str(i+44)].protection = Protection(locked=False, hidden=False)
                     sheet['F'+str(i+44)].protection = Protection(locked=False, hidden=False)
 
                     c6=c6+6
                     sheet['B'+str(i+52)] = id_list[c6]
                     if(id_list[c6]=='N/A'):
-                        sheet['D'+str(i+52)] = 'N/A' 
+                        sheet['D'+str(i+52)] = 'N/A'
                     else:
                         if(t1_result[c6]<=float(thr1_set)):
                             sheet['D'+str(i+52)] = 'E'
@@ -2653,7 +2683,7 @@ def analysis():
 
                     sheet['E'+str(i+52)].protection = Protection(locked=False, hidden=False)
                     sheet['F'+str(i+52)].protection = Protection(locked=False, hidden=False)
-                
+
                 sheet.print_area = 'A1:G70'
                 workbook1.save("/home/pi/Desktop/Ket Qua Phan Tich/" + importfilename + ".xlsm")
 
@@ -2780,7 +2810,7 @@ def analysis():
                     result_table(30,36,5)
                     result_table(36,42,6)
                     result_table(42,48,7)
-                    
+
                     root.update_idletasks()
 
                     def detail_click():
@@ -2840,7 +2870,7 @@ def analysis():
                         msgbox = messagebox.askquestion('Ket thuc chuong trinh','Bạn có muốn quay lại ?', icon = 'question')
                         if(msgbox=='yes'):
                             # for i in range (0,48):
-                            #     label[i]['text'] = str('%.1f'%t3_result[i])                         
+                            #     label[i]['text'] = str('%.1f'%t3_result[i])
                             # root.update_idletasks()
                             # subprocess.call(["scrot",path3+"/gia-tri.jpg"])
                             # sleep(1)
