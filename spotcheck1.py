@@ -2037,6 +2037,18 @@ def analysis():
     a2_labelframe = LabelFrame(analysis_labelframe, bg=atk.DEFAULT_COLOR, width=245, height=330)
     a2_labelframe.place(x=412,y=60)
 
+    t_progressbar = atk.RadialProgressbar(a1_labelframe, fg='cyan')
+    t_progressbar.place(x=47,y=70)
+    t_progressbar.start()
+    tprocess_label = Label(a1_labelframe, bg=atk.DEFAULT_COLOR, fg='white smoke', text='...', font=("Courier",9,'bold'))
+    tprocess_label.place(x=115,y=112)
+
+    t_progressbar = atk.RadialProgressbar(a2_labelframe, fg='cyan')
+    t_progressbar.place(x=47,y=70)
+    t_progressbar.start()
+    tprocess_label = Label(a2_labelframe, bg=atk.DEFAULT_COLOR, fg='white smoke', text='...', font=("Courier",9,'bold'))
+    tprocess_label.place(x=115,y=112)
+
     send_data = "P"
     ser.write(send_data.encode())
     print("Data send: ", send_data)
@@ -2385,18 +2397,6 @@ def analysis():
         a2_label = Label(a2_labelframe, image=a2_display)
         a2_label.image = a2_display
         a2_label.place(x=0,y=1)
-
-        t_progressbar = atk.RadialProgressbar(a1_labelframe, fg='cyan')
-        t_progressbar.place(x=47,y=70)
-        t_progressbar.start()
-        tprocess_label = Label(a1_labelframe, bg=atk.DEFAULT_COLOR, fg='white smoke', text='...', font=("Courier",9,'bold'))
-        tprocess_label.place(x=115,y=112)
-
-        t_progressbar = atk.RadialProgressbar(a2_labelframe, fg='cyan')
-        t_progressbar.place(x=47,y=70)
-        t_progressbar.start()
-        tprocess_label = Label(a2_labelframe, bg=atk.DEFAULT_COLOR, fg='white smoke', text='...', font=("Courier",9,'bold'))
-        tprocess_label.place(x=115,y=112)
 
         if(server_on==1):
             try:
