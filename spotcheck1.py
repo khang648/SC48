@@ -600,7 +600,7 @@ def mainscreen():
                     os.mkdir(path5)
 
                     global thr_set
-                    fr4 = open("/home/pi/Spotcheck/threshold_fam.txt","r")
+                    fr4 = open("/home/pi/Spotcheck/threshold1.txt","r")
                     thr_set = float(fr4.readline())
 
                     mainscreen_labelframe.place_forget()
@@ -905,7 +905,7 @@ def mainscreen():
 
         def open_click():
             global rsfile
-            rsfile = filedialog.askopenfilename(initialdir='/home/pi/Spotcheck Fam/',filetypes=[('jpg file','*.jpg')])
+            rsfile = filedialog.askopenfilename(initialdir='/home/pi/Spotcheck Ket Qua/Probe/',filetypes=[('jpg file','*.jpg')])
             if rsfile is not None:
                 if(rsfile[len(rsfile)-3:]=='jpg'):
                     global covid19_createclicked
@@ -1231,7 +1231,7 @@ def result():
 #             if(p[i]=='/'):
 #                 a=i
 #         oldpath = p[:a]
-        rsfile = filedialog.askopenfilename(initialdir='/home/pi/Spotcheck Ket Qua/Probe', filetypes=[('jpg file','*.jpg')])
+        rsfile = filedialog.askopenfilename(initialdir='/home/pi/Spotcheck Ket Qua/Probe/', filetypes=[('jpg file','*.jpg')])
         if rsfile is not None:
             if(rsfile[len(rsfile)-3:]=='jpg'):
                 result_img = Image.open(rsfile)
@@ -2032,9 +2032,9 @@ def analysis():
     analysis_label = Label(analysis_labelframe, bg='dodger blue', text='PHÂN TÍCH MẪU', font=("Courier",17,'bold'), width=20, height=1 )
     analysis_label.place(x=261,y=12)
 
-    a1_labelframe = LabelFrame(analysis_labelframe, bg='black', width=245, height=330)
+    a1_labelframe = LabelFrame(analysis_labelframe, bg=atk.DEFAULT_COLOR, width=245, height=330)
     a1_labelframe.place(x=140,y=60)
-    a2_labelframe = LabelFrame(analysis_labelframe, bg='black', width=245, height=330)
+    a2_labelframe = LabelFrame(analysis_labelframe, bg=atk.DEFAULT_COLOR, width=245, height=330)
     a2_labelframe.place(x=412,y=60)
 
     send_data = "P"
@@ -2363,7 +2363,7 @@ def analysis():
             pass
 
         a1 = Image.open(path1 + '/anh-chup.jpg')
-        a1_crop = a1.crop((x1-5, y1-5, x2+5, y2+5))
+        a1_crop = a1.crop((x1-10, y1-10, x2+10, y2+10))
         crop_width, crop_height = a1_crop.size
         scale_percent = 100
         width = int(crop_width * scale_percent / 100)
@@ -2375,7 +2375,7 @@ def analysis():
         a1_label.place(x=0,y=1)
 
         a2 = Image.open(path2 + '/anh-xu-ly.jpg')
-        a2_crop = a2.crop((x1-5, y1-5, x2+5, y2+5))
+        a2_crop = a2.crop((x1-10, y1-10, x2+10, y2+10))
         crop_width, crop_height = a2_crop.size
         scale_percent = 100
         width = int(crop_width * scale_percent / 100)
@@ -2385,6 +2385,18 @@ def analysis():
         a2_label = Label(a2_labelframe, image=a2_display)
         a2_label.image = a2_display
         a2_label.place(x=0,y=1)
+
+        t_progressbar = atk.RadialProgressbar(a1_labelframe, fg='cyan')
+        t_progressbar.place(x=47,y=70)
+        t_progressbar.start()
+        tprocess_label = Label(a1_labelframe, bg=atk.DEFAULT_COLOR, fg='white smoke', text='...', font=("Courier",9,'bold'))
+        tprocess_label.place(x=115,y=112)
+
+        t_progressbar = atk.RadialProgressbar(a2_labelframe, fg='cyan')
+        t_progressbar.place(x=47,y=70)
+        t_progressbar.start()
+        tprocess_label = Label(a2_labelframe, bg=atk.DEFAULT_COLOR, fg='white smoke', text='...', font=("Courier",9,'bold'))
+        tprocess_label.place(x=115,y=112)
 
         if(server_on==1):
             try:
