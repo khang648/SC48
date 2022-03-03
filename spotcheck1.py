@@ -61,6 +61,7 @@ idfile='/'
 test_list = list(range(48))
 warning_value = 0
 password = '123456789'
+thr_set = 18
 
 fr = open("/home/pi/Spotcheck/check.txt","r")
 code = (fr.readline()).strip()
@@ -1960,7 +1961,7 @@ def scanposition():
         label = list(range(48))
         for i in range(0,8):
             for j in range(0,6):
-                if(average_value > average_raw+3 or average_value < average_raw-3):
+                if(average_value > average_max or average_value < average_min):
                     label[i] = Label(scanresult_labelframe, bg='yellow', text='!', width=5, height=2)
                     label[i].grid(row=i,column=j,padx=3,pady=3)
                 else:
@@ -1992,11 +1993,11 @@ def scanposition():
             samplenum_label['fg'] = "green4"
             samplenum_label.place(x=310,y=432)
 
-            global thr_set 
+            global thr_set
             thr_set = round(average_value*20.35/19.4,1)
             fw= open("/home/pi/Spotcheck/threshold1.txt",'w')
-            fw.writelines(thr_set+ "\n")
-           
+            fw.writelines(str(thr_set)+ "\n")
+
             def thread():
                 th1 = Thread(target = next_click)
                 th1.start()
