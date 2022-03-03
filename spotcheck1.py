@@ -61,7 +61,6 @@ idfile='/'
 test_list = list(range(48))
 warning_value = 0
 password = '123456789'
-thr_set = 1
 
 fr = open("/home/pi/Spotcheck/check.txt","r")
 code = (fr.readline()).strip()
@@ -104,9 +103,8 @@ start_trial = int(fr3.readline())
 print("start_trial: ", start_trial)
 
 fr7 = open("/home/pi/Spotcheck/parameters.txt")
-value1 = float(fr7.readline())
-value2 = float(fr7.readline())
-average_raw = float(fr7.readline())
+average_min = float(fr7.readline())
+average_max = float(fr7.readline())
 
 if not os.path.exists('/home/pi/Spotcheck Ket Qua'):
     f = os.path.join("/home/pi/", "Spotcheck Ket Qua")
@@ -329,7 +327,6 @@ def process_image(image_name, start_point=(x1,y1), end_point=(x2,y2)):
     sum_intensities = []
     result_list = list(range(48))
     area = list(range(48))
-
 
 #Gray
 #     tmp_list = list(range(48))
@@ -1979,12 +1976,12 @@ def scanposition():
         wait = 0
 
         samplenum_label = Label(scanposition_labelframe, bg='white', font=("Courier",13,'bold'))
-        if(average_value > average_raw+3):
+        if(average_value > average_max):
             err = messagebox.showerror('','Vui lòng không cho mẫu vào trong quá trình kiểm tra !')
             samplenum_label['text'] = 'HỆ THỐNG LỖI, XIN THỬ LẠI !'
             samplenum_label['fg'] = "red"
             samplenum_label.place(x=265,y=432)
-        elif(average_value < average_raw-3):
+        elif(average_value < average_min):
             err = messagebox.showerror('','Hệ thống lỗi, vui lòng liên hệ với nhà cung cấp !')
             samplenum_label['text'] = 'HỆ THỐNG LỖI, XIN THỬ LẠI !'
             samplenum_label['fg'] = "red"
@@ -1995,7 +1992,11 @@ def scanposition():
             samplenum_label['fg'] = "green4"
             samplenum_label.place(x=310,y=432)
 
-
+            global thr_set 
+            thr_set = round(average_value*20.35/19.4,1)
+            fw= open("/home/pi/Spotcheck/threshold1.txt",'w')
+            fw.writelines(thr_set+ "\n")
+           
             def thread():
                 th1 = Thread(target = next_click)
                 th1.start()
@@ -2038,16 +2039,16 @@ def analysis():
     a2_labelframe.place(x=412,y=60)
 
     t_progressbar = atk.RadialProgressbar(a1_labelframe, fg='cyan')
-    t_progressbar.place(x=47,y=70)
+    t_progressbar.place(x=69,y=112)
     t_progressbar.start()
-    tprocess_label = Label(a1_labelframe, bg=atk.DEFAULT_COLOR, fg='white smoke', text='...', font=("Courier",9,'bold'))
-    tprocess_label.place(x=115,y=112)
+    tprocess_label = Label(a1_labelframe, bg=atk.DEFAULT_COLOR, fg='white smoke', text='Đang xử lý...', font=("Courier",9,'bold'))
+    tprocess_label.place(x=76,y=153)
 
     t_progressbar = atk.RadialProgressbar(a2_labelframe, fg='cyan')
-    t_progressbar.place(x=47,y=70)
+    t_progressbar.place(x=69,y=112)
     t_progressbar.start()
-    tprocess_label = Label(a2_labelframe, bg=atk.DEFAULT_COLOR, fg='white smoke', text='...', font=("Courier",9,'bold'))
-    tprocess_label.place(x=115,y=112)
+    tprocess_label = Label(a2_labelframe, bg=atk.DEFAULT_COLOR, fg='white smoke', text='Đang xử lý...', font=("Courier",9,'bold'))
+    tprocess_label.place(x=76,y=153)
 
     send_data = "P"
     ser.write(send_data.encode())
@@ -2530,7 +2531,7 @@ def analysis():
             subprocess.call(["scrot",path0+"/ket-qua.jpg"])
 
         viewresult_button = Button(analysis_labelframe, bg="dodger blue", text="Kết quả", height=3, width=15, borderwidth=0, command=thr)
-        viewresult_button.place(x=327,y=394)
+        viewresult_button.place(x=327,y=400)
         wait = 0
 ########################################################## SAMPLES ANALYSIS - END ##################################################################
 
