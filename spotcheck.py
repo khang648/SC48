@@ -115,8 +115,6 @@ start_trial = int(fr3.readline())
 print("start_trial: ", start_trial)
 
 fr7 = open("/home/pi/Spotcheck/parameters.txt")
-value1 = float(fr7.readline())
-value2 = float(fr7.readline())
 average_raw = float(fr7.readline())
 
 if not os.path.exists('/home/pi/Spotcheck Ket Qua'):
