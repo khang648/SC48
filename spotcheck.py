@@ -511,6 +511,9 @@ def mainscreen():
         covidapp_label = Label(mainscreen_labelframe, font=("Courier",25,'bold'), bg='white', fg='grey30', text="COVID-19 APPLICATION")
         covidapp_label.place(x=280, y=270)
 
+        dye_label =  Label(mainscreen_labelframe, font=("Courier",13,'bold'), bg='red', fg='white', text="Dye Version")
+        dye_label.place(x=424, y=420)
+
         if(warning_value==1):
             warning_label = Label(mainscreen_labelframe, bg='red',text='Hệ thống đang tản nhiệt, không đặt mẫu vào lúc này !', font=("Courier", 13, 'bold'))
             warning_label.place(x=220,y=450)
