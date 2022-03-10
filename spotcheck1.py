@@ -1958,13 +1958,16 @@ def scanposition():
                 pos = str(chr(65+i-41)) + "9"
 
             sheet0[pos] = pos_result[i]
-
+        
+        average_value = round(sum(pos_result)/len(pos_result),1)
+        sheet0['I2'] = "Average: " + str(average_value)
+        sheet0['I3'] = "Threshold: " + str(round(average_value*hs_thr2/hs_thr1,1))
         workbook0.save(path4 + "/gia-tri.xlsx")
 
         scanresult_labelframe = LabelFrame(scanposition_labelframe, bg='ghost white', width=528,height = 307)
         scanresult_labelframe.place(x=248,y=60)
 
-        average_value = round(sum(pos_result)/len(pos_result),1)
+        
         label = list(range(48))
         for i in range(0,8):
             for j in range(0,6):
