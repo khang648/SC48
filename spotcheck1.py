@@ -614,7 +614,7 @@ def mainscreen():
         def import_click():
             if(server_on==1):
                 try:
-                    ftp = FTP(ftp_ip, ftp_user, ftp_password)
+                    ftp = FTP(ftp_ip, ftp_user, ftp_password, timeout=15)
                     ftp.cwd(ftp_folder + 'UnProcessed_Data')
                     ftpfiles = ftp.nlst()
                     for ftpfile in ftpfiles:
@@ -2510,7 +2510,7 @@ def analysis():
 
         if(server_on==1):
             try:
-                ftp = FTP(ftp_ip, ftp_user, ftp_password)
+                ftp = FTP(ftp_ip, ftp_user, ftp_password, timeout=30)
                 ftp.cwd(ftp_folder + 'Processed_Data')
                 file = open("/home/pi/Desktop/Ket Qua Phan Tich/Probe/" + importfilename + ".xlsm",'rb')
                 ftp.storbinary('STOR ' + importfilename + ".xlsm", file)
@@ -2543,25 +2543,25 @@ def analysis():
             root.update_idletasks()
 
             negative_label = Label(annotate_labelframe, bg='lawn green', width=4, height=2)
-            negative_label.place(x=72,y=32)
+            negative_label.place(x=73,y=32)
             negativetext_label = Label(annotate_labelframe, bg='white', text='  (N)           ÂM TÍNH', height=2)
-            negativetext_label.place(x=142,y=32)
+            negativetext_label.place(x=143,y=32)
             positive_label = Label(annotate_labelframe, bg='red', width=4, height=2)
-            positive_label.place(x=72,y=82)
+            positive_label.place(x=73,y=82)
             positivetext_label = Label(annotate_labelframe, bg='white', text='  (P)           Ct < 25', height=2)
-            positivetext_label.place(x=142,y=82)
-            positive_label = Label(annotate_labelframe, bg='light coral', width=4, height=2)
-            positive_label.place(x=72,y=132)
+            positivetext_label.place(x=143,y=82)
+            positive_label = Label(annotate_labelframe, bg='orange', width=4, height=2)
+            positive_label.place(x=73,y=132)
             positivetext_label = Label(annotate_labelframe, bg='white', text='  (P)           25 ≤ Ct < 30', height=2)
-            positivetext_label.place(x=142,y=132)
+            positivetext_label.place(x=143,y=132)
             positive_label = Label(annotate_labelframe, bg='pink', width=4, height=2)
-            positive_label.place(x=72,y=182)
+            positive_label.place(x=73,y=182)
             positivetext_label = Label(annotate_labelframe, bg='white', text='  (P)           30 ≤ Ct < 38', height=2)
-            positivetext_label.place(x=142,y=182)
+            positivetext_label.place(x=143,y=182)
             positive_label = Label(annotate_labelframe, bg='yellow', width=4, height=2)
-            positive_label.place(x=72,y=232)
+            positive_label.place(x=73,y=232)
             positivetext_label = Label(annotate_labelframe, bg='white', text='  (R)           Ct ≥ 38', height=2)
-            positivetext_label.place(x=142,y=232)
+            positivetext_label.place(x=143,y=232)
             root.update_idletasks()
 
             result_labelframe = LabelFrame(analysis_labelframe, bg='ghost white', width=600,height = 307)
@@ -2617,10 +2617,10 @@ def analysis():
                                 label[i] = Label(result_labelframe, bg='red', text='P', width=4, height=2)
                                 label[i].grid(row=row_value,column=j,padx=2,pady=2)
                             if(result_list[i] > hs_ct2*float(thr_set) and result_list[i] <= hs_ct3*float(thr_set)):
-                                label[i] = Label(result_labelframe, bg='tomato', text='P', width=4, height=2)
+                                label[i] = Label(result_labelframe, bg='orange', text='P', width=4, height=2)
                                 label[i].grid(row=row_value,column=j,padx=2,pady=2)
                             if(result_list[i] > hs_ct1*float(thr_set) and result_list[i] <= hs_ct2*float(thr_set)):
-                                label[i] = Label(result_labelframe, bg='light coral', text='P', width=4, height=2)
+                                label[i] = Label(result_labelframe, bg='pink', text='P', width=4, height=2)
                                 label[i].grid(row=row_value,column=j,padx=2,pady=2)
                             if(result_list[i] <= hs_ct1*float(thr_set)):
                                 label[i] = Label(result_labelframe, bg='yellow', text='R', width=4, height=2)

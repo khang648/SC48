@@ -634,7 +634,7 @@ def mainscreen():
         def import_click():
             if(server_on==1):
                 try:
-                    ftp = FTP(ftp_ip, ftp_user, ftp_password)
+                    ftp = FTP(ftp_ip, ftp_user, ftp_password, timeout=15)
                     ftp.cwd(ftp_folder + 'UnProcessed_Data')
                     ftpfiles = ftp.nlst()
                     for ftpfile in ftpfiles:
@@ -2688,7 +2688,7 @@ def analysis():
 
                 if(server_on==1):
                     try:
-                        ftp = FTP(ftp_ip, ftp_user, ftp_password)
+                        ftp = FTP(ftp_ip, ftp_user, ftp_password, timeout=30)
                         ftp.cwd(ftp_folder + 'Processed_Data')
                         file = open("/home/pi/Desktop/Ket Qua Phan Tich/Dye/" + importfilename + ".xlsm",'rb')
                         ftp.storbinary('STOR ' + importfilename + ".xlsm", file)
