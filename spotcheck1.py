@@ -107,9 +107,7 @@ fr7 = open("/home/pi/Spotcheck/parameters.txt")
 average_tmp = float(fr7.readline())
 average_min = float(fr7.readline())
 average_max = float(fr7.readline())
-hs_ct1 =  float(fr7.readline())
-hs_ct2 =  float(fr7.readline())
-hs_ct3 =  float(fr7.readline())
+hs_ct =  float(fr7.readline())
 hs_thr1 = float(fr7.readline())
 hs_thr2 = float(fr7.readline())
 
@@ -2207,7 +2205,8 @@ def analysis():
         sheet["B60"].font = font2
         sheet['B61'] = '+ N/A: Trống'
         sheet['B62'] = '+ N: Âm tính'
-        sheet['C61'] = '+ P: Dương tính'
+        sheet['C61'] = '+ Ct < 30: Dương tính'
+        sheet['C62'] = '+ Ct > 30: Dương tính'
 
         sheet.merge_cells(start_row=64, start_column=4, end_row=64, end_column=6)
         sheet.merge_cells(start_row=65, start_column=4, end_row=65, end_column=6)
@@ -2284,24 +2283,14 @@ def analysis():
                     sheet['D'+str(i+12)].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')
                     
                 else:
-                    if(result_list[c1] > hs_ct3*float(thr_set)):
-                        sheet['D'+str(i+12)] = 'P'
-                        sheet['D'+str(i+12)].fill = PatternFill(start_color='00FF0000', end_color='00FF0000', fill_type='solid')
+                    if(result_list[c1] >= hs_ct*float(thr_set)):
+                        sheet['D'+str(i+12)] = 'Ct < 30'
+                        sheet['D'+str(i+12)].fill = PatternFill(start_color='00FF3333', end_color='00FF3333', fill_type='solid')
                         sheet['D'+str(i+12)].font = font2
                         sheet['B'+str(i+12)].font = font2
-                    if(result_list[c1] > hs_ct2*float(thr_set) and result_list[c1] <= hs_ct3*float(thr_set)):
-                        sheet['D'+str(i+12)] = 'P'
-                        sheet['D'+str(i+12)].fill = PatternFill(start_color='00FF6666', end_color='00FF6666', fill_type='solid')
-                        sheet['D'+str(i+12)].font = font2
-                        sheet['B'+str(i+12)].font = font2
-                    if(result_list[c1] > hs_ct1*float(thr_set) and result_list[c1] <= hs_ct2*float(thr_set)):
-                        sheet['D'+str(i+12)] = 'P'
-                        sheet['D'+str(i+12)].fill = PatternFill(start_color='00FFCCCC', end_color='00FFCCCC', fill_type='solid')
-                        sheet['D'+str(i+12)].font = font2
-                        sheet['B'+str(i+12)].font = font2
-                    if(result_list[c1] <= hs_ct1*float(thr_set)):
-                        sheet['D'+str(i+12)] = 'R'
-                        sheet['D'+str(i+12)].fill = PatternFill(start_color='00FFFF00', end_color='00FFFF00', fill_type='solid')
+                    else:
+                        sheet['D'+str(i+12)] = 'Ct > 30'
+                        sheet['D'+str(i+12)].fill = PatternFill(start_color='00FF9933', end_color='00FF9933', fill_type='solid')
                         sheet['D'+str(i+12)].font = font2
                         sheet['B'+str(i+12)].font = font2
 
@@ -2318,24 +2307,14 @@ def analysis():
                     sheet['D'+str(i+20)].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')
                     
                 else:
-                    if(result_list[c2] > hs_ct3*float(thr_set)):
-                        sheet['D'+str(i+20)] = 'P'
-                        sheet['D'+str(i+20)].fill = PatternFill(start_color='00FF0000', end_color='00FF0000', fill_type='solid')
+                    if(result_list[c2] >= hs_ct*float(thr_set)):
+                        sheet['D'+str(i+20)] = 'Ct < 30'
+                        sheet['D'+str(i+20)].fill = PatternFill(start_color='00FF3333', end_color='00FF3333', fill_type='solid')
                         sheet['D'+str(i+20)].font = font2
                         sheet['B'+str(i+20)].font = font2
-                    if(result_list[c2] > hs_ct2*float(thr_set) and result_list[c2] <= hs_ct3*float(thr_set)):
-                        sheet['D'+str(i+20)] = 'P'
-                        sheet['D'+str(i+20)].fill = PatternFill(start_color='00FF6666', end_color='00FF6666', fill_type='solid')
-                        sheet['D'+str(i+20)].font = font2
-                        sheet['B'+str(i+20)].font = font2
-                    if(result_list[c2] > hs_ct1*float(thr_set) and result_list[c2] <= hs_ct2*float(thr_set)):
-                        sheet['D'+str(i+20)] = 'P'
-                        sheet['D'+str(i+20)].fill = PatternFill(start_color='00FFCCCC', end_color='00FFCCCC', fill_type='solid')
-                        sheet['D'+str(i+20)].font = font2
-                        sheet['B'+str(i+20)].font = font2
-                    if(result_list[c2] <= hs_ct1*float(thr_set)):
-                        sheet['D'+str(i+20)] = 'R'
-                        sheet['D'+str(i+20)].fill = PatternFill(start_color='00FFFF00', end_color='00FFFF00', fill_type='solid')
+                    else:
+                        sheet['D'+str(i+20)] = 'Ct > 30'
+                        sheet['D'+str(i+20)].fill = PatternFill(start_color='00FF9933', end_color='00FF9933', fill_type='solid')
                         sheet['D'+str(i+20)].font = font2
                         sheet['B'+str(i+20)].font = font2
 
@@ -2352,24 +2331,14 @@ def analysis():
                     sheet['D'+str(i+28)].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')
                     
                 else:
-                    if(result_list[c3] > hs_ct3*float(thr_set)):
-                        sheet['D'+str(i+28)] = 'P'
-                        sheet['D'+str(i+28)].fill = PatternFill(start_color='00FF0000', end_color='00FF0000', fill_type='solid')
+                    if(result_list[c3] >= hs_ct*float(thr_set)):
+                        sheet['D'+str(i+28)] = 'Ct < 30'
+                        sheet['D'+str(i+28)].fill = PatternFill(start_color='00FF3333', end_color='00FF3333', fill_type='solid')
                         sheet['D'+str(i+28)].font = font2
                         sheet['B'+str(i+28)].font = font2
-                    if(result_list[c3] > hs_ct2*float(thr_set) and result_list[c3] <= hs_ct3*float(thr_set)):
-                        sheet['D'+str(i+28)] = 'P'
-                        sheet['D'+str(i+28)].fill = PatternFill(start_color='00FF6666', end_color='00FF6666', fill_type='solid')
-                        sheet['D'+str(i+28)].font = font2
-                        sheet['B'+str(i+28)].font = font2
-                    if(result_list[c3] > hs_ct1*float(thr_set) and result_list[c3] <= hs_ct2*float(thr_set)):
-                        sheet['D'+str(i+28)] = 'P'
-                        sheet['D'+str(i+28)].fill = PatternFill(start_color='00FFCCCC', end_color='00FFCCCC', fill_type='solid')
-                        sheet['D'+str(i+28)].font = font2
-                        sheet['B'+str(i+28)].font = font2
-                    if(result_list[c3] <= hs_ct1*float(thr_set)):
-                        sheet['D'+str(i+28)] = 'R'
-                        sheet['D'+str(i+28)].fill = PatternFill(start_color='00FFFF00', end_color='00FFFF00', fill_type='solid')
+                    else:
+                        sheet['D'+str(i+28)] = 'Ct > 30'
+                        sheet['D'+str(i+28)].fill = PatternFill(start_color='00FF9933', end_color='00FF9933', fill_type='solid')
                         sheet['D'+str(i+28)].font = font2
                         sheet['B'+str(i+28)].font = font2
 
@@ -2386,24 +2355,14 @@ def analysis():
                     sheet['D'+str(i+36)].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')
                     
                 else:
-                    if(result_list[c4] > hs_ct3*float(thr_set)):
-                        sheet['D'+str(i+36)] = 'P'
-                        sheet['D'+str(i+36)].fill = PatternFill(start_color='00FF0000', end_color='00FF0000', fill_type='solid')
+                    if(result_list[c4] >= hs_ct*float(thr_set)):
+                        sheet['D'+str(i+36)] = 'Ct < 30'
+                        sheet['D'+str(i+36)].fill = PatternFill(start_color='00FF3333', end_color='00FF3333', fill_type='solid')
                         sheet['D'+str(i+36)].font = font2
                         sheet['B'+str(i+36)].font = font2
-                    if(result_list[c4] > hs_ct2*float(thr_set) and result_list[c4] <= hs_ct3*float(thr_set)):
-                        sheet['D'+str(i+36)] = 'P'
-                        sheet['D'+str(i+36)].fill = PatternFill(start_color='00FF6666', end_color='00FF6666', fill_type='solid')
-                        sheet['D'+str(i+36)].font = font2
-                        sheet['B'+str(i+36)].font = font2
-                    if(result_list[c4] > hs_ct1*float(thr_set) and result_list[c4] <= hs_ct2*float(thr_set)):
-                        sheet['D'+str(i+36)] = 'P'
-                        sheet['D'+str(i+36)].fill = PatternFill(start_color='00FFCCCC', end_color='00FFCCCC', fill_type='solid')
-                        sheet['D'+str(i+36)].font = font2
-                        sheet['B'+str(i+36)].font = font2
-                    if(result_list[c4] <= hs_ct1*float(thr_set)):
-                        sheet['D'+str(i+36)] = 'R'
-                        sheet['D'+str(i+36)].fill = PatternFill(start_color='00FFFF00', end_color='00FFFF00', fill_type='solid')
+                    else:
+                        sheet['D'+str(i+36)] = 'Ct > 30'
+                        sheet['D'+str(i+36)].fill = PatternFill(start_color='00FF9933', end_color='00FF9933', fill_type='solid')
                         sheet['D'+str(i+36)].font = font2
                         sheet['B'+str(i+36)].font = font2
 
@@ -2419,24 +2378,14 @@ def analysis():
                     sheet['D'+str(i+44)] = 'N'
                     sheet['D'+str(i+44)].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')               
                 else:
-                    if(result_list[c5] > hs_ct3*float(thr_set)):
-                        sheet['D'+str(i+44)] = 'P'
-                        sheet['D'+str(i+44)].fill = PatternFill(start_color='00FF0000', end_color='00FF0000', fill_type='solid')
+                    if(result_list[c5] >= hs_ct*float(thr_set)):
+                        sheet['D'+str(i+44)] = 'Ct < 30'
+                        sheet['D'+str(i+44)].fill = PatternFill(start_color='00FF3333', end_color='00FF3333', fill_type='solid')
                         sheet['D'+str(i+44)].font = font2
                         sheet['B'+str(i+44)].font = font2
-                    if(result_list[c5] > hs_ct2*float(thr_set) and result_list[c5] <= hs_ct3*float(thr_set)):
-                        sheet['D'+str(i+44)] = 'P'
-                        sheet['D'+str(i+44)].fill = PatternFill(start_color='00FF6666', end_color='00FF6666', fill_type='solid')
-                        sheet['D'+str(i+44)].font = font2
-                        sheet['B'+str(i+44)].font = font2
-                    if(result_list[c5] > hs_ct1*float(thr_set) and result_list[c5] <= hs_ct2*float(thr_set)):
-                        sheet['D'+str(i+44)] = 'P'
-                        sheet['D'+str(i+44)].fill = PatternFill(start_color='00FFCCCC', end_color='00FFCCCC', fill_type='solid')
-                        sheet['D'+str(i+44)].font = font2
-                        sheet['B'+str(i+44)].font = font2
-                    if(result_list[c5] <= hs_ct1*float(thr_set)):
-                        sheet['D'+str(i+44)] = 'R'
-                        sheet['D'+str(i+44)].fill = PatternFill(start_color='00FFFF00', end_color='00FFFF00', fill_type='solid')
+                    else:
+                        sheet['D'+str(i+44)] = 'Ct > 30'
+                        sheet['D'+str(i+44)].fill = PatternFill(start_color='00FF9933', end_color='00FF9933', fill_type='solid')
                         sheet['D'+str(i+44)].font = font2
                         sheet['B'+str(i+44)].font = font2
 
@@ -2452,24 +2401,14 @@ def analysis():
                     sheet['D'+str(i+52)] = 'N'
                     sheet['D'+str(i+52)].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')               
                 else:
-                    if(result_list[c6] > hs_ct3*float(thr_set)):
-                        sheet['D'+str(i+52)] = 'P'
-                        sheet['D'+str(i+52)].fill = PatternFill(start_color='00FF0000', end_color='00FF0000', fill_type='solid')
+                    if(result_list[c6] >= hs_ct*float(thr_set)):
+                        sheet['D'+str(i+52)] = 'Ct < 30'
+                        sheet['D'+str(i+52)].fill = PatternFill(start_color='00FF3333', end_color='00FF3333', fill_type='solid')
                         sheet['D'+str(i+52)].font = font2
                         sheet['B'+str(i+52)].font = font2
-                    if(result_list[c6] > hs_ct2*float(thr_set) and result_list[c6] <= hs_ct3*float(thr_set)):
-                        sheet['D'+str(i+52)] = 'P'
-                        sheet['D'+str(i+52)].fill = PatternFill(start_color='00FF6666', end_color='00FF6666', fill_type='solid')
-                        sheet['D'+str(i+52)].font = font2
-                        sheet['B'+str(i+52)].font = font2
-                    if(result_list[c6] > hs_ct1*float(thr_set) and result_list[c6] <= hs_ct2*float(thr_set)):
-                        sheet['D'+str(i+52)] = 'P'
-                        sheet['D'+str(i+52)].fill = PatternFill(start_color='00FFCCCC', end_color='00FFCCCC', fill_type='solid')
-                        sheet['D'+str(i+52)].font = font2
-                        sheet['B'+str(i+52)].font = font2
-                    if(result_list[c6] <= hs_ct1*float(thr_set)):
-                        sheet['D'+str(i+52)] = 'R'
-                        sheet['D'+str(i+52)].fill = PatternFill(start_color='00FFFF00', end_color='00FFFF00', fill_type='solid')
+                    else:
+                        sheet['D'+str(i+52)] = 'Ct > 30'
+                        sheet['D'+str(i+52)].fill = PatternFill(start_color='00FF9933', end_color='00FF9933', fill_type='solid')
                         sheet['D'+str(i+52)].font = font2
                         sheet['B'+str(i+52)].font = font2
 
@@ -2554,20 +2493,12 @@ def analysis():
             negativetext_label.place(x=143,y=32)
             positive_label = Label(annotate_labelframe, bg='red', width=4, height=2)
             positive_label.place(x=73,y=82)
-            positivetext_label = Label(annotate_labelframe, bg='white', text='  (P)           Ct < 25', height=2)
+            positivetext_label = Label(annotate_labelframe, bg='white', text='  (Ct<30)       DƯƠNG TÍNH', height=2)
             positivetext_label.place(x=143,y=82)
             positive_label = Label(annotate_labelframe, bg='orange', width=4, height=2)
             positive_label.place(x=73,y=132)
-            positivetext_label = Label(annotate_labelframe, bg='white', text='  (P)           25 ≤ Ct < 30', height=2)
+            positivetext_label = Label(annotate_labelframe, bg='white', text='  (Ct>30)       DƯƠNG TÍNH', height=2)
             positivetext_label.place(x=143,y=132)
-            positive_label = Label(annotate_labelframe, bg='pink', width=4, height=2)
-            positive_label.place(x=73,y=182)
-            positivetext_label = Label(annotate_labelframe, bg='white', text='  (P)           30 ≤ Ct < 38', height=2)
-            positivetext_label.place(x=143,y=182)
-            positive_label = Label(annotate_labelframe, bg='yellow', width=4, height=2)
-            positive_label.place(x=73,y=232)
-            positivetext_label = Label(annotate_labelframe, bg='white', text='  (R)           Ct ≥ 38', height=2)
-            positivetext_label.place(x=143,y=232)
             root.update_idletasks()
 
             result_labelframe = LabelFrame(analysis_labelframe, bg='ghost white', width=600,height = 307)
@@ -2619,18 +2550,14 @@ def analysis():
                             label[i] = Label(result_labelframe, bg='lawn green', text='N', width=4, height=2)
                             label[i].grid(row=row_value,column=j,padx=2,pady=2)
                         else:
-                            if(result_list[i] > hs_ct3*float(thr_set)):
-                                label[i] = Label(result_labelframe, bg='red', text='P', width=4, height=2)
+                            if(result_list[i] >= hs_ct*float(thr_set)):
+                                label[i] = Label(result_labelframe, bg='red', text='Ct<30', width=4, height=2)
                                 label[i].grid(row=row_value,column=j,padx=2,pady=2)
-                            if(result_list[i] > hs_ct2*float(thr_set) and result_list[i] <= hs_ct3*float(thr_set)):
-                                label[i] = Label(result_labelframe, bg='orange', text='P', width=4, height=2)
+                            else: 
+                                label[i] = Label(result_labelframe, bg='orange', text='Ct>30', width=4, height=2)
                                 label[i].grid(row=row_value,column=j,padx=2,pady=2)
-                            if(result_list[i] > hs_ct1*float(thr_set) and result_list[i] <= hs_ct2*float(thr_set)):
-                                label[i] = Label(result_labelframe, bg='pink', text='P', width=4, height=2)
-                                label[i].grid(row=row_value,column=j,padx=2,pady=2)
-                            if(result_list[i] <= hs_ct1*float(thr_set)):
-                                label[i] = Label(result_labelframe, bg='yellow', text='R', width=4, height=2)
-                                label[i].grid(row=row_value,column=j,padx=2,pady=2)
+
+                            
 
             result_table(0,6,0)
             result_table(6,12,1)
