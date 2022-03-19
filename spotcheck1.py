@@ -2489,7 +2489,7 @@ def analysis():
 
             negative_label = Label(annotate_labelframe, bg='lawn green', width=4, height=2)
             negative_label.place(x=73,y=32)
-            negativetext_label = Label(annotate_labelframe, bg='white', text='  (N)           ÂM TÍNH', height=2)
+            negativetext_label = Label(annotate_labelframe, bg='white', text='  (N)            ÂM TÍNH', height=2)
             negativetext_label.place(x=143,y=32)
             positive_label = Label(annotate_labelframe, bg='red', width=4, height=2)
             positive_label.place(x=73,y=82)
