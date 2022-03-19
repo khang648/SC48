@@ -2488,17 +2488,17 @@ def analysis():
             root.update_idletasks()
 
             negative_label = Label(annotate_labelframe, bg='lawn green', width=4, height=2)
-            negative_label.place(x=73,y=32)
-            negativetext_label = Label(annotate_labelframe, bg='white', text='  (N)            ÂM TÍNH', height=2)
-            negativetext_label.place(x=143,y=32)
+            negative_label.place(x=68,y=32)
+            negativetext_label = Label(annotate_labelframe, bg='white', text='      (N)          ÂM TÍNH', height=2)
+            negativetext_label.place(x=138,y=32)
             positive_label = Label(annotate_labelframe, bg='red', width=4, height=2)
-            positive_label.place(x=73,y=82)
+            positive_label.place(x=68,y=82)
             positivetext_label = Label(annotate_labelframe, bg='white', text='  (Ct<30)       DƯƠNG TÍNH', height=2)
-            positivetext_label.place(x=143,y=82)
+            positivetext_label.place(x=138,y=82)
             positive_label = Label(annotate_labelframe, bg='yellow', width=4, height=2)
-            positive_label.place(x=73,y=132)
+            positive_label.place(x=68,y=132)
             positivetext_label = Label(annotate_labelframe, bg='white', text='  (Ct>30)       DƯƠNG TÍNH', height=2)
-            positivetext_label.place(x=143,y=132)
+            positivetext_label.place(x=138,y=132)
             root.update_idletasks()
 
             result_labelframe = LabelFrame(analysis_labelframe, bg='ghost white', width=600,height = 307)
@@ -2588,7 +2588,7 @@ def analysis():
                     mainscreen()
 
             finish_button = Button(analysis_labelframe, bg="dark orange", text="Hoàn thành", height=3, width=15, borderwidth=0, command=finish_click)
-            finish_button.place(x=480,y=396)
+            finish_button.place(x=477,y=396)
 
             root.update_idletasks()
 
