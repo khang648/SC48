@@ -2290,7 +2290,7 @@ def analysis():
                         sheet['B'+str(i+12)].font = font2
                     else:
                         sheet['D'+str(i+12)] = 'Ct > 30'
-                        sheet['D'+str(i+12)].fill = PatternFill(start_color='00FF9933', end_color='00FF9933', fill_type='solid')
+                        sheet['D'+str(i+12)].fill = PatternFill(start_color='00FFFF00', end_color='00FFFF00', fill_type='solid')
                         sheet['D'+str(i+12)].font = font2
                         sheet['B'+str(i+12)].font = font2
 
@@ -2314,7 +2314,7 @@ def analysis():
                         sheet['B'+str(i+20)].font = font2
                     else:
                         sheet['D'+str(i+20)] = 'Ct > 30'
-                        sheet['D'+str(i+20)].fill = PatternFill(start_color='00FF9933', end_color='00FF9933', fill_type='solid')
+                        sheet['D'+str(i+20)].fill = PatternFill(start_color='00FFFF00', end_color='00FFFF00', fill_type='solid')
                         sheet['D'+str(i+20)].font = font2
                         sheet['B'+str(i+20)].font = font2
 
@@ -2338,7 +2338,7 @@ def analysis():
                         sheet['B'+str(i+28)].font = font2
                     else:
                         sheet['D'+str(i+28)] = 'Ct > 30'
-                        sheet['D'+str(i+28)].fill = PatternFill(start_color='00FF9933', end_color='00FF9933', fill_type='solid')
+                        sheet['D'+str(i+28)].fill = PatternFill(start_color='00FFFF00', end_color='00FFFF00', fill_type='solid')
                         sheet['D'+str(i+28)].font = font2
                         sheet['B'+str(i+28)].font = font2
 
@@ -2362,7 +2362,7 @@ def analysis():
                         sheet['B'+str(i+36)].font = font2
                     else:
                         sheet['D'+str(i+36)] = 'Ct > 30'
-                        sheet['D'+str(i+36)].fill = PatternFill(start_color='00FF9933', end_color='00FF9933', fill_type='solid')
+                        sheet['D'+str(i+36)].fill = PatternFill(start_color='00FFFF00', end_color='00FFFF00', fill_type='solid')
                         sheet['D'+str(i+36)].font = font2
                         sheet['B'+str(i+36)].font = font2
 
@@ -2385,7 +2385,7 @@ def analysis():
                         sheet['B'+str(i+44)].font = font2
                     else:
                         sheet['D'+str(i+44)] = 'Ct > 30'
-                        sheet['D'+str(i+44)].fill = PatternFill(start_color='00FF9933', end_color='00FF9933', fill_type='solid')
+                        sheet['D'+str(i+44)].fill = PatternFill(start_color='00FFFF00', end_color='00FFFF00', fill_type='solid')
                         sheet['D'+str(i+44)].font = font2
                         sheet['B'+str(i+44)].font = font2
 
@@ -2408,7 +2408,7 @@ def analysis():
                         sheet['B'+str(i+52)].font = font2
                     else:
                         sheet['D'+str(i+52)] = 'Ct > 30'
-                        sheet['D'+str(i+52)].fill = PatternFill(start_color='00FF9933', end_color='00FF9933', fill_type='solid')
+                        sheet['D'+str(i+52)].fill = PatternFill(start_color='00FFFF00', end_color='00FFFF00', fill_type='solid')
                         sheet['D'+str(i+52)].font = font2
                         sheet['B'+str(i+52)].font = font2
 
@@ -2495,7 +2495,7 @@ def analysis():
             positive_label.place(x=73,y=82)
             positivetext_label = Label(annotate_labelframe, bg='white', text='  (Ct<30)       DƯƠNG TÍNH', height=2)
             positivetext_label.place(x=143,y=82)
-            positive_label = Label(annotate_labelframe, bg='orange', width=4, height=2)
+            positive_label = Label(annotate_labelframe, bg='yellow', width=4, height=2)
             positive_label.place(x=73,y=132)
             positivetext_label = Label(annotate_labelframe, bg='white', text='  (Ct>30)       DƯƠNG TÍNH', height=2)
             positivetext_label.place(x=143,y=132)
@@ -2551,10 +2551,10 @@ def analysis():
                             label[i].grid(row=row_value,column=j,padx=2,pady=2)
                         else:
                             if(result_list[i] >= hs_ct*float(thr_set)):
-                                label[i] = Label(result_labelframe, bg='red', text='Ct<30', width=4, height=2)
+                                label[i] = Label(result_labelframe, bg='red', text='<30', width=4, height=2)
                                 label[i].grid(row=row_value,column=j,padx=2,pady=2)
                             else: 
-                                label[i] = Label(result_labelframe, bg='orange', text='Ct>30', width=4, height=2)
+                                label[i] = Label(result_labelframe, bg='yellow', text='>30', width=4, height=2)
                                 label[i].grid(row=row_value,column=j,padx=2,pady=2)
 
                             
