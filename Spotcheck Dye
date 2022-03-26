@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Spotcheck Dye
+Comment=Spotcheck Dye Application
+Icon=/home/pi/Spotcheck/icon1.ico
+Exec=/home/pi/Spotcheck/dist/spotcheck/spotcheck
+Type=Application
+Encoding=UTF-8
+Terminal=false
+StartUpNotify=true
+Categories=None;
+StartupNotify=false

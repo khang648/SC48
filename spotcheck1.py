@@ -104,7 +104,6 @@ start_trial = int(fr3.readline())
 print("start_trial: ", start_trial)
 
 fr7 = open("/home/pi/Spotcheck/parameters.txt")
-average_tmp = float(fr7.readline())
 average_min = float(fr7.readline())
 average_max = float(fr7.readline())
 hs_ct =  float(fr7.readline())
@@ -403,7 +402,7 @@ def process_image(image_name, start_point=(x1,y1), end_point=(x2,y2)):
 #Nhân hệ số
     global hs
     for i in range(len(sorted_contours1)):
-        if(id_lst[i]=='N' or id_list[i]=='Negative' or id_list[i]=='n' or id_list[i]=='negative' or id_list[i]=='NEGC' or id_list[i]=='NEGATIVE'):
+        if(id_list[i]=='N' or id_list[i]=='Negative' or id_list[i]=='n' or id_list[i]=='negative' or id_list[i]=='NEGC' or id_list[i]=='NEGATIVE'):
             result_list[i] = round(result_list[i]*0.85,1)
         elif(id_list[i]=='P' or id_list[i]=='Positive' or id_list[i]=='p' or id_list[i]=='positive' or id_list[i]=='POSC' or id_list[i]=='POSITIVE'):
             result_list[i] = round(result_list[i]*1.15,1)
@@ -1172,8 +1171,8 @@ def mainscreen():
             back_button = Button(configmc2_labelframe, bg="grey88", text="Trở lại", borderwidth=0, height=3, width=10, command=back_click)
             back_button.place(x=188,y=374)
 
-        ct_button = Button(configmc_labelframe, bg="grey88", text="Chọn ngưỡng sàng lọc", borderwidth=0, height=4, width=15, command=ct_click, state="disabled")
-        ct_button.place(x=230,y=150)
+        #ct_button = Button(configmc_labelframe, bg="grey88", text="Chọn ngưỡng sàng lọc", borderwidth=0, height=4, width=15, command=ct_click, state="disabled")
+        #ct_button.place(x=230,y=150)
         server_button = Button(configmc_labelframe, bg="grey85", text="Server", borderwidth=0, height=4, width=15, command=server_click)
         server_button.place(x=230,y=240)
 
@@ -2011,8 +2010,6 @@ def scanposition():
 
             global thr_set
             thr_set = round(average_value*hs_thr2/hs_thr1,1)
-            fw= open("/home/pi/Spotcheck/threshold1.txt",'w')
-            fw.writelines(str(thr_set)+ "\n")
 
             def thread():
                 th1 = Thread(target = next_click)
@@ -2494,7 +2491,7 @@ def analysis():
 
             negative_label = Label(annotate_labelframe, bg='lawn green', width=4, height=2)
             negative_label.place(x=60,y=32)
-            negativetext_label = Label(annotate_labelframe, bg='white', text='     (N)              ÂM TÍNH', height=2)
+            negativetext_label = Label(annotate_labelframe, bg='white', text='      (N)             ÂM TÍNH', height=2)
             negativetext_label.place(x=130,y=32)
             positive_label = Label(annotate_labelframe, bg='red', width=4, height=2)
             positive_label.place(x=60,y=82)
