@@ -609,10 +609,6 @@ def mainscreen():
                     path5 = os.path.join(path0,"Chương trình nhiệt")
                     os.mkdir(path5)
 
-                    global thr_set
-                    fr4 = open("/home/pi/Spotcheck/threshold1.txt","r")
-                    thr_set = float(fr4.readline())
-
                     mainscreen_labelframe.place_forget()
                     scanposition()
 
