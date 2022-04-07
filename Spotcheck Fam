@@ -1,8 +1,8 @@
 [Desktop Entry]
-Name=Spotcheck Fam
+Name=Kiem tra may
 Comment=Spotcheck Fam Application
 Icon=/home/pi/Spotcheck/icon.ico
-Exec=/home/pi/Spotcheck/dist/fam/fam
+Exec=/home/pi/Spotcheck/dist/check/check
 Type=Application
 Encoding=UTF-8
 Terminal=false

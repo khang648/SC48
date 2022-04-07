@@ -4,7 +4,6 @@ from tkinter import *
 from tkinter import messagebox
 import time
 from time import sleep, gmtime, strftime
-
 from numpy.lib.function_base import average
 from picamera import PiCamera
 import cv2
@@ -50,6 +49,7 @@ start_point = (0,0)
 end_point = (0,0)
 thr_set= 15
 tmp = 0
+nosample_average = 14
 password = '123456789'
 
 fr = open("/home/pi/Spotcheck/check.txt","r")
@@ -63,13 +63,12 @@ fr2 = open("/var/tmp/.admin.txt","r")
 start_trial = int(fr2.readline())
 print("start_trial: ", start_trial)
 fr3 = open("/home/pi/Spotcheck/parameters.txt")
+value_min = float(fr3.readline())
+value_max = float(fr3.readline())
 tmp1 = float(fr3.readline())
 tmp2 = float(fr3.readline())
 tmp3 = float(fr3.readline())
-tmp4 = float(fr3.readline())
-tmp5 = float(fr3.readline())
-fam_min = float(fr3.readline())
-fam_max = float(fr3.readline())
+k1 = float(fr3.readline())
 
 ########################################################### GLOBAL VARIABLE - END ##################################################################
 
@@ -302,41 +301,33 @@ def process_image(image_name, start_point=(x1,y1), end_point=(x2,y2)):
 ########################################################### IMAGE ANALYSIS - END ###################################################################
 
 ############################################################ MAIN SCREEN - START ###################################################################
-def mainscreen():
+def mainscreen0():
     buttonFont = font.Font(family='Helvetica', size=10, weight='bold')
-    global mainscreen_labelframe
-    mainscreen_labelframe = LabelFrame(root, bg='white', width=799, height=600)
-    mainscreen_labelframe.place(x=1,y=0)
-    mainscreen1_labelframe = LabelFrame(root, bg='dodger blue', width=799, height=50)
+    global mainscreen0_labelframe
+    mainscreen0_labelframe = LabelFrame(root, bg='white', width=799, height=600)
+    mainscreen0_labelframe.place(x=1,y=0)
+    mainscreen1_labelframe = LabelFrame(mainscreen0_labelframe, bg='dodger blue', width=792, height=50)
     mainscreen1_labelframe.place(x=1,y=0)
-
     logo_img = Image.open('/home/pi/Spotcheck/logo.png')
     logo_width, logo_height = logo_img.size
-    scale_percent = 40
+    scale_percent = 30
     width = int(logo_width * scale_percent / 100)
     height = int(logo_height * scale_percent / 100)
     display_img = logo_img.resize((width,height))
     image_select = ImageTk.PhotoImage(display_img)
-    logo_label = Label(mainscreen_labelframe, bg='white',image=image_select)
+    logo_label = Label(mainscreen0_labelframe, bg='white',image=image_select)
     logo_label.image = image_select
-    logo_label.place(x=610,y=438)
+    logo_label.place(x=657,y=52)
 
     sc_label = Label(mainscreen1_labelframe, font=("Courier",20,'bold'), fg='white', bg='dodger blue',text='SPOTCHECK - KIỂM TRA HỆ THỐNG')
     sc_label.place(x=160, y=7)
 
-    note_labelframe = LabelFrame(root, bg='white', width=220, height=139)
-    note_labelframe.place(x=10,y=58)
+    note0_labelframe = LabelFrame(mainscreen0_labelframe, bg='white', width=220, height=70)
+    note0_labelframe.place(x=10,y=58)
+    note0_label = Label(note0_labelframe, font=("Courier",10), fg='red', bg='white',text='Kiểm tra không mẫu')
+    note0_label.place(x=33, y=24)
 
-    cell1_label = Label(note_labelframe, bg='lawn green', width=4, height=2)
-    cell1_label.place(x=5,y=19)
-    note1_label = Label(note_labelframe, font=("Courier",10), fg='black', bg='white',text='Vị trí đặt mẫu')
-    note1_label.place(x=50, y=30)
-    cell2_label = Label(note_labelframe, bg='grey85', width=4, height=2)
-    cell2_label.place(x=5,y=79)
-    note2_label = Label(note_labelframe, font=("Courier",10), fg='black', bg='white',text='Vị trí không đặt mẫu')
-    note2_label.place(x=50, y=90)
-
-    table_labelframe = LabelFrame(root, bg='grey99', width=328, height=353)
+    table_labelframe = LabelFrame(mainscreen0_labelframe, bg='grey99', width=328, height=353)
     table_labelframe.place(x=237,y=58)
 
     label = list(range(48))
@@ -344,10 +335,11 @@ def mainscreen():
         for n in range(0,6):
             label[m] = Label(table_labelframe, bg='grey85', text=' ', width=5, height=2)
             label[m].grid(row=m,column=n,padx=3,pady=3)
-            if(n==2):
-                label[m]['bg']='lawn green';
-                #label[m]['text']='';
 
+    def exit_click():
+        msgbox = messagebox.askquestion(" ","Bạn có muốn thoát ứng dụng ?")
+        if(msgbox == 'yes'):
+            root.destroy()
     def start_click():
         send_data = 'P'
         ser.write(send_data.encode())
@@ -355,11 +347,11 @@ def mainscreen():
         #note_labelframe.place_forget();
         #table_labelframe.place_forget();
 
-        process_label = Label(mainscreen_labelframe, text='Đang xử lý...', bg='white', font=("Courier",13,'bold'))
-        process_label.place(x=322,y=452)
+        process_label = Label(mainscreen0_labelframe, text='Đang xử lý...', bg='white', font=("Courier",13,'bold'))
+        process_label.place(x=324,y=452)
         root.update_idletasks()
-        scanposition_progressbar = ttk.Progressbar(mainscreen_labelframe, orient = HORIZONTAL, style="green.Horizontal.TProgressbar", length = 200, mode = 'determinate')
-        scanposition_progressbar.place(x=287,y=423)
+        scanposition_progressbar = ttk.Progressbar(mainscreen0_labelframe, orient = HORIZONTAL, style="green.Horizontal.TProgressbar", length = 200, mode = 'determinate')
+        scanposition_progressbar.place(x=289,y=423)
         scanposition_progressbar['value'] = 5
         root.update_idletasks()
         start_button.place_forget()
@@ -383,7 +375,7 @@ def mainscreen():
                     break
         while(wait==1):
             try:
-                camera_capture('/home/pi/Spotcheck/Kiem tra do sang/do-sang.jpg')
+                camera_capture('/home/pi/Spotcheck/Kiem tra do sang/khong-mau.jpg')
             except Exception as e :
                 error = messagebox.askquestion("Lỗi: "+ str(e), "Bạn có muốn thoát chương trình ?", icon = "error")
                 if(error=='yes'):
@@ -391,12 +383,12 @@ def mainscreen():
 
             global test_list
             try:
-                test_list,test_img = process_image('/home/pi/Spotcheck/Kiem tra do sang/do-sang.jpg')
+                test_list,test_img = process_image('/home/pi/Spotcheck/Kiem tra do sang/khong-mau.jpg')
             except Exception as e :
                 error = messagebox.askquestion("Lỗi: "+ str(e), "Bạn có muốn thoát chương trình ?", icon = "error")
                 if(error=='yes'):
                     root.destroy()
-            cv2.imwrite('/home/pi/Spotcheck/Kiem tra do sang/xu-ly.jpg',test_img)
+            cv2.imwrite('/home/pi/Spotcheck/Kiem tra do sang/xu-ly-khong-mau.jpg',test_img)
             workbook = Workbook()
             sheet = workbook.active
 
@@ -434,7 +426,7 @@ def mainscreen():
 
                 sheet[pos] = test_list[i]
 
-            workbook.save('/home/pi/Spotcheck/Kiem tra do sang/do-sang.xlsx')
+            workbook.save('/home/pi/Spotcheck/Kiem tra do sang/gia-tri-khong-mau.xlsx')
 
             scanposition_progressbar['value'] = 50
             root.update_idletasks()
@@ -451,18 +443,10 @@ def mainscreen():
             wait = 0
             break
 
-        try:
-            sc_label.place_forget()
-        except:
-            pass
-
-        sum_column3 = 0
-        for i in range (2,45,6):
-            sum_column3 = sum_column3+test_list[i]
-        average_value = round(sum_column3/8,1)
-
-        samplenum_label = Label(mainscreen_labelframe, bg='white', font=("Courier",13,'bold'))
-        if(average_value > fam_max or average_value < fam_min):
+        global nosample_average
+        nosample_average = round(sum(test_list)/len(test_list),1)
+        samplenum_label = Label(mainscreen0_labelframe, bg='white', font=("Courier",13,'bold'))
+        if(nosample_average > value_max or nosample_average < value_min):
             fw = open("/home/pi/Spotcheck/check.txt","w")
             fw.truncate(0)
             fw.writelines("1111\n")
@@ -472,10 +456,213 @@ def mainscreen():
                     label[m].grid(row=m,column=n,padx=3,pady=3)
             samplenum_label['text'] = 'HỆ THỐNG LỖI, XIN THỬ LẠI !'
             samplenum_label['fg'] = "red"
-            samplenum_label.place(x=251,y=432)
+            samplenum_label.place(x=253,y=432)
             msgbox = messagebox.showerror(" ","Hệ thống lỗi, vui lòng liên hệ với nhà cung cấp !")
-            #if(msgbox=='ok'):
-            #    root.destroy()
+
+        else:
+            for m in range(0,8):
+                for n in range(0,6):
+                    label[m] = Label(table_labelframe, bg='dodger blue', fg='lawn green', text='✓', width=5, height=2)
+                    label[m].grid(row=m,column=n,padx=3,pady=3)
+            samplenum_label['text'] = 'GIÁ TRỊ SÁNG ỔN ĐỊNH !'
+            samplenum_label['fg'] = "green4"
+            samplenum_label.place(x=280,y=432)
+            msgbox = messagebox.showinfo("Giá trị không mẫu ổn định","Ấn \"Tiếp theo\" để sang bước kế tiếp.")
+            next_button.place(x=663,y=421)
+
+    def next_click():
+        mainscreen0_labelframe.place_forget()
+        mainscreen()
+
+    exit_button = Button(mainscreen0_labelframe, bg="grey80", text="Thoát", font=('Courier',12,'bold'), borderwidth=0, height=2, width=10, command=exit_click)
+    exit_button.place(x=5,y=421)
+    start_button = Button(mainscreen0_labelframe, bg="lawn green", text="Kiểm tra", font=('Courier',12,'bold'), borderwidth=0, height=2, width=10, command=start_click)
+    start_button.place(x=326,y=421)
+    next_button = Button(mainscreen0_labelframe, bg="grey80", text="Tiếp theo", font=('Courier',12,'bold'), borderwidth=0, height=2, width=10, command=next_click)
+
+def mainscreen():
+    buttonFont = font.Font(family='Helvetica', size=10, weight='bold')
+    global mainscreen_labelframe
+    mainscreen_labelframe = LabelFrame(root, bg='white', width=799, height=600)
+    mainscreen_labelframe.place(x=1,y=0)
+    mainscreen1_labelframe = LabelFrame(mainscreen_labelframe, bg='dodger blue', width=792, height=50)
+    mainscreen1_labelframe.place(x=1,y=0)
+
+    logo_img = Image.open('/home/pi/Spotcheck/logo.png')
+    logo_width, logo_height = logo_img.size
+    scale_percent = 30
+    width = int(logo_width * scale_percent / 100)
+    height = int(logo_height * scale_percent / 100)
+    display_img = logo_img.resize((width,height))
+    image_select = ImageTk.PhotoImage(display_img)
+    logo_label = Label(mainscreen_labelframe, bg='white',image=image_select)
+    logo_label.image = image_select
+    logo_label.place(x=657,y=52)
+
+    sc_label = Label(mainscreen1_labelframe, font=("Courier",20,'bold'), fg='white', bg='dodger blue',text='SPOTCHECK - KIỂM TRA HỆ THỐNG')
+    sc_label.place(x=160, y=7)
+
+    note0_labelframe = LabelFrame(mainscreen_labelframe, bg='white', width=220, height=70)
+    note0_labelframe.place(x=10,y=58)
+    note_labelframe = LabelFrame(mainscreen_labelframe, bg='white', width=220, height=139)
+    note_labelframe.place(x=10,y=128)
+
+    note0_label = Label(note0_labelframe, font=("Courier",10), fg='red', bg='white',text='Kiểm tra với mẫu RF')
+    note0_label.place(x=30, y=24)
+    cell1_label = Label(note_labelframe, bg='lawn green', width=4, height=2)
+    cell1_label.place(x=5,y=19)
+    note1_label = Label(note_labelframe, font=("Courier",10), fg='black', bg='white',text='Vị trí đặt mẫu')
+    note1_label.place(x=50, y=30)
+    cell2_label = Label(note_labelframe, bg='grey85', width=4, height=2)
+    cell2_label.place(x=5,y=79)
+    note2_label = Label(note_labelframe, font=("Courier",10), fg='black', bg='white',text='Vị trí không đặt mẫu')
+    note2_label.place(x=50, y=90)
+
+    table_labelframe = LabelFrame(mainscreen_labelframe, bg='grey99', width=328, height=353)
+    table_labelframe.place(x=237,y=58)
+
+    label = list(range(48))
+    for m in range(0,8):
+        for n in range(0,6):
+            label[m] = Label(table_labelframe, bg='grey85', text=' ', width=5, height=2)
+            label[m].grid(row=m,column=n,padx=3,pady=3)
+            if(n==2):
+                label[m]['bg']='lawn green';
+                #label[m]['text']='';
+
+    def start_click():
+        send_data = 'P'
+        ser.write(send_data.encode())
+
+        #note_labelframe.place_forget();
+        #table_labelframe.place_forget();
+
+        process_label = Label(mainscreen_labelframe, text='Đang xử lý...', bg='white', font=("Courier",13,'bold'))
+        process_label.place(x=324,y=452)
+        root.update_idletasks()
+        scanposition_progressbar = ttk.Progressbar(mainscreen_labelframe, orient = HORIZONTAL, style="green.Horizontal.TProgressbar", length = 200, mode = 'determinate')
+        scanposition_progressbar.place(x=289,y=423)
+        scanposition_progressbar['value'] = 5
+        root.update_idletasks()
+        start_button.place_forget()
+
+        if(ser.in_waiting>0):
+            receive_data = ser.readline().decode('utf-8').rstrip()
+            print("Data received:", receive_data)
+            scanposition_progressbar['value'] = 20
+            root.update_idletasks()
+            if(receive_data=='C'):
+                global wait
+                wait = 1
+
+        while(wait!=1):
+            root.update_idletasks()
+            if(ser.in_waiting>0):
+                receive_data = ser.readline().decode('utf-8').rstrip()
+                print("Data received:", receive_data)
+                if(receive_data=='C'):
+                    wait = 1
+                    break
+        while(wait==1):
+            try:
+                camera_capture('/home/pi/Spotcheck/Kiem tra do sang/rf.jpg')
+            except Exception as e :
+                error = messagebox.askquestion("Lỗi: "+ str(e), "Bạn có muốn thoát chương trình ?", icon = "error")
+                if(error=='yes'):
+                    root.destroy()
+
+            global test_list
+            try:
+                test_list,test_img = process_image('/home/pi/Spotcheck/Kiem tra do sang/rf.jpg')
+            except Exception as e :
+                error = messagebox.askquestion("Lỗi: "+ str(e), "Bạn có muốn thoát chương trình ?", icon = "error")
+                if(error=='yes'):
+                    root.destroy()
+            cv2.imwrite('/home/pi/Spotcheck/Kiem tra do sang/xu-ly-rf.jpg',test_img)
+            workbook = Workbook()
+            sheet = workbook.active
+
+            sheet["A2"] = "A"
+            sheet["A3"] = "B"
+            sheet["A4"] = "C"
+            sheet["A5"] = "D"
+            sheet["A6"] = "E"
+            sheet["A7"] = "F"
+            sheet["A8"] = "G"
+            sheet["A9"] = "H"
+            sheet["B1"] = "1"
+            sheet["C1"] = "2"
+            sheet["D1"] = "3"
+            sheet["E1"] = "4"
+            sheet["F1"] = "5"
+            sheet["G1"] = "6"
+            for i in range(0,48):
+                if(i<6):
+                    pos = str(chr(65+i+1)) + "2"
+                if(i>=6 and i<12):
+                    pos = str(chr(65+i-5)) + "3"
+                if(i>=12 and i<18):
+                    pos = str(chr(65+i-11)) + "4"
+                if(i>=18 and i<24):
+                    pos = str(chr(65+i-17)) + "5"
+                if(i>=24 and i<30):
+                    pos = str(chr(65+i-23)) + "6"
+                if(i>=30 and i<36):
+                    pos = str(chr(65+i-29)) + "7"
+                if(i>=36 and i<42):
+                    pos = str(chr(65+i-35)) + "8"
+                if(i>=42):
+                    pos = str(chr(65+i-41)) + "9"
+
+                sheet[pos] = test_list[i]
+
+            workbook.save('/home/pi/Spotcheck/Kiem tra do sang/do-sang-rf.xlsx')
+
+            scanposition_progressbar['value'] = 50
+            root.update_idletasks()
+            sleep(1)
+            scanposition_progressbar['value'] = 70
+            root.update_idletasks()
+            sleep(1)
+            scanposition_progressbar['value'] = 99
+            root.update_idletasks()
+
+            process_label.place_forget()
+            scanposition_progressbar.place_forget()
+            #start_button.place(x=315,y=250)
+            wait = 0
+            break
+
+        sum_column3 = 0
+        for i in range (2,45,6):
+            sum_column3 = sum_column3+test_list[i]
+        rf_average = round(sum_column3/8,1)
+        print("nosample_average:", nosample_average)
+        print("rf_average:", rf_average)
+        k = round(rf_average/nosample_average,2)
+        print("k:",k)
+        samplenum_label = Label(mainscreen_labelframe, bg='white', font=("Courier",13,'bold'))
+        if(k>(k1+(k1*5/100)) or k<(k1-(k1*5/100))):
+            fw = open("/home/pi/Spotcheck/check.txt","w")
+            fw.truncate(0)
+            fw.writelines("1111\n")
+            for m in range(0,8):
+                for n in range(0,6):
+                    label[m] = Label(table_labelframe, bg='yellow', fg='black', text='!', width=5, height=2)
+                    label[m].grid(row=m,column=n,padx=3,pady=3)
+            samplenum_label['text'] = 'HỆ THỐNG LỖI, XIN THỬ LẠI !'
+            samplenum_label['fg'] = "red"
+            samplenum_label.place(x=253,y=432)
+            msgbox = messagebox.showerror(" ","Hệ thống lỗi, vui lòng liên hệ với nhà cung cấp !")
+
+            def exit_click():
+                msgbox = messagebox.askquestion(" ","Bạn có muốn thoát ứng dụng ?")
+                if(msgbox == 'yes'):
+                    root.destroy()
+
+            exit_button = Button(mainscreen_labelframe, bg="grey80", text="Thoát", font=('Courier',12,'bold'), borderwidth=0, height=2, width=10, command=exit_click)
+            exit_button.place(x=663,y=421)
+
 
         else:
             fw = open("/home/pi/Spotcheck/check.txt","w")
@@ -487,21 +674,29 @@ def mainscreen():
                     label[m].grid(row=m,column=n,padx=3,pady=3)
             samplenum_label['text'] = 'ĐÃ KIỂM TRA XONG !'
             samplenum_label['fg'] = "green4"
-            samplenum_label.place(x=297,y=432)
+            samplenum_label.place(x=299,y=432)
             msgbox = messagebox.showinfo(" ","Thiết bị đã sẵn sàng để sử dụng !")
-            #if(msgbox == 'ok'):
-            #    root.destroy()
+
+            def exit_click():
+                msgbox = messagebox.askquestion(" ","Bạn có muốn thoát ứng dụng ?")
+                if(msgbox == 'yes'):
+                    root.destroy()
+
+            exit_button = Button(mainscreen_labelframe, bg="grey80", text="Thoát", font=('Courier',12,'bold'), borderwidth=0, height=2, width=10, command=exit_click)
+            exit_button.place(x=663,y=421)
 
 
     start_button = Button(mainscreen_labelframe, bg="lawn green", text="Kiểm tra", font=('Courier',12,'bold'), borderwidth=0, height=2, width=10, command=start_click)
     start_button.place(x=324,y=421)
-    def exit_click():
-        msgbox = messagebox.askquestion(" ","Bạn có muốn thoát ứng dụng ?")
-        if(msgbox == 'yes'):
-            root.destroy()
+    def back_click():
+        mainscreen_labelframe.place_forget()
+        mainscreen0()
+        # msgbox = messagebox.askquestion(" ","Bạn có muốn thoát ứng dụng ?")
+#         if(msgbox == 'yes'):
+#             root.destroy()
 
-    exit_button = Button(mainscreen_labelframe, bg="grey80", text="Thoát", font=('Courier',12,'bold'), borderwidth=0, height=2, width=10, command=exit_click)
-    exit_button.place(x=5,y=421)
+    back_button = Button(mainscreen_labelframe, bg="grey80", text="Trở lại", font=('Courier',12,'bold'), borderwidth=0, height=2, width=10, command=back_click)
+    back_button.place(x=5,y=421)
 
     #start_click()
 ############################################################### LOOP - START #######################################################################
@@ -519,7 +714,7 @@ def readSerial():
 if(start_trial==1):
     trial()
 else:
-    mainscreen()
+    mainscreen0()
 
 root.after(100, readSerial)
 root.mainloop()

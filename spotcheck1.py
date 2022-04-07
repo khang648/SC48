@@ -107,9 +107,8 @@ fr7 = open("/home/pi/Spotcheck/parameters.txt")
 average_min = float(fr7.readline())
 average_max = float(fr7.readline())
 hs_ct =  float(fr7.readline())
-hs_thr1 = float(fr7.readline())
-hs_thr2 = float(fr7.readline())
-
+a = float(fr7.readline())
+b = float(fr7.readline())
 
 if not os.path.exists('/home/pi/Spotcheck Ket Qua'):
     f = os.path.join("/home/pi/", "Spotcheck Ket Qua")
@@ -607,7 +606,7 @@ def mainscreen():
                     path4 = os.path.join(path0,"Ảnh nguyên mẫu")
                     os.mkdir(path4)
                     path5 = os.path.join(path0,"Chương trình nhiệt")
-                    os.mkdir(path5)
+                    os.mkdir(path5) 
 
                     mainscreen_labelframe.place_forget()
                     scanposition()
@@ -1962,7 +1961,7 @@ def scanposition():
         
         average_value = round(sum(pos_result)/len(pos_result),1)
         sheet0['I2'] = "Average: " + str(average_value)
-        sheet0['I3'] = "Threshold: " + str(round(average_value*hs_thr2/hs_thr1,1))
+        sheet0['I3'] = "Threshold: " + str(round(average_value*a+b,1))
         workbook0.save(path4 + "/gia-tri.xlsx")
 
         scanresult_labelframe = LabelFrame(scanposition_labelframe, bg='ghost white', width=528,height = 307)
@@ -2005,7 +2004,7 @@ def scanposition():
             samplenum_label.place(x=310,y=432)
 
             global thr_set
-            thr_set = round(average_value*hs_thr2/hs_thr1,1)
+            thr_set = round(average_value*a/+b,1)
 
             def thread():
                 th1 = Thread(target = next_click)
@@ -2487,7 +2486,7 @@ def analysis():
 
             negative_label = Label(annotate_labelframe, bg='lawn green', width=4, height=2)
             negative_label.place(x=60,y=32)
-            negativetext_label = Label(annotate_labelframe, bg='white', text='      (N)             ÂM TÍNH', height=2)
+            negativetext_label = Label(annotate_labelframe, bg='white', text='  (N)                 ÂM TÍNH', height=2)
             negativetext_label.place(x=130,y=32)
             positive_label = Label(annotate_labelframe, bg='red', width=4, height=2)
             positive_label.place(x=60,y=82)
