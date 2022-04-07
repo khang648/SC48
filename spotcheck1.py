@@ -366,7 +366,7 @@ def process_image(image_name, start_point=(x1,y1), end_point=(x2,y2)):
         pts = np.where(cimg == 255)
         list_bgrvalue.append(blur1_img[pts[0], pts[1]])
         for j in range(len(list_bgrvalue[i])):
-             list_index[i].append(round((list_bgrvalue[i][j][0]*0 + list_bgrvalue[i][j][1]*3 + list_bgrvalue[i][j][2]*1)))
+             list_index[i].append(round((list_bgrvalue[i][j][1]*3 + list_bgrvalue[i][j][2])))
         list_index[i].sort()
         list_intensities.append(sum(list_index[i][len(list_index[i])-250:]))
         area[i]= cv2.contourArea(sorted_contours1[i])
