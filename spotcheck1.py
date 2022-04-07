@@ -2006,7 +2006,7 @@ def scanposition():
             global thr_set
             thr_set = round(average_value*a+b,1)
 
-            def thread():''
+            def thread():
                 th1 = Thread(target = next_click)
                 th1.start()
 
