@@ -2527,7 +2527,7 @@ def analysis():
             positivetext_label.place(x=130,y=82)
             positive_label = Label(annotate_labelframe, bg='orange', width=4, height=2)
             positive_label.place(x=60,y=132)
-            positivetext_label = Label(annotate_labelframe, bg='white', text='  (Ct > 25)       DƯƠNG TÍNH', height=2)
+            positivetext_label = Label(annotate_labelframe, bg='white', text='  (Ct > 20)       DƯƠNG TÍNH', height=2)
             positivetext_label.place(x=130,y=132)
             positive_label = Label(annotate_labelframe, bg='yellow', width=4, height=2)
             positive_label.place(x=60,y=132)
