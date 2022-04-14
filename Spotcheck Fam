@@ -1,6 +1,6 @@
 [Desktop Entry]
-Name=Kiem tra may
-Comment=Spotcheck Fam Application
+Name=Spotcheck Hieu Chinh
+Comment=Spotcheck Hieu Chinh
 Icon=/home/pi/Spotcheck/icon.ico
 Exec=/home/pi/Spotcheck/dist/check/check
 Type=Application

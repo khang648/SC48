@@ -58,7 +58,7 @@ fr1 = open("/home/pi/Spotcheck/coordinates1.txt","r")
 x1 = int(fr1.readline())
 y1 = int(fr1.readline())
 x2 = int(fr1.readline())
-y2 = int(fr1.readline())
+y2 = int(fr1.readline())s
 fr2 = open("/var/tmp/.admin.txt","r")
 start_trial = int(fr2.readline())
 print("start_trial: ", start_trial)
@@ -68,6 +68,7 @@ value_max = float(fr3.readline())
 tmp1 = float(fr3.readline())
 tmp2 = float(fr3.readline())
 tmp3 = float(fr3.readline())
+tmp4 = float(fr3.readline())
 k1 = float(fr3.readline())
 
 ########################################################### GLOBAL VARIABLE - END ##################################################################
