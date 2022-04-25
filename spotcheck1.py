@@ -401,6 +401,24 @@ def process_image(image_name, start_point=(x1,y1), end_point=(x2,y2)):
 
 #Nhân hệ số
     global hs
+    for i in range(1,7):
+        result_list[6*i+1]=round(result_list[6*i+1]*(1-(0.02*round(result_list[6*i]/70) + 0.02*round(result_list[6*i+2]/70) + 0.02*round(result_list[6*i-5]/70) + 0.02*round(result_list[6*i+7]/70) + 0.003*round(result_list[6*i-6]/70) + 0.003*round(result_list[6*i-4]/70) + 0.003*round(result_list[6*i+6]/70) + 0.003*round(result_list[6*i+8]/70)+ 0.006*round(result_list[6*i+3]/70))),1)
+        result_list[6*i+2]=round(result_list[6*i+2]*(1-(0.02*round(result_list[6*i+1]/70) + 0.02*round(result_list[6*i+3]/70) + 0.02*round(result_list[6*i-4]/70) + 0.02*round(result_list[6*i+8]/70) + 0.003*round(result_list[6*i-5]/70) + 0.003*round(result_list[6*i-3]/70) + 0.003*round(result_list[6*i+7]/70) + 0.003*round(result_list[6*i+9]/70)+ 0.006*round(result_list[6*i+4]/70)+ 0.006*round(result_list[6*i]/70))),1)
+        result_list[6*i+3]=round(result_list[6*i+3]*(1-(0.02*round(result_list[6*i+2]/70) + 0.02*round(result_list[6*i+4]/70) + 0.02*round(result_list[6*i-3]/70) + 0.02*round(result_list[6*i+9]/70) + 0.003*round(result_list[6*i-4]/70) + 0.003*round(result_list[6*i-2]/70) + 0.003*round(result_list[6*i+8]/70) + 0.003*round(result_list[6*i+10]/70)+ 0.006*round(result_list[6*i+5]/70)+ 0.006*round(result_list[6*i+1]/70))),1)
+        result_list[6*i+4]=round(result_list[6*i+4]*(1-(0.02*round(result_list[6*i+3]/70) + 0.02*round(result_list[6*i+5]/70) + 0.02*round(result_list[6*i-2]/70) + 0.02*round(result_list[6*i+10]/70) + 0.003*round(result_list[6*i-3]/70) + 0.003*round(result_list[6*i-1]/70) + 0.003*round(result_list[6*i+9]/70) + 0.003*round(result_list[6*i+11]/70)+ 0.006*round(result_list[6*i+2]/70))),1)
+
+        result_list[6*i]=round(result_list[6*i]*(1-(0.02*round(result_list[6*i+1]/70) + 0.015*round(result_list[6*i-6]/70) + 0.015*round(result_list[6*i+6]/70) + 0.003*round(result_list[6*i-5]/70) + 0.003*round(result_list[6*i+7]/70)+0.006*round(result_list[6*i+2]/70))),1)
+        result_list[6*i+5]=round(result_list[6*i+5]*(1-(0.02*round(result_list[6*i+4]/70) + 0.015*round(result_list[6*i-1]/70) + 0.015*round(result_list[6*i+11]/70) + 0.003*round(result_list[6*i-2]/70) + 0.003*round(result_list[6*i+10]/70)+0.006*round(result_list[6*i+3]/70))),1)
+
+    for i in range(1,5):
+        result_list[i]=round(result_list[i]*(1-(0.02*round(result_list[i-1]/70) + 0.02*round(result_list[i+1]/70) + 0.015*round(result_list[i+6]/70)+ 0.003*round(result_list[i+5]/70) + 0.003*round(result_list[i+7]/70))),1)
+        result_list[i+42]=round(result_list[i+42]*(1-(0.02*round(result_list[i+41]/70) + 0.02*round(result_list[i+43]/70) + 0.015*round(result_list[i+36]/70)+ 0.003*round(result_list[i+35]/70) + 0.003*round(result_list[i+37]/70))),1)
+
+    result_list[0]=round(result_list[0]*(1-(0.015*round(result_list[1]/70) + 0.015*round(result_list[6]/70))),1)
+    result_list[5]=round(result_list[5]*(1-(0.015*round(result_list[4]/70) + 0.015*round(result_list[11]/70))),1)
+    result_list[42]=round(result_list[42]*(1-(0.015*round(result_list[43]/70) + 0.015*round(result_list[36]/70))),1)
+    result_list[47]=round(result_list[47]*(1-(0.015*round(result_list[46]/70) + 0.015*round(result_list[41]/70))),1)
+
     for i in range(len(sorted_contours1)):
         if(id_list[i]=='N' or id_list[i]=='Negative' or id_list[i]=='n' or id_list[i]=='negative' or id_list[i]=='NEGC' or id_list[i]=='NEGATIVE'):
             result_list[i] = round(result_list[i]*0.85,1)
@@ -607,7 +625,7 @@ def mainscreen():
                     path4 = os.path.join(path0,"Ảnh nguyên mẫu")
                     os.mkdir(path4)
                     path5 = os.path.join(path0,"Chương trình nhiệt")
-                    os.mkdir(path5) 
+                    os.mkdir(path5)
 
                     mainscreen_labelframe.place_forget()
                     scanposition()
@@ -1959,7 +1977,7 @@ def scanposition():
                 pos = str(chr(65+i-41)) + "9"
 
             sheet0[pos] = pos_result[i]
-        
+
         average_value = round(sum(pos_result)/len(pos_result),1)
         sheet0['I2'] = "Average: " + str(average_value)
         sheet0['I3'] = "Threshold: " + str(round(average_value*a+b,1))
@@ -1968,7 +1986,7 @@ def scanposition():
         scanresult_labelframe = LabelFrame(scanposition_labelframe, bg='ghost white', width=528,height = 307)
         scanresult_labelframe.place(x=248,y=60)
 
-        
+
         label = list(range(48))
         for i in range(0,8):
             for j in range(0,6):
@@ -2280,7 +2298,7 @@ def analysis():
                 if(result_list[c1]<float(thr_set)):
                     sheet['D'+str(i+12)] = 'N'
                     sheet['D'+str(i+12)].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')
-                    
+
                 else:
                     if(result_list[c1] < hs_ct1*float(thr_set)):
                         sheet['D'+str(i+12)] = 'Ct > 30'
@@ -2309,7 +2327,7 @@ def analysis():
                 if(result_list[c2]<float(thr_set)):
                     sheet['D'+str(i+20)] = 'N'
                     sheet['D'+str(i+20)].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')
-                    
+
                 else:
                     if(result_list[c2] < hs_ct1*float(thr_set)):
                         sheet['D'+str(i+20)] = 'Ct > 30'
@@ -2326,7 +2344,7 @@ def analysis():
                         sheet['D'+str(i+20)].fill = PatternFill(start_color='00FF3333', end_color='00FF3333', fill_type='solid')
                         sheet['D'+str(i+20)].font = font2
                         sheet['B'+str(i+20)].font = font2
-                        
+
 
             sheet['E'+str(i+20)].protection = Protection(locked=False, hidden=False)
             sheet['F'+str(i+20)].protection = Protection(locked=False, hidden=False)
@@ -2339,7 +2357,7 @@ def analysis():
                 if(result_list[c3]<float(thr_set)):
                     sheet['D'+str(i+28)] = 'N'
                     sheet['D'+str(i+28)].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')
-                    
+
                 else:
                     if(result_list[c3] < hs_ct1*float(thr_set)):
                         sheet['D'+str(i+28)] = 'Ct > 30'
@@ -2368,7 +2386,7 @@ def analysis():
                 if(result_list[c4]<float(thr_set)):
                     sheet['D'+str(i+36)] = 'N'
                     sheet['D'+str(i+36)].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')
-                    
+
                 else:
                     if(result_list[c4] < hs_ct1*float(thr_set)):
                         sheet['D'+str(i+36)] = 'Ct > 30'
@@ -2396,7 +2414,7 @@ def analysis():
             else:
                 if(result_list[c5]<float(thr_set)):
                     sheet['D'+str(i+44)] = 'N'
-                    sheet['D'+str(i+44)].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')               
+                    sheet['D'+str(i+44)].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')
                 else:
                     if(result_list[c5] < hs_ct1*float(thr_set)):
                         sheet['D'+str(i+44)] = 'Ct > 30'
@@ -2424,7 +2442,7 @@ def analysis():
             else:
                 if(result_list[c6]<float(thr_set)):
                     sheet['D'+str(i+52)] = 'N'
-                    sheet['D'+str(i+52)].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')               
+                    sheet['D'+str(i+52)].fill = PatternFill(start_color='0099FF00', end_color='0000FF00', fill_type='solid')
                 else:
                     if(result_list[c6] < hs_ct1*float(thr_set)):
                         sheet['D'+str(i+52)] = 'Ct > 30'
@@ -2587,7 +2605,7 @@ def analysis():
                             if(result_list[i] < hs_ct1*float(thr_set)):
                                 label[i] = Label(result_labelframe, bg='yellow', text='>30', width=4, height=2)
                                 label[i].grid(row=row_value,column=j,padx=2,pady=2)
-                            elif(result_list[i] >= hs_ct1*float(thr_set) and result_list[i] < hs_ct2*float(thr_set)): 
+                            elif(result_list[i] >= hs_ct1*float(thr_set) and result_list[i] < hs_ct2*float(thr_set)):
                                 label[i] = Label(result_labelframe, bg='orange', text='>20', width=4, height=2)
                                 label[i].grid(row=row_value,column=j,padx=2,pady=2)
                             else:
