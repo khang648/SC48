@@ -62,6 +62,8 @@ test_list = list(range(48))
 warning_value = 0
 password = '123456789'
 thr_set = 18
+errors=0
+detailclick = 0
 
 fr = open("/home/pi/Spotcheck/check.txt","r")
 code = (fr.readline()).strip()
@@ -78,26 +80,37 @@ ftp_password = fr2.readline().strip('\n')
 ftp_folder = fr2.readline().strip('\n')
 
 hs = list(range(48))
+tl = list(range(48))
 workbook = openpyxl.load_workbook('/home/pi/Spotcheck/coefficient.xlsx')
 sheet = workbook.active
 for i in range(0,48):
     if(i<6):
         pos = str(chr(65+i+1)) + "2"
+        pos1 = str(chr(65+i+1)) + "11"
     if(i>=6 and i<12):
         pos = str(chr(65+i-5)) + "3"
+        pos1 = str(chr(65+i-5)) + "12"
     if(i>=12 and i<18):
         pos = str(chr(65+i-11)) + "4"
+        pos1 = str(chr(65+i-11)) + "13"
     if(i>=18 and i<24):
         pos = str(chr(65+i-17)) + "5"
+        pos1 = str(chr(65+i-17)) + "14"
     if(i>=24 and i<30):
         pos = str(chr(65+i-23)) + "6"
+        pos1 = str(chr(65+i-23)) + "15"
     if(i>=30 and i<36):
         pos = str(chr(65+i-29)) + "7"
+        pos1 = str(chr(65+i-29)) + "16"
     if(i>=36 and i<42):
         pos = str(chr(65+i-35)) + "8"
+        pos1 = str(chr(65+i-35)) + "17"
     if(i>=42):
         pos = str(chr(65+i-41)) + "9"
+        pos1 = str(chr(65+i-41)) + "18"
     hs[i] = float(sheet[pos].value)
+    tl[i] = float(sheet[pos1].value)
+
 
 fr3 = open("/var/tmp/.admin.txt","r")
 start_trial = int(fr3.readline())
@@ -1899,8 +1912,8 @@ def scanposition():
         try:
             camera_capture(path4 + "/mau.jpg")
         except Exception as e :
-            error = messagebox.askquestion("Lỗi: "+ str(e), "Bạn có muốn thoát chương trình ?", icon = "error")
-            if(error=='yes'):
+            error = messagebox.showerror(str(e), "Lỗi: Err 03", icon = "error")
+            if(error=='ok'):
                 root.destroy()
 
         image = cv2.imread(path4 + "/mau.jpg")
@@ -1986,16 +1999,53 @@ def scanposition():
         scanresult_labelframe = LabelFrame(scanposition_labelframe, bg='ghost white', width=528,height = 307)
         scanresult_labelframe.place(x=248,y=60)
 
+        average_tl = round(sum(tl)/len(tl),1)
+        hs_tmp = round(average_tl/average_value,2)
 
         label = list(range(48))
-        for i in range(0,8):
-            for j in range(0,6):
+        def result_table(range_a, range_b, row_value):
+            global errors
+            j=-1
+            for i in range(range_a, range_b):
+                j+=1
+                if(i<6):
+                    t='A'+ str(i+1)
+                if(i>=6 and i<12):
+                    t='B'+ str(i-5)
+                if(i>=12 and i<18):
+                    t='C'+ str(i-11)
+                if(i>=18 and i<24):
+                    t='D'+ str(i-17)
+                if(i>=24 and i<30):
+                    t='E'+ str(i-23)
+                if(i>=30 and i<36):
+                    t='F'+ str(i-29)
+                if(i>=36 and i<42):
+                    t='G'+ str(i-35)
+                if(i>=42):
+                    t='H'+ str(i-41)
                 if(average_value > average_max or average_value < average_min):
-                    label[i] = Label(scanresult_labelframe, bg='yellow', text='!', width=5, height=2)
-                    label[i].grid(row=i,column=j,padx=3,pady=3)
+                    label[i] = Label(scanresult_labelframe, bg='yellow', text=t, width=5, height=2)
+                    label[i].grid(row=row_value,column=j,padx=3,pady=3)
                 else:
-                    label[i] = Label(scanresult_labelframe, bg='DodgerBlue2', fg='lawn green', text='✓', width=5, height=2)
-                    label[i].grid(row=i,column=j,padx=3,pady=3)
+                    label[i] = Label(scanresult_labelframe, bg='lawn green', text=t, width=5, height=2)
+                    label[i].grid(row=row_value,column=j,padx=3,pady=3)
+
+                if(pos_result[i]*hs_tmp > tl[i] + tl[i]*15/100 or pos_result[i]*hs_tmp < tl[i] - tl[i]*15/100):
+                    label[i]['bg']='red'
+                    errors = 1
+
+        scanposition_progressbar['value'] = 100
+        root.update_idletasks()
+
+        result_table(0,6,0)
+        result_table(6,12,1)
+        result_table(12,18,2)
+        result_table(18,24,3)
+        result_table(24,30,4)
+        result_table(30,36,5)
+        result_table(36,42,6)
+        result_table(42,48,7)
 
         scanposition_progressbar['value'] = 100
         root.update_idletasks()
@@ -2004,18 +2054,45 @@ def scanposition():
         scanposition_progressbar.place_forget()
         process_label.place_forget()
         wait = 0
+        global errors
+        samplenum_label = Label(scanposition_labelframe, bg='white', font=("Courier",10,'bold'))
+        if(average_value > average_max or average_value < average_min):
+            err = messagebox.showerror('','Lỗi: ERR 01',icon = "error")
+            samplenum_label['text'] = 'HỆ THỐNG LỖI, XIN THỬ LẠI !'
+            samplenum_label['fg'] = "red"
+            samplenum_label.place(x=265,y=432)
+        elif(errors==1):
+            errors=0
+            err = messagebox.showerror('','Lỗi: ERR 02', icon = "error")
+            samplenum_label['font']= ("Courier",12,'bold')
+            samplenum_label['text'] = 'Lỗi: ERR 02'
+            samplenum_label['fg'] = "red"
+            samplenum_label.place(x=343,y=420)
+            err_labelframe = LabelFrame(scanposition_labelframe, bg='black', font=("Courier",10,'bold'),width=306,height=356)
 
-        samplenum_label = Label(scanposition_labelframe, bg='white', font=("Courier",13,'bold'))
-        if(average_value > average_max):
-            err = messagebox.showerror('','Vui lòng không cho mẫu vào trong quá trình kiểm tra !')
-            samplenum_label['text'] = 'HỆ THỐNG LỖI, XIN THỬ LẠI !'
-            samplenum_label['fg'] = "red"
-            samplenum_label.place(x=265,y=432)
-        elif(average_value < average_min):
-            err = messagebox.showerror('','Hệ thống lỗi, vui lòng liên hệ với nhà cung cấp !')
-            samplenum_label['text'] = 'HỆ THỐNG LỖI, XIN THỬ LẠI !'
-            samplenum_label['fg'] = "red"
-            samplenum_label.place(x=265,y=432)
+            def detail_click():
+                if(detail_button['fg']=='blue'):
+                    detail_button['fg']='black'
+                    err_labelframe.place(x=248,y=60)
+                    scanresult_labelframe.place_forget()
+                    err_img = Image.open(path4 + '/mau.jpg')
+                    err_crop = err_img.crop((x1-10, y1-10, x2+10, y2+10))
+                    crop_width, crop_height = err_crop.size
+                    scale_percent = 100
+                    width = int(crop_width * scale_percent / 100)
+                    height = int(crop_height * scale_percent / 100)
+                    display_img = err_crop.resize((width,height))
+                    err_display = ImageTk.PhotoImage(display_img)
+                    err_label = Label(err_labelframe, image=err_display)
+                    err_label.image = err_display
+                    err_label.place(x=31,y=21)
+                else:
+                    detail_button['fg']='blue'
+                    err_labelframe.place_forget()
+                    scanresult_labelframe.place(x=248,y=60)
+
+            detail_button = Button(scanposition_labelframe, font=("Courier",12),fg='blue', bg="white", activebackground = 'white', highlightbackground = 'white',text=">> Xem ảnh", height=2, width=8, borderwidth=0, command=detail_click)
+            detail_button.place(x=347,y=437)
         else:
             info = messagebox.showinfo('Hoàn thành','Có thể cho mẫu vào và tiến hành phân tích.')
             samplenum_label['text'] = 'ĐÃ KIỂM TRA XONG !'
@@ -2128,7 +2205,7 @@ def analysis():
 
         workbook = Workbook()
         sheet = workbook.active
-
+        sheet["I11"] = thr_set
         sheet["A2"] = "A"
         sheet["A3"] = "B"
         sheet["A4"] = "C"
