@@ -2027,12 +2027,14 @@ def scanposition():
                 if(average_value > average_max or average_value < average_min):
                     label[i] = Label(scanresult_labelframe, bg='yellow', text=t, width=5, height=2)
                     label[i].grid(row=row_value,column=j,padx=3,pady=3)
-                else:
+                elif(average_value < average_max and average_value > average_min):
                     label[i] = Label(scanresult_labelframe, bg='lawn green', text=t, width=5, height=2)
                     label[i].grid(row=row_value,column=j,padx=3,pady=3)
-
-                if(pos_result[i]*hs_tmp > tl[i] + tl[i]*15/100 or pos_result[i]*hs_tmp < tl[i] - tl[i]*15/100):
-                    label[i]['bg']='red'
+                else:
+                    if(pos_result[i]*hs_tmp > tl[i] + tl[i]*15/100 or pos_result[i]*hs_tmp < tl[i] - tl[i]*15/100):
+                        label[i]['bg']='red'
+                    else:
+                        label[i]['bg']='lawn green'
                     errors = 1
 
         scanposition_progressbar['value'] = 100
@@ -2058,9 +2060,10 @@ def scanposition():
         samplenum_label = Label(scanposition_labelframe, bg='white', font=("Courier",10,'bold'))
         if(average_value > average_max or average_value < average_min):
             err = messagebox.showerror('','Lỗi: ERR 01',icon = "error")
-            samplenum_label['text'] = 'HỆ THỐNG LỖI, XIN THỬ LẠI !'
+            samplenum_label['font']= ("Courier",12,'bold')
+            samplenum_label['text'] = 'Lỗi: ERR 02'
             samplenum_label['fg'] = "red"
-            samplenum_label.place(x=265,y=432)
+            samplenum_label.place(x=343,y=420)
         elif(errors==1):
             errors=0
             err = messagebox.showerror('','Lỗi: ERR 02', icon = "error")
@@ -2095,6 +2098,7 @@ def scanposition():
             detail_button.place(x=347,y=437)
         else:
             info = messagebox.showinfo('Hoàn thành','Có thể cho mẫu vào và tiến hành phân tích.')
+            samplenum_label['font']= ("Courier",12,'bold')
             samplenum_label['text'] = 'ĐÃ KIỂM TRA XONG !'
             samplenum_label['fg'] = "green4"
             samplenum_label.place(x=310,y=432)
