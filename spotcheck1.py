@@ -111,7 +111,6 @@ for i in range(0,48):
     hs[i] = float(sheet[pos].value)
     tl[i] = float(sheet[pos1].value)
 
-
 fr3 = open("/var/tmp/.admin.txt","r")
 start_trial = int(fr3.readline())
 print("start_trial: ", start_trial)
@@ -2004,7 +2003,6 @@ def scanposition():
 
         label = list(range(48))
         def result_table(range_a, range_b, row_value):
-            global errors
             j=-1
             for i in range(range_a, range_b):
                 j+=1
@@ -2024,18 +2022,9 @@ def scanposition():
                     t='G'+ str(i-35)
                 if(i>=42):
                     t='H'+ str(i-41)
-                if(average_value > average_max or average_value < average_min):
-                    label[i] = Label(scanresult_labelframe, bg='yellow', text=t, width=5, height=2)
-                    label[i].grid(row=row_value,column=j,padx=3,pady=3)
-                elif(average_value < average_max and average_value > average_min):
-                    label[i] = Label(scanresult_labelframe, bg='lawn green', text=t, width=5, height=2)
-                    label[i].grid(row=row_value,column=j,padx=3,pady=3)
-                else:
-                    if(pos_result[i]*hs_tmp > tl[i] + tl[i]*15/100 or pos_result[i]*hs_tmp < tl[i] - tl[i]*15/100):
-                        label[i]['bg']='red'
-                    else:
-                        label[i]['bg']='lawn green'
-                    errors = 1
+
+                label[i] = Label(scanresult_labelframe, bg='white', text=t, width=5, height=2)
+                label[i].grid(row=row_value,column=j,padx=3,pady=3)
 
         scanposition_progressbar['value'] = 100
         root.update_idletasks()
@@ -2049,6 +2038,28 @@ def scanposition():
         result_table(36,42,6)
         result_table(42,48,7)
 
+        global errors
+        print("average_value: ",average_value)
+        print("average_tl: ",average_tl)
+        print("hs_tmp: ",hs_tmp)
+        for i in range(0,48):
+            if(pos_result[i] > tl[i]+tl[i]*15/100 or pos_result[i] < tl[i]-tl[i]*15/100):
+                label[i]['bg']="grey50"
+                if(errors != 2):
+                    errors=2
+            elif(pos_result[i] >= tl[i]*2):
+                label[i]['bg']="grey50"
+                if(errors != 200):
+                    errors=200
+            else:
+                label[i]['bg']="dodger blue"
+
+        if(average_value > average_max or average_value < average_min):
+            for i in range(0,48):
+                label[i]['bg']='grey50'
+            errors = 1
+
+
         scanposition_progressbar['value'] = 100
         root.update_idletasks()
 
@@ -2056,16 +2067,16 @@ def scanposition():
         scanposition_progressbar.place_forget()
         process_label.place_forget()
         wait = 0
-        global errors
+        #global errors
         samplenum_label = Label(scanposition_labelframe, bg='white', font=("Courier",10,'bold'))
-        if(average_value > average_max or average_value < average_min):
+        if(errors==1):
+            errors=0
             err = messagebox.showerror('','Lỗi: ERR 01',icon = "error")
             samplenum_label['font']= ("Courier",12,'bold')
-            samplenum_label['text'] = 'Lỗi: ERR 02'
+            samplenum_label['text'] = 'Lỗi: ERR 01'
             samplenum_label['fg'] = "red"
             samplenum_label.place(x=343,y=420)
-        elif(errors==1):
-            errors=0
+        elif(errors==2 or errors==200):
             err = messagebox.showerror('','Lỗi: ERR 02', icon = "error")
             samplenum_label['font']= ("Courier",12,'bold')
             samplenum_label['text'] = 'Lỗi: ERR 02'
@@ -2094,8 +2105,21 @@ def scanposition():
                     err_labelframe.place_forget()
                     scanresult_labelframe.place(x=248,y=60)
 
+            def thread():
+                th1 = Thread(target = next_click)
+                th1.start()
+            def next_click():
+                global createclicked
+                createclicked = 0
+                scanposition_labelframe.place_forget()
+                analysis()
+
             detail_button = Button(scanposition_labelframe, font=("Courier",12),fg='blue', bg="white", activebackground = 'white', highlightbackground = 'white',text=">> Xem ảnh", height=2, width=8, borderwidth=0, command=detail_click)
             detail_button.place(x=347,y=437)
+            if(errors==2):
+                next_button = Button(scanposition_labelframe, font=("Courier",12,'bold'), bg="lavender", text="Tiếp theo", height=3, width=11, borderwidth=0,command=thread)
+                next_button.place(x=647,y=406)
+            errors=0
         else:
             info = messagebox.showinfo('Hoàn thành','Có thể cho mẫu vào và tiến hành phân tích.')
             samplenum_label['font']= ("Courier",12,'bold')
@@ -2446,7 +2470,7 @@ def analysis():
                         sheet['D'+str(i+28)].font = font2
                         sheet['B'+str(i+28)].font = font2
                     elif(result_list[c3] >= hs_ct1*float(thr_set) and result_list[c3] < hs_ct2*float(thr_set)):
-                        sheet['D'+str(i+28)] = 'Ct < 25'
+                        sheet['D'+str(i+28)] = 'Ct > 25'
                         sheet['D'+str(i+28)].fill = PatternFill(start_color='00FFCC33', end_color='00FFCC33', fill_type='solid')
                         sheet['D'+str(i+28)].font = font2
                         sheet['B'+str(i+28)].font = font2
@@ -2475,7 +2499,7 @@ def analysis():
                         sheet['D'+str(i+36)].font = font2
                         sheet['B'+str(i+36)].font = font2
                     elif(result_list[c4] >= hs_ct1*float(thr_set) and result_list[c4] < hs_ct2*float(thr_set)):
-                        sheet['D'+str(i+36)] = 'Ct < 25'
+                        sheet['D'+str(i+36)] = 'Ct > 25'
                         sheet['D'+str(i+36)].fill = PatternFill(start_color='00FFCC33', end_color='00FFCC33', fill_type='solid')
                         sheet['D'+str(i+36)].font = font2
                         sheet['B'+str(i+36)].font = font2
@@ -2503,7 +2527,7 @@ def analysis():
                         sheet['D'+str(i+44)].font = font2
                         sheet['B'+str(i+44)].font = font2
                     elif(result_list[c5] >= hs_ct1*float(thr_set) and result_list[c5] < hs_ct2*float(thr_set)):
-                        sheet['D'+str(i+44)] = 'Ct < 25'
+                        sheet['D'+str(i+44)] = 'Ct > 25'
                         sheet['D'+str(i+44)].fill = PatternFill(start_color='00FFCC33', end_color='00FFCC33', fill_type='solid')
                         sheet['D'+str(i+44)].font = font2
                         sheet['B'+str(i+44)].font = font2
@@ -2531,7 +2555,7 @@ def analysis():
                         sheet['D'+str(i+52)].font = font2
                         sheet['B'+str(i+52)].font = font2
                     elif(result_list[c6] >= hs_ct1*float(thr_set) and result_list[c6] < hs_ct2*float(thr_set)):
-                        sheet['D'+str(i+52)] = 'Ct < 25'
+                        sheet['D'+str(i+52)] = 'Ct > 25'
                         sheet['D'+str(i+52)].fill = PatternFill(start_color='00FFCC33', end_color='00FFCC33', fill_type='solid')
                         sheet['D'+str(i+52)].font = font2
                         sheet['B'+str(i+52)].font = font2
