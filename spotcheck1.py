@@ -478,9 +478,9 @@ def process_image(image_name, start_point=(x1,y1), end_point=(x2,y2)):
 def mainscreen():
     buttonFont = font.Font(family='Helvetica', size=10, weight='bold')
     global mainscreen_labelframe
-    mainscreen_labelframe = LabelFrame(root, bg='white', width=800, height=600)
+    mainscreen_labelframe = LabelFrame(root, bg='white', width=800, height=480)
     mainscreen_labelframe.place(x=0,y=0)
-    sidebar_labelframe = LabelFrame(mainscreen_labelframe, font=("Courier",15,'bold'), bg='dodger blue', width=170, height=478)
+    sidebar_labelframe = LabelFrame(mainscreen_labelframe, font=("Courier",15,'bold'), bg='dodger blue', width=172, height=476)
     sidebar_labelframe.place(x=0,y=0)
 
     def home_click():
@@ -503,38 +503,39 @@ def mainscreen():
         global covid19_createclicked
         covid19_createclicked = 0
 
-        homemc_labelframe = LabelFrame(mainscreen_labelframe, bg='white', width=624, height=478)
+        homemc_labelframe = LabelFrame(mainscreen_labelframe, bg='white', width=625, height=476)
         homemc_labelframe.place(x=172,y=0)
+
+        top_labelframe = LabelFrame(homemc_labelframe, bg='dodger blue', width=619, height=37)
+        top_labelframe.place(x=1,y=1)
+
+        hometitle_label = Label(top_labelframe, bg='dodger blue', font=("Courier", 11, 'bold'), text="TRANG CHỦ")
+        hometitle_label.place(x=260,y=7)
+
+        probe_label = Label(homemc_labelframe, bg='white', fg = "grey80", font=("Courier", 10, 'bold'), text="Probe version")
+        probe_label.place(x=5,y=449)
 
         logo_img = Image.open('/home/pi/Spotcheck/logo.png')
         logo_width, logo_height = logo_img.size
-        scale_percent = 50
+        scale_percent = 30
         width = int(logo_width * scale_percent / 100)
         height = int(logo_height * scale_percent / 100)
         display_img = logo_img.resize((width,height))
         image_select = ImageTk.PhotoImage(display_img)
         logo_label = Label(mainscreen_labelframe, bg='white',image=image_select)
         logo_label.image = image_select
-        logo_label.place(x=558,y=10)
+        logo_label.place(x=650,y=442)
 
-        sc48_label = Label(mainscreen_labelframe, font=("Courier",45,'bold'), bg='white', fg='dodger blue', text="SPOTCHECK-SC48")
-        sc48_label.place(x=229, y=160)
-
-        transform_label = Label(mainscreen_labelframe, font=("Courier",16,'bold'), bg='white', fg='red', text="TRANSFORM YOUR PCR INTO REAL-TIME MODE")
-        transform_label.place(x=233, y=227)
-
-        covidapp_label = Label(mainscreen_labelframe, font=("Courier",25,'bold'), bg='white', fg='grey30', text="COVID-19 APPLICATION")
-        covidapp_label.place(x=280, y=270)
-
-        probe_label =  Label(mainscreen_labelframe, font=("Courier",13,'bold'), bg='blue', fg='white', text="Probe Version")
-        probe_label.place(x=415, y=420)
-
-        if(warning_value==1):
-            warning_label = Label(mainscreen_labelframe, bg='red',text='Hệ thống đang tản nhiệt, không đặt mẫu vào lúc này !', font=("Courier", 13, 'bold'))
-            warning_label.place(x=220,y=450)
-        else:
-            warning_label = Label(mainscreen_labelframe, bg='white', fg='white', text='Hệ thống đang tản nhiệt, không đặt mẫu vào lúc này !', font=("Courier", 13, 'bold'))
-            warning_label.place(x=220,y=450)
+        home_img = Image.open('/home/pi/Spotcheck/home.png')
+        home_width, home_height = home_img.size
+        scale_percent = 100
+        width = int(home_width * scale_percent / 100)
+        height = int(home_height * scale_percent / 100)
+        display_img = home_img.resize((width,height))
+        image_select = ImageTk.PhotoImage(display_img)
+        logo_label = Label(mainscreen_labelframe, bg='white',image=image_select)
+        logo_label.image = image_select
+        logo_label.place(x=231,y=115)
 
     def covid19_click():
         try:
@@ -559,10 +560,16 @@ def mainscreen():
         covid19mc_labelframe = LabelFrame(mainscreen_labelframe, bg='white', width=624, height=478)
         covid19mc_labelframe.place(x=172,y=0)
 
-        enterframe_labelframe = LabelFrame(covid19mc_labelframe, bg='white', width=609, height=175)
-        enterframe_labelframe.place(x=5,y=5)
+        top_labelframe = LabelFrame(covid19mc_labelframe, bg='dodger blue', width=619, height=37)
+        top_labelframe.place(x=1,y=1)
 
-        folder1name_label = Label(enterframe_labelframe, bg='dodger blue',width=75, height=1)
+        covid19title_label = Label(top_labelframe, bg='dodger blue', font=("Courier", 11, 'bold'), text="PHÂN TÍCH")
+        covid19title_label.place(x=260,y=7)
+
+        enterframe_labelframe = LabelFrame(covid19mc_labelframe, bg='white', width=609, height=175)
+        enterframe_labelframe.place(x=5,y=46)
+
+        folder1name_label = Label(enterframe_labelframe, bg='yellow2',width=75, height=1)
         folder1name_label.place(x=0,y=1)
 
         foldername_label = Label(enterframe_labelframe, bg='white',text='Tệp mẫu xét nghiệm', fg='black', font=("Courier",12,'bold'))
@@ -579,12 +586,12 @@ def mainscreen():
         global importfilename
         directory = strftime("COVID19 %y-%m-%d %H.%M.%S")
         if(covid19_createclicked == 0):
-            directory_label = Label(enterframe_labelframe, font=("Courier",10,'bold'), bg='dodger blue', text=directory)
-            directory_label.place(x=184,y=1)
+            directory_label = Label(enterframe_labelframe, font=("Courier",10,'bold'), bg='yellow2', text=directory)
+            directory_label.place(x=190,y=1)
             covid19dir_old = directory
         else:
-            directory_label = Label(enterframe_labelframe, font=("Courier",10,'bold'), bg='dodger blue', text=covid19dir_old)
-            directory_label.place(x=184,y=1)
+            directory_label = Label(enterframe_labelframe, font=("Courier",10,'bold'), bg='yellow2', text=covid19dir_old)
+            directory_label.place(x=190,y=1)
             file_label['text'] = importfilename
 
         def thread():
@@ -812,14 +819,14 @@ def mainscreen():
                     create_button['state']='normal'
                     create_button['bg']='lawn green'
 
-        import_button = Button(enterframe_labelframe, font=("Courier",12,'bold'), bg="lavender", text="Tải lên", height=3, width=10, borderwidth=0, command=import_click)
-        import_button.place(x=78,y=64)
+        import_button = Button(enterframe_labelframe, font=("Courier",10,'bold'), bg="lavender", text="Tải lên", height=3, width=10, borderwidth=0, command=import_click)
+        import_button.place(x=78,y=69)
 
         if(file_label['text']==""):
-            create_button = Button(enterframe_labelframe, font=("Courier",12,'bold'), bg="grey75", text="Tiếp theo", height=3, width=10, borderwidth=0, command=thread, state='disabled')
+            create_button = Button(enterframe_labelframe, font=("Courier",10,'bold'), bg="grey75", text="Tiếp theo", height=3, width=10, borderwidth=0, command=thread, state='disabled')
         else:
-            create_button = Button(enterframe_labelframe, font=("Courier",12,'bold'), bg="lawn green", text="Tiếp theo", height=3, width=10, borderwidth=0, command=thread)
-        create_button.place(x=403,y=64)
+            create_button = Button(enterframe_labelframe, font=("Courier",10,'bold'), bg="lawn green", text="Tiếp theo", height=3, width=10, borderwidth=0, command=thread)
+        create_button.place(x=403,y=69)
 
         if(warning_value==1):
             warning_label = Label(mainscreen_labelframe, bg='red',text='Hệ thống đang tản nhiệt, không đặt mẫu vào lúc này !', font=("Courier", 13, 'bold'))
@@ -845,37 +852,257 @@ def mainscreen():
         setidmc_labelframe = LabelFrame(mainscreen_labelframe, bg='white', width=624, height=478)
         setidmc_labelframe.place(x=172,y=0)
 
-        setid_labelframe = LabelFrame(setidmc_labelframe, bg='white', width=430, height=435)
-        setid_labelframe.place(x=95,y=5)
+        top_labelframe = LabelFrame(setidmc_labelframe, bg='dodger blue', width=619, height=37)
+        top_labelframe.place(x=1,y=1)
 
-        setid0_label = Label(setid_labelframe, bg='dodger blue', text=" VỊ TRÍ ĐẶT MẪU", font=("Courier", 12,'bold'),width=42)
-        setid0_label.place(x=1,y=1)
+        setidtitle_label = Label(top_labelframe, bg='dodger blue', font=("Courier", 11, 'bold'), text="TỆP MẪU XÉT NGHIỆM")
+        setidtitle_label.place(x=215,y=7)
 
-        s48_img = Image.open('/home/pi/Spotcheck/48well.JPG')
-        s48_width, s48_height = s48_img.size
-        scale_percent = 56
-        width = int(s48_width * scale_percent / 100)
-        height = int(s48_height * scale_percent / 100)
-        display_img = s48_img.resize((width,height))
-        image_select = ImageTk.PhotoImage(display_img)
-        setid_label = Label(setid_labelframe, bg='white',image=image_select)
-        setid_label.image = image_select
-        setid_label.place(x=99,y=40)
+        # setid_labelframe = LabelFrame(setidmc_labelframe, bg='white', width=430, height=435)
+#         setid_labelframe.place(x=95,y=15)
 
-        def ok_click():
-            global covid19_createclicked
-            covid19_createclicked = 0
-            setid()
+        # setid0_label = Label(setid_labelframe, bg='dodger blue', text=" VỊ TRÍ ĐẶT MẪU", font=("Courier", 12,'bold'),width=42)
+#         setid0_label.place(x=1,y=1)
 
-        ok_button = Button(setid_labelframe, fg='black', font=('Courier','13','bold'), bg="lavender", text="Tiếp theo", height=2, width=10, borderwidth=0, command=ok_click)
-        ok_button.place(x=150,y=355)
+        # s48_img = Image.open('/home/pi/Spotcheck/48well.JPG')
+#         s48_width, s48_height = s48_img.size
+#         scale_percent = 50
+#         width = int(s48_width * scale_percent / 100)
+#         height = int(s48_height * scale_percent / 100)
+#         display_img = s48_img.resize((width,height))
+#         image_select = ImageTk.PhotoImage(display_img)
+#         setid_label = Label(setidmc_labelframe, bg='white',image=image_select)
+#         setid_label.image = image_select
+#         setid_label.place(x=99,y=40)
 
-        if(warning_value==1):
-            warning_label = Label(mainscreen_labelframe, bg='red',text='Hệ thống đang tản nhiệt, không đặt mẫu vào lúc này !', font=("Courier", 13, 'bold'))
-            warning_label.place(x=220,y=450)
-        else:
-            warning_label = Label(mainscreen_labelframe, bg='white', fg='white', text='Hệ thống đang tản nhiệt, không đặt mẫu vào lúc này !', font=("Courier", 13, 'bold'))
-            warning_label.place(x=220,y=450)
+#         def ok_click():
+#             global covid19_createclicked
+#             covid19_createclicked = 0
+#             setid()
+
+#         ok_button = Button(setidmc_labelframe, fg='black', font=('Courier','13','bold'), bg="lavender", text="Tiếp theo", height=2, width=10, borderwidth=0, command=ok_click)
+#         ok_button.place(x=150,y=355)
+
+
+        setid2_labelframe = LabelFrame(setidmc_labelframe, bg='white', width=315, height=192)
+        setid2_labelframe.place(x=305,y=38)
+
+        idpos_label = Label(setid2_labelframe, bg='turquoise2', font=("Courier",15,"bold"))
+        idpos_label.place(x=1,y=1)
+
+        setidtable_labelframe = LabelFrame(setidmc_labelframe,bg='grey95', width=600, height=307)
+        setidtable_labelframe.place(x=1,y=38 )
+
+        def idpos_click(n):
+            if(idpos_button[n]['bg'] != 'lawn green'):
+                for k in range (0,48):
+                    if(idpos_button[k]['bg'] != 'lawn green' and idpos_button[k]['bg'] != 'grey99'):
+                        idpos_button[k]['bg'] = 'lavender'
+                    else:
+                        idpos_button[k]['bg'] = 'lawn green'
+                idpos_button[n]['bg'] = 'turquoise2'
+            else:
+                for k in range (0,48):
+                    if(idpos_button[k]['bg'] != 'lawn green' and idpos_button[k]['bg'] != 'grey99'):
+                        idpos_button[k]['bg'] = 'lavender'
+                    if(idpos_button[k]['bg'] == 'grey99'):
+                        idpos_button[k]['bg'] = 'lawn green'
+                idpos_button[n]['bg'] = 'grey99'
+
+            def enter_entry(event):
+                try:
+                    subprocess.Popen(['killall','florence'])
+                except:
+                    pass
+                root.attributes('-fullscreen', False)
+                subprocess.Popen('florence',stdout=subprocess.PIPE, shell=True)
+                subprocess.Popen('florence',stdout=subprocess.PIPE, shell=True)
+
+            def ok_click(event=None):
+                if(id_entry.get()==''):
+                    idpos_button[n]['bg'] = 'lavender'
+                    idpos_button[n]['text'] = '#'+str(n+1)
+                    msgbox = messagebox.showwarning(" ","Bạn chưa nhập ID !")
+                else:
+                    idpos_button[n]['text'] = id_entry.get()
+                    idpos_button[n]['bg'] = 'lawn green'
+                    try:
+                        if(n==47):
+                            idpos_click(0)
+                        else:
+                            idpos_click(n+1)
+                    except:
+                        idpos_click(0)
+
+            id_entry = Entry(setid2_labelframe,width=25, font=('Courier',14))
+            if(idpos_button[n]['bg'] == 'grey99'):
+                id_entry.insert(0,idpos_button[n]['text'])
+            #id_entry.bind("<Button-1>", enter_entry)
+            id_entry.bind("<Return>", ok_click)
+            id_entry.place(x=15,y=75)
+            id_entry.focus_set()
+
+            setid_label = Label(setid2_labelframe, text='Nhập mẫu xét nghiệm', bg='white', font=("Courier",15,"bold"))
+            setid_label.place(x=15,y=45)
+
+            if(n<8):
+                idpos_label['text'] = str(chr(65+n)) + '1'
+            if(n>=8 and n<16):
+                idpos_label['text'] = str(chr(65+n-8)) + '2'
+            if(n>=16 and n<24):
+                idpos_label['text'] = str(chr(65+n-16)) + '3'
+            if(n>=24 and n<32):
+                idpos_label['text'] = str(chr(65+n-24)) + '4'
+            if(n>=32 and n<40):
+                idpos_label['text'] = str(chr(65+n-32)) + '5'
+            if(n>=40):
+                idpos_label['text'] = str(chr(65+n-40)) + '6'
+
+            ok_button = Button(setid2_labelframe, font=('Courier','10','bold'), bg="lavender", text="Xác nhận", height=3, width=9, borderwidth=0, command=ok_click)
+            ok_button.place(x=198,y=113)
+
+        idpos_button = list(range(48))
+        h=-1
+        c=0
+        for i in range(0,48):
+            h+=1
+            if(i%8==0 and i!=0):
+                h=0
+                c+=1
+            idpos_button[i] = Button(setidtable_labelframe, bg='lavender', activebackground="white", justify='left', borderwidth=0, text='#'+str(i+1), width=2, height=2)
+            idpos_button[i]['command'] = partial(idpos_click,i)
+            idpos_button[i].grid(row=h,column=c,padx=4,pady=4)
+            # if(i==46):
+            #     idpos_button[i]['state']='disabled'
+            #     idpos_button[i]['bg']= 'green'
+            #     idpos_button[i]['text']= 'N'
+            # if(i==47):
+            #     idpos_button[i]['state']='disabled'
+            #     idpos_button[i]['bg']= 'red'
+            #     idpos_button[i]['text']= 'P'
+
+        def cancel_click():
+            msg = messagebox.askquestion("Hủy", "Bạn muốn hủy mà không lưu lại tệp ?")
+            if(msg=="yes"):
+                setid_click()
+
+        def save_click():
+            workbook = load_workbook("/home/pi/Spotcheck/template.xlsm", keep_vba = True)
+            sheet = workbook.active
+            # for i in range(0,48):
+            #     #pos = "C"+str(i+3)
+            #     if(i<8):
+            #         pos = 'B'+ str(i+2)
+            #     if(i>=8 and i<16):
+            #         pos = 'C'+ str(i-6)
+            #     if(i>=16 and i<24):
+            #         pos = 'D'+ str(i-14)
+            #     if(i>=24 and i<32):
+            #         pos = 'E'+ str(i-22)
+            #     if(i>=32 and i<40):
+            #         pos = 'F'+ str(i-30)
+            #     if(i>=40):
+            #         pos = 'G'+str(i-38)
+
+            for i in range(0,48):
+                pos = "B" + str(i+12)
+                if(idpos_button[i]['bg']=='lawn green' or idpos_button[i]['bg']=='grey99'):
+                    sheet[pos] = idpos_button[i]['text']
+                else:
+                    sheet[pos] = 'N/A'
+
+            # sheet['B58']='NEGC'
+            # sheet['B59']='POSC'
+
+            msg = messagebox.askquestion("Lưu ", "Bạn có muốn lưu tệp ?")
+            if(msg=='yes'):
+                f = filedialog.asksaveasfilename(initialdir='/home/pi/Desktop/Spotcheck ID/',defaultextension='.xlsx')
+                if f is not None:
+                    d=0
+                    for i in range(len(f)):
+                        if(f[i]=='/'):
+                            d=i+1
+                    filename = f[d:(len(f)-5)]
+                    print(filename)
+                    if(len(filename)<=30):
+                        workbook.save(f)
+                        try:
+                            subprocess.Popen(['killall','florence'])
+                        except:
+                            pass
+                        root.attributes('-fullscreen', True)
+
+                        msg = messagebox.askquestion(' ','Đã lưu xong!\nBạn có muốn tạo tệp mới ?')
+                        if(msg=='yes'):
+                            setid()
+                        else:
+                            covid19_click()
+
+                    else:
+                        messagebox.showerror("Lỗi", "Tên tệp không vượt quá 30 ký tự !")
+
+        def load_click():
+            idfile = filedialog.askopenfilename(initialdir='/home/pi/Desktop/Spotcheck ID', filetypes=[('Excel file','*.xlsm *.xlsx *.xls')])
+            if idfile is not None:
+                if(idfile[len(idfile)-4:]=='xlsx' or idfile[len(idfile)-4:]=='xlsm' or idfile[len(idfile)-3:]=='xls'):
+                    workbook = openpyxl.load_workbook(idfile)
+                    sheet = workbook.active
+                    idfile_list = list(range(48))
+
+                    # for i in range(0,48):
+                    #     if(i<8):
+                    #         pos = 'B'+ str(i+2)
+                    #     if(i>=8 and i<16):
+                    #         pos = 'C'+ str(i-6)
+                    #     if(i>=16 and i<24):
+                    #         pos = 'D'+ str(i-14)
+                    #     if(i>=24 and i<32):
+                    #         pos = 'E'+ str(i-22)
+                    #     if(i>=32 and i<40):
+                    #         pos = 'F'+ str(i-30)
+                    #     if(i>=40):
+                    #         pos = 'G'+str(i-38)
+
+                    for i in range(0,48):
+                        pos = 'B' + str(i+12)
+                        idfile_list[i] = sheet[pos].value
+                        idpos_button[i]['text'] = idfile_list[i]
+                        if(idpos_button[i]['text']!='N/A'):
+                            idpos_button[i]['bg']='lawn green'
+                        # if(i==46):
+                        #     idpos_button[i]['bg']= 'green'
+                        # if(i==47):
+                        #     idpos_button[i]['bg']= 'red'
+            else:
+                pass
+        def keyboard_click():
+            if(keyboard_button['bg']=='grey85'):
+                keyboard_button['bg']='lawn green'
+                try:
+                    subprocess.Popen(['killall','florence'])
+                except:
+                    pass
+                root.attributes('-fullscreen', False)
+                subprocess.Popen('florence',stdout=subprocess.PIPE, shell=True)
+                subprocess.Popen('florence',stdout=subprocess.PIPE, shell=True)
+            else:
+                keyboard_button['bg']='grey85'
+                try:
+                    subprocess.Popen(['killall','florence'])
+                except:
+                    pass
+                root.attributes('-fullscreen', True)
+
+        idpos_click(0)
+
+        cancel_button = Button(setidmc_labelframe, font=('Courier','10','bold'), bg="lavender", text="Hủy" , height=3, width=14, borderwidth=0, command=cancel_click)
+        cancel_button.place(x=316,y=320)
+        save_button = Button(setidmc_labelframe, activebackground="gold", font=('Courier','10','bold'), bg="yellow", text="Lưu", height=3, width=14, borderwidth=0, command=save_click)
+        save_button.place(x=470,y=242)
+        load_button = Button(setidmc_labelframe, font=('Courier','10','bold'), bg="lavender", text="Chỉnh sửa\ntệp", height=3, width=14, borderwidth=0, command=load_click)
+        load_button.place(x=316,y=242)
+        keyboard_button = Button(setidmc_labelframe, font=('Courier','10','bold'), bg="grey85", text="Bàn phím", height=3, width=7, borderwidth=0, command=keyboard_click)
+        keyboard_button.place(x=470,y=320)
 
     def power_click():
         try:
@@ -894,6 +1121,26 @@ def mainscreen():
         powermc_labelframe = LabelFrame(mainscreen_labelframe, bg='white', width=624, height=478)
         powermc_labelframe.place(x=172,y=0)
 
+        top_labelframe = LabelFrame(powermc_labelframe, bg='dodger blue', width=619, height=37)
+        top_labelframe.place(x=1,y=1)
+
+        viewresulttitle_label = Label(top_labelframe, bg='dodger blue', font=("Courier", 11, 'bold'), text="THOÁT")
+        viewresulttitle_label.place(x=280,y=7)
+
+        probe_label = Label(powermc_labelframe, bg='white', fg = "grey80", font=("Courier", 10, 'bold'), text="Probe version")
+        probe_label.place(x=5,y=449)
+
+        logo_img = Image.open('/home/pi/Spotcheck/logo.png')
+        logo_width, logo_height = logo_img.size
+        scale_percent = 30
+        width = int(logo_width * scale_percent / 100)
+        height = int(logo_height * scale_percent / 100)
+        display_img = logo_img.resize((width,height))
+        image_select = ImageTk.PhotoImage(display_img)
+        logo_label = Label(mainscreen_labelframe, bg='white',image=image_select)
+        logo_label.image = image_select
+        logo_label.place(x=650,y=442)
+
         power_labelframe = LabelFrame(powermc_labelframe, bg='white', width=405, height=120)
         power_labelframe.place(x=106,y=200)
         def shutdown_click():
@@ -909,12 +1156,172 @@ def mainscreen():
         restart_button = Button(power_labelframe, fg='white', activebackground="lawn green", font=('Courier','10','bold'), bg="green", text="Khởi động lại", height=5, width=12, borderwidth=0, command=restart_click)
         restart_button.place(x=269,y=12)
 
-        if(warning_value==1):
-            warning_label = Label(mainscreen_labelframe, bg='red',text='Hệ thống đang tản nhiệt, không đặt mẫu vào lúc này !', font=("Courier", 13, 'bold'))
-            warning_label.place(x=220,y=450)
+    def config_click():
+        try:
+                subprocess.Popen(['killall','florence'])
+        except:
+            pass
+        root.attributes('-fullscreen', True)
+
+        home_canvas['bg'] = 'dodger blue'
+        covid19_canvas['bg'] = 'dodger blue'
+        viewresult_canvas['bg'] = 'dodger blue'
+        setid_canvas['bg'] = 'dodger blue'
+        config_canvas['bg'] = 'white'
+        power_canvas['bg'] = 'dodger blue'
+
+        global server_on, ftp_ip , ftp_user, ftp_password, ftp_folder
+
+        configmc2_labelframe = LabelFrame(mainscreen_labelframe, bg='white', width=624, height=478)
+        configmc2_labelframe.place(x=172,y=0)
+
+        top_labelframe = LabelFrame(configmc2_labelframe, bg='dodger blue', width=619, height=37)
+        top_labelframe.place(x=1,y=1)
+
+        configtitle_label = Label(top_labelframe, bg='dodger blue', font=("Courier", 11, 'bold'), text="SERVER")
+        configtitle_label.place(x=267,y=7)
+
+        ip_label = Label(configmc2_labelframe, bg='white', text='Địa chỉ IP', font=('Courier',13,'bold'))
+        ip_label.place(x=50,y=157)
+        user_label = Label(configmc2_labelframe, bg='white', text='Tên đăng nhập', font=('Courier',13,'bold'))
+        user_label.place(x=50,y=207)
+        password_label = Label(configmc2_labelframe, bg='white', text='Mật khẩu', font=('Courier',13,'bold'))
+        password_label.place(x=50,y=257)
+        folder_label = Label(configmc2_labelframe, bg='white', text='Đường dẫn thư mục', font=('Courier',13,'bold'))
+        folder_label.place(x=50,y=307)
+
+        ip_entry = Entry(configmc2_labelframe,width=28, font=('Courier',14))
+        ip_entry.place(x=253,y=155)
+        user_entry = Entry(configmc2_labelframe,width=28, font=('Courier',14))
+        user_entry.place(x=253,y=205)
+        password_entry = Entry(configmc2_labelframe,width=28, show='◼', font=('Courier',14))
+        password_entry.place(x=253,y=255)
+        folder_entry = Entry(configmc2_labelframe,width=28, font=('Courier',14))
+        folder_entry.place(x=253,y=305)
+
+
+        def on_click():
+            on_button['bg']='lawn green'
+            on_button['fg'] = 'black'
+            off_button['bg']='grey88'
+            off_button['fg'] = 'grey70'
+            ip_entry['state'] = 'normal'
+            user_entry['state'] = 'normal'
+            password_entry['state'] = 'normal'
+            folder_entry['state'] = 'normal'
+            ip_entry.delete(0,END)
+            ip_entry.insert(0,ftp_ip)
+            user_entry.insert(0,ftp_user)
+            folder_entry.insert(0,ftp_folder)
+
+        def off_click():
+            off_button['bg']='lawn green'
+            off_button['fg'] = 'black'
+            on_button['bg']='grey88'
+            on_button['fg'] = 'grey70'
+            ip_entry.delete(0,END)
+            user_entry.delete(0,END)
+            password_entry.delete(0,END)
+            folder_entry.delete(0,END)
+            ip_entry['state'] = 'disabled'
+            user_entry['state'] = 'disabled'
+            password_entry['state'] = 'disabled'
+            folder_entry['state'] = 'disabled'
+
+
+        if(server_on==1):
+            on_button = Button(configmc2_labelframe, bg="lawn green", text="Bật", borderwidth=0, height=2, width=7,command=on_click)
+            on_button.place(x=302,y=85)
+            off_button = Button(configmc2_labelframe, bg="grey88",fg='grey70', text="Tắt", borderwidth=0, height=2, width=7,command=off_click)
+            off_button.place(x=220,y=85)
+            ip_entry.insert(0,ftp_ip)
+            user_entry.insert(0,ftp_user)
+            folder_entry.insert(0,ftp_folder)
+
         else:
-            warning_label = Label(mainscreen_labelframe, bg='white', fg='white', text='Hệ thống đang tản nhiệt, không đặt mẫu vào lúc này !', font=("Courier", 13, 'bold'))
-            warning_label.place(x=220,y=450)
+            on_button = Button(configmc2_labelframe, bg="grey88", fg='grey70', text="Bật", borderwidth=0, height=2, width=7, command=on_click)
+            on_button.place(x=302,y=85)
+            off_button = Button(configmc2_labelframe, bg="lawn green", text="Tắt", borderwidth=0, height=2, width=7, command=off_click)
+            off_button.place(x=220,y=85)
+            ip_entry.delete(0,END)
+            user_entry.delete(0,END)
+            password_entry.delete(0,END)
+            folder_entry.delete(0,END)
+            ip_entry['state'] = 'disabled'
+            user_entry['state'] = 'disabled'
+            password_entry['state'] = 'disabled'
+            folder_entry['state'] = 'disabled'
+
+        def save_click():
+            msg = messagebox.askquestion("Lưu ", "Bạn có muốn lưu cài đặt ?")
+            if(msg=='yes'):
+                if(on_button['bg']=='lawn green'):
+                    ip_set = ip_entry.get()
+                    user_set = user_entry.get()
+                    password_set = password_entry.get()
+                    folder_set = folder_entry.get()
+                    if(ip_set==''):
+                        messagebox.showwarning("","Bạn chưa nhập IP !")
+                    elif(user_set==''):
+                        messagebox.showwarning("","Bạn chưa nhập Tên đăng nhập !")
+                    elif(ip_set==''):
+                        messagebox.showwarning("","Bạn chưa nhập Mật khẩu !")
+                    elif(folder_set==''):
+                        messagebox.showwarning("","Bạn chưa nhập Đường dẫn thư mục !")
+                    else:
+                        try:
+                            ftp = FTP(ip_set, user_set, password_set)
+                            ftp.cwd(folder_set)
+                            ftp.quit()
+                            tc= open("/home/pi/Spotcheck/.server.txt","w")
+                            tc.writelines('1\n')
+                            tc.writelines(ip_set+"\n")
+                            tc.writelines(user_set+"\n")
+                            tc.writelines(password_set+"\n")
+                            tc.writelines(folder_set+"\n")
+                            global server_on, ftp_ip , ftp_user, ftp_password, ftp_folder
+                            server_on = 1
+                            ftp_ip = ip_set
+                            ftp_user = user_set
+                            ftp_password = password_set
+                            ftp_folder = folder_set
+                            messagebox.showinfo("", "Đã lưu xong !")
+                        except Exception as e :
+                            error = messagebox.showwarning("Không thể kết nối đến Server !",str(e))
+                            if(error=='ok'):
+                                pass
+                else:
+                    tc= open("/home/pi/Spotcheck/.server.txt","w")
+                    tc.writelines('0\n')
+                    tc.writelines("\n")
+                    tc.writelines("\n")
+                    tc.writelines("\n")
+                    tc.writelines("\n")
+                    server_on = 0
+                    messagebox.showinfo("", "Đã lưu xong !")
+
+        def keyboard_click():
+            if(keyboard_button['bg']=='grey85'):
+                keyboard_button['bg']='lawn green'
+                try:
+                    subprocess.Popen(['killall','florence'])
+                except:
+                    pass
+                root.attributes('-fullscreen', False)
+                subprocess.Popen('florence',stdout=subprocess.PIPE, shell=True)
+                subprocess.Popen('florence',stdout=subprocess.PIPE, shell=True)
+            else:
+                keyboard_button['bg']='grey85'
+                try:
+                    subprocess.Popen(['killall','florence'])
+                except:
+                    pass
+                root.attributes('-fullscreen', True)
+
+        keyboard_button = Button(configmc2_labelframe, font=('Courier','10','bold'), bg="grey85", text="Bàn phím", height=3, width=7, borderwidth=0, command=keyboard_click)
+        keyboard_button.place(x=530,y=374)
+        save_button = Button(configmc2_labelframe, bg="yellow", text="Lưu", borderwidth=0, height=3, width=10, command=save_click)
+        save_button.place(x=253,y=374)
 
     def viewresult_click():
         try:
@@ -933,299 +1340,315 @@ def mainscreen():
         viewresultmc_labelframe = LabelFrame(mainscreen_labelframe, bg='white', width=624, height=478)
         viewresultmc_labelframe.place(x=172,y=0)
 
-        viewresult_labelframe = LabelFrame(viewresultmc_labelframe, bg='white', width=299, height=160)
-        viewresult_labelframe.place(x=156,y=152)
+        top_labelframe = LabelFrame(viewresultmc_labelframe, bg='dodger blue', width=619, height=37)
+        top_labelframe.place(x=1,y=1)
 
-        viewresult_label = Label(viewresult_labelframe, bg='dodger blue', text="Kết quả", font=('Courier',13,'bold'), width=29, height=1)
-        viewresult_label.place(x=0,y=1)
+        viewresulttitle_label = Label(top_labelframe, bg='dodger blue', font=("Courier", 11, 'bold'), text="HIỆU CHUẨN")
+        viewresulttitle_label.place(x=259,y=7)
 
-        def open_click():
-            global rsfile
-            rsfile = filedialog.askopenfilename(initialdir='/home/pi/Spotcheck Ket Qua/Probe/',filetypes=[('jpg file','*.jpg')])
-            if rsfile is not None:
-                if(rsfile[len(rsfile)-3:]=='jpg'):
-                    global covid19_createclicked
-                    covid19_createclicked = 0
-                    print(rsfile)
-                    result()
-                else:
-                    pass
+        step_label = Label(viewresultmc_labelframe,bg='white',fg="grey25", text="Bước 1: Kiểm tra không mẫu", font=("Courier",11, 'bold'))
+        step_label.place(x=20,y=48)
 
-        open_button = Button(viewresultmc_labelframe, bg="lavender", text="Mở", borderwidth=0, font=('Courier',13,'bold'), height=3, width=12, command=open_click)
-        open_button.place(x=233,y=205)
+        sampletable_labelframe = LabelFrame(viewresultmc_labelframe,bg='grey95', width=600, height=360)
+        sampletable_labelframe.place(x=70,y=79)
 
-        if(warning_value==1):
-            warning_label = Label(mainscreen_labelframe, bg='red',text='Hệ thống đang tản nhiệt, không đặt mẫu vào lúc này !', font=("Courier", 13, 'bold'))
-            warning_label.place(x=220,y=450)
-        else:
-            warning_label = Label(mainscreen_labelframe, bg='white', fg='white', text='Hệ thống đang tản nhiệt, không đặt mẫu vào lúc này !', font=("Courier", 13, 'bold'))
-            warning_label.place(x=220,y=450)
+        sample_label = list(range(48))
+        h=0
+        c=0
+        for i in range(0,48):
+            c+=1
+            sample_label[i] = Label(sampletable_labelframe,bg="grey25",width=4,height=2)
+            sample_label[i].grid(row=h,column=c,padx=3,pady=3)
+            if(c>=6):
+                h+=1
+                c=0
 
-    def config_click():
-        try:
-                subprocess.Popen(['killall','florence'])
-        except:
-            pass
-        root.attributes('-fullscreen', True)
+        note_labelframe = LabelFrame(viewresultmc_labelframe,bg='grey95', width=220, height=272)
+        note_labelframe.place(x=330,y=79)
+        note1_label = Label(note_labelframe,bg="grey25",width=4,height=2)
+        note1_label.place(x=2,y=2)
+        note11_label = Label(note_labelframe,bg="grey95",font=("Courier",10),text="Vị trí không đặt mẫu")
+        note11_label.place(x=50,y=12)
+        note2_label = Label(note_labelframe,bg="lawn green",width=4,height=2)
+        note2_label.place(x=2,y=47)
+        note22_label = Label(note_labelframe,bg="grey95",font=("Courier",10),text="Vị trí đặt mẫu")
+        note22_label.place(x=50,y=57)
+        note3_label = Label(note_labelframe,bg="green",width=4,height=2)
+        note3_label.place(x=50,y=92)
+        note33_label = Label(note_labelframe,bg="grey95",font=("Courier",10),text="Âm tính")
+        note33_label.place(x=98,y=102)
+        note4_label = Label(note_labelframe,bg="yellow",width=4,height=2)
+        note4_label.place(x=50,y=137)
+        note44_label = Label(note_labelframe,bg="grey95",font=("Courier",10),text="Ct > 30")
+        note44_label.place(x=98,y=147)
+        note5_label = Label(note_labelframe,bg="orange",width=4,height=2)
+        note5_label.place(x=50,y=182)
+        note55_label = Label(note_labelframe,bg="grey95",font=("Courier",10),text="Ct > 25")
+        note55_label.place(x=98,y=192)
+        note6_label = Label(note_labelframe,bg="red",width=4,height=2)
+        note6_label.place(x=50,y=227)
+        note66_label = Label(note_labelframe,bg="grey95",font=("Courier",10),text="Ct < 25")
+        note66_label.place(x=98,y=237)
 
-        home_canvas['bg'] = 'dodger blue'
-        covid19_canvas['bg'] = 'dodger blue'
-        viewresult_canvas['bg'] = 'dodger blue'
-        setid_canvas['bg'] = 'dodger blue'
-        config_canvas['bg'] = 'white'
-        power_canvas['bg'] = 'dodger blue'
+        button_labelframe = LabelFrame(viewresultmc_labelframe,bg='grey95', width=220, height=78)
+        button_labelframe.place(x=330,y=356 )
 
-        configmc_labelframe = LabelFrame(mainscreen_labelframe, bg='white', width=624, height=478)
-        configmc_labelframe.place(x=172,y=0)
+        def check_click():
+            global thr_set
+            check_button.place_forget()
+            cprocess_label = Label(button_labelframe, bg="grey95", fg='blue', text='Đang xử lý...', font=("Courier",11))
+            cprocess_label.place(x=44,y=28)
+            root.update_idletasks()
+            send_data = 'P'
+            ser.write(send_data.encode())
 
-        def ct_click():
-            configmc1_labelframe = LabelFrame(mainscreen_labelframe, bg='white', width=624, height=478)
-            configmc1_labelframe.place(x=172,y=0)
-            config1_lableframe = LabelFrame(configmc1_labelframe, bg='white', text="Ngưỡng sàng lọc", width=402, height=120)
-            config1_lableframe.place(x=107,y=130)
-            ct_label = Label(configmc1_labelframe, text='CHỌN NGƯỠNG SÀNG LỌC',font=('bold'), width=61, bg='dodger blue')
-            ct_label.place(x=3,y=1)
+            if(ser.in_waiting>0):
+                receive_data = ser.readline().decode('utf-8').rstrip()
+                print("Data received:", receive_data)
+                if(receive_data=='C'):
+                    global wait
+                    wait = 1
 
-            fr5 = open("/home/pi/Spotcheck/threshold.txt","r")
-            firstline = (fr5.readline()).strip()
-            secondline = (fr5.readline()).strip()
-            thirdline = (fr5.readline()).strip()
+            while(wait!=1):
+                if(ser.in_waiting>0):
+                    receive_data = ser.readline().decode('utf-8').rstrip()
+                    print("Data received:", receive_data)
+                    if(receive_data=='C'):
+                        wait = 1
+                        break
+            while(wait==1):
+                if(step_label["text"] == "Bước 1: Kiểm tra không mẫu"):
+                    try:
+                        camera_capture("/home/pi/Spotcheck/Kiem tra do sang/a1.jpg")
+                    except Exception as e :
+                        error = messagebox.showerror(str(e), "Lỗi: Err 03", icon = "error")
+                        if(error=='ok'):
+                            root.destroy()
 
-            def kit1_click():
-                kit1_button['bg'] = 'lawn green'
-                kit2_button['bg'] = 'grey88'
-                kit1_button['fg'] = 'black'
-                kit2_button['fg'] = 'grey70'
+                    check_list=list(range(48))
+                    check_list, check_img = process_image("/home/pi/Spotcheck/Kiem tra do sang/a1.jpg")
 
-            def kit2_click():
-                kit1_button['bg'] = 'grey88'
-                kit2_button['bg'] = 'lawn green'
-                kit1_button['fg'] = 'grey70'
-                kit2_button['fg'] = 'black'
+                    output = "/home/pi/Spotcheck/Kiem tra do sang/a2.jpg"
+                    cv2.imwrite(output, check_img)
 
-            if(secondline==sl1_value):
-                kit1_button = Button(config1_lableframe, bg="lawn green", text="Sàng lọc 1", font=("Helvetica",12, 'bold'), borderwidth=0, height=4, width=17, command=kit1_click)
-                kit1_button.place(x=8,y=2)
-                kit2_button = Button(config1_lableframe, bg="grey88", fg='grey70', text="Sàng lọc 2", font=("Helvetica",12,'bold'), borderwidth=0, height=4, width=17, command=kit2_click)
-                kit2_button.place(x=210,y=2)
+                    workbook = Workbook()
+                    sheet = workbook.active
+                    sheet["A2"] = "A"
+                    sheet["A3"] = "B"
+                    sheet["A4"] = "C"
+                    sheet["A5"] = "D"
+                    sheet["A6"] = "E"
+                    sheet["A7"] = "F"
+                    sheet["A8"] = "G"
+                    sheet["A9"] = "H"
+                    sheet["B1"] = "1"
+                    sheet["C1"] = "2"
+                    sheet["D1"] = "3"
+                    sheet["E1"] = "4"
+                    sheet["F1"] = "5"
+                    sheet["G1"] = "6"
+                    for i in range(0,48):
+                        if(i<6):
+                            pos = str(chr(65+i+1)) + "2"
+                        if(i>=6 and i<12):
+                            pos = str(chr(65+i-5)) + "3"
+                        if(i>=12 and i<18):
+                            pos = str(chr(65+i-11)) + "4"
+                        if(i>=18 and i<24):
+                            pos = str(chr(65+i-17)) + "5"
+                        if(i>=24 and i<30):
+                            pos = str(chr(65+i-23)) + "6"
+                        if(i>=30 and i<36):
+                            pos = str(chr(65+i-29)) + "7"
+                        if(i>=36 and i<42):
+                            pos = str(chr(65+i-35)) + "8"
+                        if(i>=42):
+                            pos = str(chr(65+i-41)) + "9"
 
-            else:
-                kit1_button = Button(config1_lableframe, bg="grey88", fg='grey70', text="Sàng lọc 1", font=("Helvetica",12, 'bold'), borderwidth=0, height=4, width=17, command=kit1_click)
-                kit1_button.place(x=8,y=2)
-                kit2_button = Button(config1_lableframe, bg="lawn green", text="Sàng lọc 2", font=("Helvetica",12,'bold'), borderwidth=0, height=4, width=17, command=kit2_click)
-                kit2_button.place(x=210,y=2)
+                        sheet[pos] = check_list[i]
 
-            def save_click():
-                msg = messagebox.askquestion("Lưu ", "Bạn có muốn lưu lựa chọn ?")
-                if(msg=='yes'):
-                    if(kit1_button['bg']=='lawn green'):
-                        tc= open("/home/pi/Spotcheck/threshold.txt","w")
-                        tc.truncate(0)
-                        tc.writelines(str(round(float(sl1_value)-1,1))+"\n")
-                        tc.writelines(sl1_value+"\n")
-                        tc.writelines('12'+"\n")
+                    workbook.save("/home/pi/Spotcheck/Kiem tra do sang/gt1.xlsx")
+
+                    check_average = round(sum(check_list)/len(check_list),1)
+                    check_err=0
+                    for i in range(0,48):
+                        if(check_list[i] > tl[i]+tl[i]*15/100 or check_list[i] < tl[i]-tl[i]*15/100):
+                            if(check_err!=1):
+                                check_err = 1
+
+                    if(check_average > average_max or check_average < average_min):
+                        cprocess_label['text'] = "Lỗi: ERR 01"
+                    elif(check_err==1):
+                        check_err=0
+                        cprocess_label['text'] = "Lỗi: ERR 02"
                     else:
-                        tc= open("/home/pi/Spotcheck/threshold.txt","w")
-                        tc.truncate(0)
-                        tc.writelines(str(round(float(sl2_value)-1,1))+"\n")
-                        tc.writelines(sl2_value+"\n")
-                        tc.writelines('12'+"\n")
+                        thr_set = round(check_average*a+b,1)
+                        cprocess_label.place_forget()
+                        check_button.place(x=53,y=14)
+                        c=0
+                        for i in range(0,48):
+                            c+=1
+                            if(c==2):
+                                sample_label[i]['bg']='lawn green'
+                                sample_label[i]['text']='N'
+                            if(c==3):
+                                sample_label[i]['bg']='lawn green'
+                                sample_label[i]['text']='>30'
+                            if(c==4):
+                                sample_label[i]['bg']='lawn green'
+                                sample_label[i]['text']='>25'
+                            if(c==5):
+                                sample_label[i]['bg']='lawn green'
+                                sample_label[i]['text']='<25'
+                            if(c>=6):
+                                c=0
+                        step_label["text"] = "Bước 2: Kiểm tra FAM"
 
-                    messagebox.showinfo("", "Đã lưu xong !")
+                else:
+                    try:
+                        camera_capture("/home/pi/Spotcheck/Kiem tra do sang/a3.jpg")
+                    except Exception as e :
+                        error = messagebox.showerror(str(e), "Lỗi: Err 03", icon = "error")
+                        if(error=='ok'):
+                            root.destroy()
 
-            def back_click():
-                config_click()
-            save_button = Button(configmc1_labelframe, bg="yellow", text="Lưu", borderwidth=0, height=3, width=10, command=save_click)
-            save_button.place(x=318,y=390)
-            back_button = Button(configmc1_labelframe, bg="grey88", text="Trở lại", borderwidth=0, height=3, width=10, command=back_click)
-            back_button.place(x=188,y=390)
+                    check_list=list(range(48))
+                    check_list, check_img = process_image("/home/pi/Spotcheck/Kiem tra do sang/a3.jpg")
 
-        def server_click():
-            global server_on, ftp_ip , ftp_user, ftp_password, ftp_folder
+                    output = "/home/pi/Spotcheck/Kiem tra do sang/a4.jpg"
+                    cv2.imwrite(output, check_img)
 
-            configmc2_labelframe = LabelFrame(mainscreen_labelframe, bg='white', width=624, height=478)
-            configmc2_labelframe.place(x=172,y=0)
+                    workbook = Workbook()
+                    sheet = workbook.active
+                    sheet["A2"] = "A"
+                    sheet["A3"] = "B"
+                    sheet["A4"] = "C"
+                    sheet["A5"] = "D"
+                    sheet["A6"] = "E"
+                    sheet["A7"] = "F"
+                    sheet["A8"] = "G"
+                    sheet["A9"] = "H"
+                    sheet["B1"] = "1"
+                    sheet["C1"] = "2"
+                    sheet["D1"] = "3"
+                    sheet["E1"] = "4"
+                    sheet["F1"] = "5"
+                    sheet["G1"] = "6"
+                    for i in range(0,48):
+                        if(i<6):
+                            pos = str(chr(65+i+1)) + "2"
+                        if(i>=6 and i<12):
+                            pos = str(chr(65+i-5)) + "3"
+                        if(i>=12 and i<18):
+                            pos = str(chr(65+i-11)) + "4"
+                        if(i>=18 and i<24):
+                            pos = str(chr(65+i-17)) + "5"
+                        if(i>=24 and i<30):
+                            pos = str(chr(65+i-23)) + "6"
+                        if(i>=30 and i<36):
+                            pos = str(chr(65+i-29)) + "7"
+                        if(i>=36 and i<42):
+                            pos = str(chr(65+i-35)) + "8"
+                        if(i>=42):
+                            pos = str(chr(65+i-41)) + "9"
 
-            server_label = Label(configmc2_labelframe, text='FTP SERVER',font=('bold'), width=61, bg='dodger blue')
-            server_label.place(x=3,y=1)
-
-            ip_label = Label(configmc2_labelframe, bg='white', text='Địa chỉ IP', font=('Courier',13,'bold'))
-            ip_label.place(x=50,y=157)
-            user_label = Label(configmc2_labelframe, bg='white', text='Tên đăng nhập', font=('Courier',13,'bold'))
-            user_label.place(x=50,y=207)
-            password_label = Label(configmc2_labelframe, bg='white', text='Mật khẩu', font=('Courier',13,'bold'))
-            password_label.place(x=50,y=257)
-            folder_label = Label(configmc2_labelframe, bg='white', text='Đường dẫn thư mục', font=('Courier',13,'bold'))
-            folder_label.place(x=50,y=307)
-
-            ip_entry = Entry(configmc2_labelframe,width=28, font=('Courier',14))
-            ip_entry.place(x=253,y=155)
-            user_entry = Entry(configmc2_labelframe,width=28, font=('Courier',14))
-            user_entry.place(x=253,y=205)
-            password_entry = Entry(configmc2_labelframe,width=28, show='◼', font=('Courier',14))
-            password_entry.place(x=253,y=255)
-            folder_entry = Entry(configmc2_labelframe,width=28, font=('Courier',14))
-            folder_entry.place(x=253,y=305)
-
-
-            def on_click():
-                on_button['bg']='lawn green'
-                on_button['fg'] = 'black'
-                off_button['bg']='grey88'
-                off_button['fg'] = 'grey70'
-                ip_entry['state'] = 'normal'
-                user_entry['state'] = 'normal'
-                password_entry['state'] = 'normal'
-                folder_entry['state'] = 'normal'
-                ip_entry.delete(0,END)
-                ip_entry.insert(0,ftp_ip)
-                user_entry.insert(0,ftp_user)
-                folder_entry.insert(0,ftp_folder)
-
-            def off_click():
-                off_button['bg']='lawn green'
-                off_button['fg'] = 'black'
-                on_button['bg']='grey88'
-                on_button['fg'] = 'grey70'
-                ip_entry.delete(0,END)
-                user_entry.delete(0,END)
-                password_entry.delete(0,END)
-                folder_entry.delete(0,END)
-                ip_entry['state'] = 'disabled'
-                user_entry['state'] = 'disabled'
-                password_entry['state'] = 'disabled'
-                folder_entry['state'] = 'disabled'
-
-
-            if(server_on==1):
-                on_button = Button(configmc2_labelframe, bg="lawn green", text="Bật", borderwidth=0, height=2, width=7,command=on_click)
-                on_button.place(x=302,y=85)
-                off_button = Button(configmc2_labelframe, bg="grey88",fg='grey70', text="Tắt", borderwidth=0, height=2, width=7,command=off_click)
-                off_button.place(x=220,y=85)
-                ip_entry.insert(0,ftp_ip)
-                user_entry.insert(0,ftp_user)
-                folder_entry.insert(0,ftp_folder)
-
-            else:
-                on_button = Button(configmc2_labelframe, bg="grey88", fg='grey70', text="Bật", borderwidth=0, height=2, width=7, command=on_click)
-                on_button.place(x=302,y=85)
-                off_button = Button(configmc2_labelframe, bg="lawn green", text="Tắt", borderwidth=0, height=2, width=7, command=off_click)
-                off_button.place(x=220,y=85)
-                ip_entry.delete(0,END)
-                user_entry.delete(0,END)
-                password_entry.delete(0,END)
-                folder_entry.delete(0,END)
-                ip_entry['state'] = 'disabled'
-                user_entry['state'] = 'disabled'
-                password_entry['state'] = 'disabled'
-                folder_entry['state'] = 'disabled'
-
-
-            def save_click():
-                msg = messagebox.askquestion("Lưu ", "Bạn có muốn lưu cài đặt ?")
-                if(msg=='yes'):
-                    if(on_button['bg']=='lawn green'):
-                        ip_set = ip_entry.get()
-                        user_set = user_entry.get()
-                        password_set = password_entry.get()
-                        folder_set = folder_entry.get()
-                        if(ip_set==''):
-                            messagebox.showwarning("","Bạn chưa nhập IP !")
-                        elif(user_set==''):
-                            messagebox.showwarning("","Bạn chưa nhập Tên đăng nhập !")
-                        elif(ip_set==''):
-                            messagebox.showwarning("","Bạn chưa nhập Mật khẩu !")
-                        elif(folder_set==''):
-                            messagebox.showwarning("","Bạn chưa nhập Đường dẫn thư mục !")
+                        if(id_list[i]=='N/A'):
+                            sheet[pos] = 'N/A'
                         else:
-                            try:
-                                ftp = FTP(ip_set, user_set, password_set)
-                                ftp.cwd(folder_set)
-                                ftp.quit()
-                                tc= open("/home/pi/Spotcheck/.server.txt","w")
-                                tc.writelines('1\n')
-                                tc.writelines(ip_set+"\n")
-                                tc.writelines(user_set+"\n")
-                                tc.writelines(password_set+"\n")
-                                tc.writelines(folder_set+"\n")
-                                global server_on, ftp_ip , ftp_user, ftp_password, ftp_folder
-                                server_on = 1
-                                ftp_ip = ip_set
-                                ftp_user = user_set
-                                ftp_password = password_set
-                                ftp_folder = folder_set
-                                messagebox.showinfo("", "Đã lưu xong !")
-                            except Exception as e :
-                                error = messagebox.showwarning("Không thể kết nối đến Server !",str(e))
-                                if(error=='ok'):
-                                    pass
+                            sheet[pos] = check_list[i]
+
+                    workbook.save("/home/pi/Spotcheck/Kiem tra do sang/gt2.xlsx")
+
+                    c=0
+                    for i in range(0,48):
+                        c+=1
+                        sample_label[i]['text']=''
+                        if(check_list[i]<float(thr_set)):
+                            sample_label[i]['bg'] = 'green'
+                        if(check_list[i] < hs_ct1*float(thr_set)):
+                            sample_label[i]['bg'] = 'yellow'
+                        elif(check_list[i] >= hs_ct1*float(thr_set) and check_list[i] < hs_ct2*float(thr_set)):
+                            sample_label[i]['bg'] = 'orange'
+                        else:
+                            sample_label[i]['bg'] = 'red'
+                        if(c==1 or c==6):
+                            sample_label[i]['bg'] = 'grey25'
+                        if(c>=6):
+                            c=0
+                    c=0
+                    err_green = 0
+                    err_yellow = 0
+                    err_orange = 0
+                    err_red = 0
+                    for i in range(0,48):
+                        c+=1
+                        if(c==2):
+                            if(sample_label[i]['bg']=='orange'or sample_label[i]['bg']=='red'):
+                                err_green+=3
+                            elif(sample_label[i]['bg']=='yellow'):
+                                err_green+=1
+                        if(c==3):
+                            if(sample_label[i]['bg']=='red'):
+                                err_yellow+=3
+                            elif(sample_label[i]['bg']=='orange' or sample_label[i]['bg']=='green'):
+                                err_yellow+=1
+                        if(c==4):
+                            if(sample_label[i]['bg']=='green'):
+                                err_orange+=3
+                            elif(sample_label[i]['bg']=='yellow' or sample_label[i]['bg']=='red'):
+                                err_orange+=1
+                        if(c==5):
+                            if(sample_label[i]['bg']=='green' or sample_label[i]['bg']=='yellow'):
+                                err_red+=3
+                            elif(sample_label[i]['bg']=='orange'):
+                                err_red+=1
+                        if(c>=6):
+                            c=0
+
+                    print(err_green)
+                    print(err_yellow)
+                    print(err_orange)
+                    print(err_red)
+
+                    if(err_green>1 or err_yellow>2 or err_orange>2 or err_red>1):
+                        cprocess_label['text'] = "Hệ thống lỗi"
+                        cprocess_label['fg'] = "red"
+                        step_label['text'] = "Hoàn thành"
                     else:
-                        tc= open("/home/pi/Spotcheck/.server.txt","w")
-                        tc.writelines('0\n')
-                        tc.writelines("\n")
-                        tc.writelines("\n")
-                        tc.writelines("\n")
-                        tc.writelines("\n")
-                        server_on = 0
-                        messagebox.showinfo("", "Đã lưu xong !")
+                        cprocess_label['text'] = "Hệ thống ổn định"
+                        cprocess_label['fg'] = "green"
+                        cprocess_label.place(x=30,y=28)
+                        step_label['text'] = "Hoàn thành"
+                    root.update_idletasks()
 
-            def back_click():
-                config_click()
+                wait = 0
+        check_button = Button(button_labelframe, bg="lawn green", text="Kiểm tra", borderwidth=0, height=2, width=10,command=check_click)
+        check_button.place(x=53,y=14)
 
-            def keyboard_click():
-                if(keyboard_button['bg']=='grey85'):
-                    keyboard_button['bg']='lawn green'
-                    try:
-                        subprocess.Popen(['killall','florence'])
-                    except:
-                        pass
-                    root.attributes('-fullscreen', False)
-                    subprocess.Popen('florence',stdout=subprocess.PIPE, shell=True)
-                    subprocess.Popen('florence',stdout=subprocess.PIPE, shell=True)
-                else:
-                    keyboard_button['bg']='grey85'
-                    try:
-                        subprocess.Popen(['killall','florence'])
-                    except:
-                        pass
-                    root.attributes('-fullscreen', True)
-
-            keyboard_button = Button(configmc2_labelframe, font=('Courier','10','bold'), bg="grey85", text="Bàn phím", height=3, width=7, borderwidth=0, command=keyboard_click)
-            keyboard_button.place(x=530,y=374)
-            save_button = Button(configmc2_labelframe, bg="yellow", text="Lưu", borderwidth=0, height=3, width=10, command=save_click)
-            save_button.place(x=318,y=374)
-            back_button = Button(configmc2_labelframe, bg="grey88", text="Trở lại", borderwidth=0, height=3, width=10, command=back_click)
-            back_button.place(x=188,y=374)
-
-        #ct_button = Button(configmc_labelframe, bg="grey88", text="Chọn ngưỡng sàng lọc", borderwidth=0, height=4, width=15, command=ct_click, state="disabled")
-        #ct_button.place(x=230,y=150)
-        server_button = Button(configmc_labelframe, bg="grey85", text="Server", borderwidth=0, height=4, width=15, command=server_click)
-        server_button.place(x=230,y=240)
-
-    home_button = Button(mainscreen_labelframe, bg="dodger blue", activebackground="dodger blue", text="TRANG CHỦ ", fg='white', font=buttonFont, borderwidth=0, height=4, width=20,command=home_click)
+    home_button = Button(sidebar_labelframe, bg="dodger blue", activebackground="dodger blue", text="TRANG CHỦ ", fg='white', font=buttonFont, borderwidth=0, height=4, width=20,command=home_click)
     home_button.place(x=1,y=1)
-    home_canvas = Canvas(mainscreen_labelframe, bg="dodger blue", bd=0, highlightthickness=0, height=72, width=13)
-    home_canvas.place(x=1,y=3)
-    setid_button = Button(mainscreen_labelframe, bg="dodger blue", activebackground="dodger blue", text="TỆP\nMẪU XÉT NGHIỆM", fg='white', font=buttonFont, borderwidth=0, height=4, width=20, command=setid_click)
-    setid_button.place(x=1,y=81)
-    setid_canvas = Canvas(mainscreen_labelframe, bg="dodger blue", bd=0, highlightthickness=0, height=72, width=13)
-    setid_canvas.place(x=1,y=83)
-    covid19_button = Button(mainscreen_labelframe, bg="dodger blue", activebackground="dodger blue", text="PHÂN TÍCH", fg='white', font=buttonFont, borderwidth=0, height=4, width=20, command=covid19_click)
-    covid19_button.place(x=1,y=161)
-    covid19_canvas = Canvas(mainscreen_labelframe, bg="dodger blue", bd=0, highlightthickness=0, height=72, width=13)
-    covid19_canvas.place(x=1,y=163)
-    viewresult_button = Button(mainscreen_labelframe, bg="dodger blue", activebackground="dodger blue", text="XEM KẾT QUẢ", fg='white', font=buttonFont, borderwidth=0, height=4, width=20, command=viewresult_click)
-    viewresult_button.place(x=1,y=241)
-    viewresult_canvas = Canvas(mainscreen_labelframe, bg="dodger blue", bd=0, highlightthickness=0, height=72, width=13)
-    viewresult_canvas.place(x=1,y=243)
-    config_button = Button(mainscreen_labelframe, bg="dodger blue", activebackground="dodger blue", text="CÀI ĐẶT", fg='white', font=buttonFont, borderwidth=0, height=4, width=20, command=config_click)
-    config_button.place(x=1,y=321)
-    config_canvas = Canvas(mainscreen_labelframe, bg="dodger blue", bd=0, highlightthickness=0, height=72, width=13)
-    config_canvas.place(x=1,y=323)
-    power_button = Button(mainscreen_labelframe, bg="dodger blue", activebackground="dodger blue", text="THOÁT", fg='white', font=buttonFont, borderwidth=0, height=4, width=20, command=power_click)
-    power_button.place(x=1,y=401)
-    power_canvas = Canvas(mainscreen_labelframe, bg="dodger blue", bd=0, highlightthickness=0, height=72, width=13)
-    power_canvas.place(x=1,y=403)
+    home_canvas = Canvas(sidebar_labelframe, bg="dodger blue", bd=0, highlightthickness=0, height=72, width=13)
+    home_canvas.place(x=2,y=3)
+    setid_button = Button(sidebar_labelframe, bg="dodger blue", activebackground="dodger blue", text="TỆP\nMẪU XÉT NGHIỆM", fg='white', font=buttonFont, borderwidth=0, height=4, width=20, command=setid_click)
+    setid_button.place(x=1,y=80),
+    setid_canvas = Canvas(sidebar_labelframe, bg="dodger blue", bd=0, highlightthickness=0, height=72, width=13)
+    setid_canvas.place(x=2,y=82)
+    covid19_button = Button(sidebar_labelframe, bg="dodger blue", activebackground="dodger blue", text="PHÂN TÍCH", fg='white', font=buttonFont, borderwidth=0, height=4, width=20, command=covid19_click)
+    covid19_button.place(x=1,y=159)
+    covid19_canvas = Canvas(sidebar_labelframe, bg="dodger blue", bd=0, highlightthickness=0, height=72, width=13)
+    covid19_canvas.place(x=2,y=161)
+    viewresult_button = Button(sidebar_labelframe, bg="dodger blue", activebackground="dodger blue", text="HIỆU CHUẨN\nQUANG", fg='white', font=buttonFont, borderwidth=0, height=4, width=20, command=viewresult_click)
+    viewresult_button.place(x=1,y=238)
+    viewresult_canvas = Canvas(sidebar_labelframe, bg="dodger blue", bd=0, highlightthickness=0, height=72, width=13)
+    viewresult_canvas.place(x=2,y=240)
+    config_button = Button(sidebar_labelframe, bg="dodger blue", activebackground="dodger blue", text="SERVER", fg='white', font=buttonFont, borderwidth=0, height=4, width=20, command=config_click)
+    config_button.place(x=1,y=317)
+    config_canvas = Canvas(sidebar_labelframe, bg="dodger blue", bd=0, highlightthickness=0, height=72, width=13)
+    config_canvas.place(x=2,y=319)
+    power_button = Button(sidebar_labelframe, bg="dodger blue", activebackground="dodger blue", text="THOÁT", fg='white', font=buttonFont, borderwidth=0, height=4, width=20, command=power_click)
+    power_button.place(x=1,y=396)
+    power_canvas = Canvas(sidebar_labelframe, bg="dodger blue", bd=0, highlightthickness=0, height=72, width=13)
+    power_canvas.place(x=2,y=398)
 
     global covid19clicked
     if(covid19clicked==1):
@@ -2640,7 +3063,7 @@ def analysis():
             annotate_labelframe.place(x=360,y=76)
             root.update_idletasks()
 
-            negative_label = Label(annotate_labelframe, bg='lawn green', width=4, height=2)
+            negative_label = Label(annotate_labelframe, bg='green', width=4, height=2)
             negative_label.place(x=60,y=32)
             negativetext_label = Label(annotate_labelframe, bg='white', text='  (N)                 ÂM TÍNH', height=2)
             negativetext_label.place(x=130,y=32)
@@ -2704,7 +3127,7 @@ def analysis():
                         label[i].grid(row=row_value,column=j,padx=2,pady=2)
                     else:
                         if(result_list[i]<float(thr_set)):
-                            label[i] = Label(result_labelframe, bg='lawn green', text='N', width=4, height=2)
+                            label[i] = Label(result_labelframe, bg='green', text='N', width=4, height=2)
                             label[i].grid(row=row_value,column=j,padx=2,pady=2)
                         else:
                             if(result_list[i] < hs_ct1*float(thr_set)):
@@ -2745,7 +3168,7 @@ def analysis():
                     wait=0
                     mainscreen()
 
-            finish_button = Button(analysis_labelframe, bg="dark orange", text="Hoàn thành", height=3, width=15, borderwidth=0, command=finish_click)
+            finish_button = Button(analysis_labelframe, bg="dodger blue", text="Hoàn thành", height=3, width=15, borderwidth=0, command=finish_click)
             finish_button.place(x=477,y=396)
 
             root.update_idletasks()
