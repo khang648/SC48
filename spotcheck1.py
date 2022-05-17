@@ -432,7 +432,7 @@ def process_image(image_name, start_point=(x1,y1), end_point=(x2,y2)):
     result_list[42]=round(result_list[42]*(1-(0.015*round(result_list[43]/70) + 0.015*round(result_list[36]/70))),1)
     result_list[47]=round(result_list[47]*(1-(0.015*round(result_list[46]/70) + 0.015*round(result_list[41]/70))),1)
 
-    if(analysis_mode == 0):
+    if(analysis_mode == 1):
         for i in range(len(sorted_contours1)):
             if(id_list[i]=='N' or id_list[i]=='Negative' or id_list[i]=='n' or id_list[i]=='negative' or id_list[i]=='NEGC' or id_list[i]=='NEGATIVE'):
                 result_list[i] = round(result_list[i]*0.85,1)
