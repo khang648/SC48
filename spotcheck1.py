@@ -33,6 +33,7 @@ from datetime import *
 ########################################################## GLOBAL VARIABLE - START #################################################################
 covid19clicked = 0
 viewresultclicked = 0
+analysis_mode = 0
 sorted_contours1 = list(range(48))
 temp_label = 0
 name = "/"
@@ -431,13 +432,14 @@ def process_image(image_name, start_point=(x1,y1), end_point=(x2,y2)):
     result_list[42]=round(result_list[42]*(1-(0.015*round(result_list[43]/70) + 0.015*round(result_list[36]/70))),1)
     result_list[47]=round(result_list[47]*(1-(0.015*round(result_list[46]/70) + 0.015*round(result_list[41]/70))),1)
 
-    for i in range(len(sorted_contours1)):
-        if(id_list[i]=='N' or id_list[i]=='Negative' or id_list[i]=='n' or id_list[i]=='negative' or id_list[i]=='NEGC' or id_list[i]=='NEGATIVE'):
-            result_list[i] = round(result_list[i]*0.85,1)
-        elif(id_list[i]=='P' or id_list[i]=='Positive' or id_list[i]=='p' or id_list[i]=='positive' or id_list[i]=='POSC' or id_list[i]=='POSITIVE'):
-            result_list[i] = round(result_list[i]*1.15,1)
-        else:
-            result_list[i] = round(result_list[i]*hs[i],1)
+    if(analysis_mode == 0):
+        for i in range(len(sorted_contours1)):
+            if(id_list[i]=='N' or id_list[i]=='Negative' or id_list[i]=='n' or id_list[i]=='negative' or id_list[i]=='NEGC' or id_list[i]=='NEGATIVE'):
+                result_list[i] = round(result_list[i]*0.85,1)
+            elif(id_list[i]=='P' or id_list[i]=='Positive' or id_list[i]=='p' or id_list[i]=='positive' or id_list[i]=='POSC' or id_list[i]=='POSITIVE'):
+                result_list[i] = round(result_list[i]*1.15,1)
+            else:
+                result_list[i] = round(result_list[i]*hs[i],1)
 
 #     for i in range(len(sorted_contours1)):
 #         if(i==0):
@@ -482,6 +484,9 @@ def mainscreen():
     mainscreen_labelframe.place(x=0,y=0)
     sidebar_labelframe = LabelFrame(mainscreen_labelframe, font=("Courier",15,'bold'), bg='dodger blue', width=172, height=476)
     sidebar_labelframe.place(x=0,y=0)
+
+    global analysis_mode
+    analysis_mode = 0
 
     def home_click():
         try:
@@ -2577,6 +2582,9 @@ def analysis():
     global path4
     global path5
 
+    global analysis_mode 
+    analysis_mode = 1
+
     global ser
     ser.flushInput()
     ser.flushOutput()
@@ -3054,6 +3062,8 @@ def analysis():
             th2 = Thread(target = viewresult_click)
             th2.start()
         def viewresult_click():
+            global analysis_mode
+            analysis_mode = 0
             a1_labelframe.place_forget()
             a2_labelframe.place_forget()
             viewresult_button.place_forget()
@@ -3164,8 +3174,9 @@ def analysis():
                     foldername = ""
                     covid19clicked = 0
                     analysis_labelframe.place_forget()
-                    global wait
+                    global wait, analysis_mode
                     wait=0
+                    analysis_mode = 0
                     mainscreen()
 
             finish_button = Button(analysis_labelframe, bg="dodger blue", text="Hoàn thành", height=3, width=15, borderwidth=0, command=finish_click)
