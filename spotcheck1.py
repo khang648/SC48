@@ -2273,14 +2273,14 @@ def scanposition():
 
     scan_img = Image.open('/home/pi/Spotcheck/scan.png')
     scan_width, scan_height = scan_img.size
-    scale_percent = 100
+    scale_percent = 70
     width = int(scan_width * scale_percent / 100)
     height = int(scan_height * scale_percent / 100)
     display_img = scan_img.resize((width,height))
     image_select = ImageTk.PhotoImage(display_img)
     scan_label = Label(scanposition_labelframe, bg='white',image=image_select)
     scan_label.image = image_select
-    scan_label.place(x=270,y=80)
+    scan_label.place(x=222,y=50)
 
     s = ttk.Style()
     s.theme_use('clam')
