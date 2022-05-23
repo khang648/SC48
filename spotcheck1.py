@@ -441,6 +441,10 @@ def process_image(image_name, start_point=(x1,y1), end_point=(x2,y2)):
                 result_list[i] = round(result_list[i]*1.15,1)
             else:
                 result_list[i] = round(result_list[i]*hs[i],1)
+    else:
+        for i in range(len(sorted_contours1)):
+            result_list[i] = round(result_list[i]*hs[i],1)
+
 
 #     for i in range(len(sorted_contours1)):
 #         if(i==0):
@@ -1393,8 +1397,8 @@ def mainscreen():
         viewresulttitle_label = Label(top_labelframe, bg='dodger blue', font=("Courier", 11, 'bold'), text="HIỆU CHUẨN QUANG")
         viewresulttitle_label.place(x=225,y=7)
 
-        step_label = Label(viewresultmc_labelframe,bg='white',fg="grey25", text="Bước 1: Kiểm tra không mẫu", font=("Courier",11, 'bold'))
-        step_label.place(x=20,y=48)
+        step_label = Label(viewresultmc_labelframe,bg='white',fg="blue", text="Bước 1: Kiểm tra không mẫu", font=("Courier",11, 'bold'))
+        step_label.place(x=70,y=48)
 
         sampletable_labelframe = LabelFrame(viewresultmc_labelframe,bg='grey95', width=600, height=360)
         sampletable_labelframe.place(x=70,y=79)
@@ -1524,19 +1528,19 @@ def mainscreen():
                             c+=1
                             if(c==2):
                                 sample_label[i]['bg']='lawn green'
-                                sample_label[i]['text']='N'
+                                sample_label[i]['text']='X'
                             if(c==3):
                                 sample_label[i]['bg']='lawn green'
-                                sample_label[i]['text']='>30'
+                                sample_label[i]['text']='V'
                             if(c==4):
                                 sample_label[i]['bg']='lawn green'
-                                sample_label[i]['text']='>25'
+                                sample_label[i]['text']='C'
                             if(c==5):
                                 sample_label[i]['bg']='lawn green'
-                                sample_label[i]['text']='<25'
+                                sample_label[i]['text']='Đ'
                             if(c>=6):
                                 c=0
-                        step_label["text"] = "Bước 2: Kiểm tra FAM"
+                        step_label["text"] = "Bước 2: Kiểm tra mẫu FAM"
 
                 else:
                     try:
@@ -1586,27 +1590,29 @@ def mainscreen():
                         if(i>=42):
                             pos = str(chr(65+i-41)) + "9"
 
-                        if(id_list[i]=='N/A'):
-                            sheet[pos] = 'N/A'
-                        else:
-                            sheet[pos] = check_list[i]
+                        sheet[pos] = check_list[i]
 
                     workbook.save("/home/pi/Spotcheck/Kiem tra do sang/gt2.xlsx")
 
                     c=0
                     for i in range(0,48):
                         c+=1
-                        sample_label[i]['text']=''
                         if(check_list[i]<float(thr_set)):
                             sample_label[i]['bg'] = 'green3'
-                        if(check_list[i] < hs_ct1*float(thr_set)):
-                            sample_label[i]['bg'] = 'yellow'
-                        elif(check_list[i] >= hs_ct1*float(thr_set) and check_list[i] < hs_ct2*float(thr_set)):
-                            sample_label[i]['bg'] = 'orange'
+                            sample_label[i]['text']='N'
                         else:
-                            sample_label[i]['bg'] = 'red'
+                            if(check_list[i] < hs_ct1*float(thr_set)):
+                                sample_label[i]['bg'] = 'yellow'
+                                sample_label[i]['text']='>30'
+                            elif(check_list[i] >= hs_ct1*float(thr_set) and check_list[i] < hs_ct2*float(thr_set)):
+                                sample_label[i]['bg'] = 'orange'
+                                sample_label[i]['text']='>25'
+                            else:
+                                sample_label[i]['bg'] = 'red'
+                                sample_label[i]['text']='<25'
                         if(c==1 or c==6):
                             sample_label[i]['bg'] = 'grey25'
+                            sample_label[i]['text']=''
                         if(c>=6):
                             c=0
                     c=0
